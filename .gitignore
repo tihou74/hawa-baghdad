@@ -2,5 +2,6 @@
 *.log
 media/incoming/*
 !media/incoming/README.md
+media/profile-extract/
 .preview/
 Thumbs.db

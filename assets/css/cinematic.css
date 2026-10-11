@@ -192,21 +192,7 @@
    يُفصَل اللونان طبقياً لا أن يُمزجا: الكحلي يتدرّج إلى الأزرق
    القاشاني (وهما من عائلة واحدة فلا يتعكّر)، والطيني يُضاف وهجاً
    مستقلّاً عند الحاشية السفلى حيث يلامس الموج — كضوء على الماء. */
-.hero__sky {
-  position: absolute;
-  inset: 0;
-  z-index: -3;
-  background:
-    /* وهج طيني منخفض ومركّز: لا يصل وسط الشاشة فلا يُبنفسج الكحلي */
-    radial-gradient(90% 44% at 72% 108%,
-      color-mix(in srgb, var(--clay-500) calc(34% + var(--sun) * 30%), transparent) 0%,
-      transparent 70%),
-    /* تدرّج داخل العائلة الزرقاء وحدها */
-    linear-gradient(185deg,
-      var(--navy-900) 0%,
-      var(--navy-800) 42%,
-      color-mix(in srgb, var(--tile-700) 42%, var(--navy-800)) 100%);
-}
+
 
 /* لوح القاشاني: حضور الموتيف في الواجهة.
    يشغل الفراغ الأيسر الذي يتركه النصّ المحاذي لليمين في RTL،
@@ -222,77 +208,24 @@
    أمّا القناع فالتدرّجات في CSS **فيزيائيّة** لا منطقيّة، فلا
    يكفي فيها الاتجاه المنطقي. ولذلك يُمرَّر اتجاهه بمتغيّر يُضبط
    حسب `dir` الفعليّ للمستند. */
-.hero__tiles {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  inline-size: clamp(140px, 32vw, 480px);
-  z-index: -2;
-  background: url("../img/tile.svg") repeat;
-  background-size: 118px 118px;
-  opacity: 0.22;
-  /* يتلاشى نحو النصّ وإلى الأعلى والأسفل: حافّة ناعمة بلا خطّ قاطع */
-  mask-image:
-    linear-gradient(to var(--fade-to, left), transparent, #000 62%),
-    linear-gradient(180deg, transparent, #000 26%, #000 74%, transparent);
-  mask-composite: intersect;
-  -webkit-mask-image:
-    linear-gradient(to var(--fade-to, left), transparent, #000 62%),
-    linear-gradient(180deg, transparent, #000 26%, #000 74%, transparent);
-  -webkit-mask-composite: source-in;
-  pointer-events: none;
-}
+
 /* RTL: اللوح يسار، فيتلاشى نحو اليسار (أي يبدأ شفّافاً من اليمين) */
-[dir="rtl"] .hero__tiles { --fade-to: left; }
+[dir="rtl"] 
 /* LTR: اللوح يمين، فيتلاشى نحو اليمين */
-[dir="ltr"] .hero__tiles { --fade-to: right; }
+[dir="ltr"] 
 @media (max-width: 760px) {
   /* على الهاتف يملأ النصّ العرض كلّه، فاللوح يصير خلفيّةً خافتة */
-  .hero__tiles { inline-size: 100%; opacity: 0.1; }
+  
 }
 
 /* نهر دجلة: شريطان من الموج يتحرّكان بسرعتين مختلفتين.
    SVG مكرّر أفقياً — لا صور، لا كلفة تحميل. */
-.hero__river {
-  position: absolute;
-  inset-inline: -10%;
-  inset-block-end: -2%;
-  block-size: 42%;
-  z-index: -2;
-  overflow: hidden;
-  opacity: 0.55;
-  mask-image: linear-gradient(180deg, transparent, #000 38%, #000);
-}
-.hero__river i {
-  position: absolute;
-  inset-inline: 0;
-  block-size: 100%;
-  background: url("../img/wave.svg") repeat-x bottom / 820px 100%;
-}
-.hero__river i:nth-child(1) { opacity: 0.85; animation: drift 34s linear infinite; }
-.hero__river i:nth-child(2) {
-  opacity: 0.5;
-  block-size: 76%;
-  inset-block-end: 0;
-  animation: drift 52s linear infinite reverse;
-  filter: hue-rotate(-12deg);
-}
-@keyframes drift { to { background-position-x: -820px; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__river i { animation: none; }
-}
+  }
 
 /* ظلّ نخلتين على الحاشية — عمق بلا صورة */
-.hero__palms {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline-start: 0;
-  z-index: -1;
-  inline-size: clamp(180px, 26vw, 420px);
-  opacity: 0.42;
-  pointer-events: none;
-}
-.hero__palms svg { inline-size: 100%; block-size: auto; }
+
 
 .hero__body {
   width: var(--page);
@@ -326,31 +259,6 @@
   color: color-mix(in srgb, var(--cream-100) 82%, transparent);
 }
 
-/* سهم النزول — نبضة هادئة */
-.hero__down {
-  position: absolute;
-  inset-block-end: var(--s-6);
-  inset-inline-start: 50%;
-  translate: 50% 0;        /* RTL-safe: `translate` منطقيّ هنا بالنسبة للمحور */
-  inline-size: 1px;
-  block-size: var(--s-7);
-  background: linear-gradient(var(--accent), transparent);
-  z-index: 2;
-}
-.hero__down::after {
-  content: "";
-  position: absolute;
-  inset-inline-start: -2.5px;
-  inline-size: 6px; block-size: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: fall 2.4s var(--ease-in-out) infinite;
-}
-@keyframes fall {
-  0%   { inset-block-start: 0; opacity: 0; }
-  30%  { opacity: 1; }
-  100% { inset-block-start: 100%; opacity: 0; }
-}
 
 /* ============================================================
    ٥) الكشف عند الظهور
@@ -795,19 +703,10 @@
    ============================================================ */
 /* الفاصل: شريط من بلاطة القاشاني. يفصل الأقسام بموتيف العلامة
    نفسه بدل خطّ محايد. */
-.divider {
-  border: 0;
-  block-size: 30px;
-  margin-block: 0;
-  background: url("../img/tile.svg") repeat-x center / auto 30px;
-}
+
 
 /* طبقة العمق في شريط المقتبس */
-.band__layer--tile {
-  background: url("../img/tile.svg") repeat;
-  background-size: 150px 150px;
-  opacity: 0.16;
-}
+
 
 /* ============================================================
    ١٥) سطر حالة المشروع في الواجهة
@@ -1021,3 +920,241 @@
     color-mix(in srgb, var(--navy-900) 88%, transparent),
     transparent);
 }
+
+/* ============================================================================
+   ٢٠) الطبقة الفوتوغرافيّة
+   ----------------------------------------------------------------------------
+   البناء الأوّل اعتمد على رسوم متجهيّة رسمتُها بيدي، وكانت ركيكة ولا
+   تناسب العلامة. والأصول الحقيقيّة كانت في بروفايل الهويّة طول الوقت:
+   ٣٨ صورة. فالقاعدة الحاكمة هنا:
+
+       الصورة هي المحتوى، لا الخلفيّة.
+
+   كل قسم يبدأ من صورة حقيقيّة لا من تدرّج لوني.
+   ========================================================================== */
+
+/* ===== الواجهة الفوتوغرافيّة ===== */
+.hero {
+  position: relative;
+  min-block-size: 100svh;
+  display: grid;
+  align-content: end;
+  overflow: hidden;
+  background: var(--navy-900);
+  color: var(--cream-100);
+  isolation: isolate;
+}
+.hero__shot { position: absolute; inset: 0; z-index: -2; }
+.hero__shot picture, .hero__shot img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* حجاب متدرّج: النصّ يُقرأ فوق الصورة بلا حجبها.
+   طبقتان — عموديّة للنصّ، وأفقيّة منطقيّة لجهة النصّ. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--navy-900) 72%, transparent) 0%,
+      transparent 32%,
+      color-mix(in srgb, var(--navy-900) 55%, transparent) 62%,
+      var(--navy-900) 100%),
+    linear-gradient(to var(--scrim-to, left),
+      color-mix(in srgb, var(--navy-900) 80%, transparent) 0%,
+      transparent 62%);
+}
+[dir="rtl"] .hero__scrim { --scrim-to: left; }
+[dir="ltr"] .hero__scrim { --scrim-to: right; }
+
+.hero__body {
+  width: var(--page);
+  margin-inline: auto;
+  padding-block: var(--s-9) clamp(var(--s-8), 12vh, var(--s-10));
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+}
+.hero__name { margin: 0; inline-size: min(62vw, 17rem); }
+.hero__name img { inline-size: 100%; block-size: auto; }
+@media (min-width: 900px) { .hero__name { inline-size: min(32vw, 19rem); } }
+
+.hero__kicker {
+  font-size: var(--t-micro);
+  letter-spacing: 0.3em;
+  color: var(--clay-400);
+  margin: 0 0 var(--s-4);
+}
+.hero__tag {
+  font-size: var(--t-lead);
+  max-width: 36ch;
+  margin-block-start: var(--s-5);
+  color: color-mix(in srgb, var(--cream-100) 88%, transparent);
+}
+
+/* ===== شريط عميق بصورة ===== */
+.band--tall { padding-block: clamp(var(--s-9), 20vh, var(--s-11)); }
+.band__layer picture, .band__layer img {
+  inline-size: 100%; block-size: 100%; object-fit: cover; display: block;
+}
+.band__inner { position: relative; z-index: 1; }
+.band__inner .lead { color: color-mix(in srgb, var(--cream-100) 82%, transparent); }
+
+/* ===== عمودان: نصّ وصورة ===== */
+.split { display: grid; gap: var(--s-7); }
+@media (min-width: 900px) {
+  .split { grid-template-columns: 1.1fr 0.9fr; gap: var(--s-9); align-items: center; }
+}
+
+.frame {
+  margin: 0;
+  position: relative;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-3);
+}
+.frame picture, .frame img {
+  inline-size: 100%; block-size: auto; display: block;
+}
+.frame figcaption, .mo figcaption {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--s-6) var(--s-4) var(--s-3);
+  font-size: var(--t-micro);
+  letter-spacing: 0.06em;
+  color: var(--cream-100);
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--navy-900) 90%, transparent), transparent);
+}
+
+/* ===== فسيفساء الصور ===== */
+.mosaic { display: grid; gap: var(--s-4); grid-template-columns: 1fr; }
+@media (min-width: 760px) {
+  .mosaic { grid-template-columns: repeat(3, 1fr); }
+  .mo--tall { grid-row: span 2; }
+  .mo--wide { grid-column: span 2; }
+}
+.mosaic--pack { grid-auto-rows: minmax(0, auto); }
+
+.mo {
+  margin: 0;
+  position: relative;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-sunk);
+  box-shadow: var(--sh-2);
+}
+.mo picture { display: block; block-size: 100%; }
+.mo img {
+  inline-size: 100%; block-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover; display: block;
+}
+.mo--tall img { aspect-ratio: 3 / 5; }
+.mo--wide img { aspect-ratio: 16 / 10; }
+
+/* ===== ميل ثلاثي الأبعاد يتبع المؤشّر ===== */
+.tilt {
+  transition: transform 380ms var(--ease-out), box-shadow 380ms var(--ease-out);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tilt:hover { box-shadow: var(--sh-3); }
+}
+/* على اللمس لا ميل: الحركة التي تعتمد على المؤشّر لا تعمل على
+   الهاتف — وهو أكثر ما يُقرأ عليه الموقع. فيُستبدل بتكبير خفيف. */
+@media (hover: none) {
+  .tilt { transform: none !important; }
+}
+
+/* ===== بطاقات المائدة بصور ===== */
+.plates { display: grid; gap: var(--s-5); }
+@media (min-width: 700px) { .plates { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .plates { grid-template-columns: repeat(3, 1fr); } }
+
+.plate {
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-raised);
+  box-shadow: var(--sh-1);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--dur-mid) var(--ease-out),
+              box-shadow var(--dur-mid) var(--ease-out);
+}
+.plate:hover { transform: translateY(-5px); box-shadow: var(--sh-2); }
+.plate__shot { overflow: hidden; }
+.plate__shot img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 900ms var(--ease-out);
+}
+.plate:hover .plate__shot img { transform: scale(1.05); }
+.plate__body { padding: var(--s-5); }
+.plate__body h3 {
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  margin-block-end: var(--s-2);
+}
+.plate__body p { font-size: var(--t-small); color: var(--fg-muted); margin: 0; }
+
+/* ===== المشعل: ضوء يكشف الصورة ===== */
+.torch {
+  margin: 0;
+  position: relative;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  isolation: isolate;
+  cursor: crosshair;
+}
+.torch picture, .torch img {
+  inline-size: 100%;
+  block-size: auto;
+  display: block;
+  /* الصورة مُعتَّمة، ويكشفها قناع دائري يتبع المؤشّر */
+  filter: brightness(0.28) saturate(0.5);
+  transition: filter 600ms var(--ease-out);
+}
+.torch.is-live img {
+  filter: none;
+  mask-image: radial-gradient(circle var(--tr, 0px) at var(--tx, 50%) var(--ty, 50%),
+    #000 0%, #000 62%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle var(--tr, 0px) at var(--tx, 50%) var(--ty, 50%),
+    #000 0%, #000 62%, transparent 100%);
+}
+/* نسخة مُعتَّمة تبقى ظاهرة تحت القناع فلا يصير الباقي أسود */
+.torch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--navy-900);
+}
+.torch figcaption {
+  position: absolute;
+  inset-block-end: var(--s-4);
+  inset-inline-start: 50%;
+  translate: 50% 0;
+  font-size: var(--t-micro);
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--cream-100) 70%, transparent);
+  pointer-events: none;
+}
+[dir="ltr"] .torch figcaption { translate: -50% 0; }
+/* بلا مؤشّر دقيق: تُعرض الصورة كاملةً بلا تعتيم. التأثير الذي لا
+   يعمل على الهاتف يجب ألّا يُفقده المحتوى. */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .torch img { filter: none; mask-image: none; -webkit-mask-image: none; }
+  .torch figcaption { display: none; }
+}
+
+/* ===== سطر البهار ===== */
+.spices strong { display: block; }
