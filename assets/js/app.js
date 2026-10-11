@@ -404,3 +404,120 @@
     });
   })();
 })();
+
+/* ============================================================================
+   تأثيرات إضافيّة — تُحمَّل بعد الأساس
+   ----------------------------------------------------------------------------
+   كلها تحسين تدريجي: إن لم تعمل بقي المحتوى كاملاً ومقروءاً. وكلها
+   تُلغى عند `prefers-reduced-motion`، ولا تُشغَّل إلا حيث تُجدي —
+   فالتأثير المربوط بالمؤشّر لا معنى له على الهاتف.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* ==========================================================================
+     المشعل — ضوء يكشف الصورة المُعتَّمة
+     القناع الدائري يتبع المؤشّر، ونصف قطره ينمو بالتنعيم لا قفزاً.
+     ========================================================================== */
+  (function torch() {
+    var els = document.querySelectorAll(".torch");
+    if (!els.length || reduce) return;
+
+    els.forEach(function (el) {
+      var r = 0, target = 0, raf = null;
+
+      function grow() {
+        r += (target - r) * 0.18;
+        el.style.setProperty("--tr", r.toFixed(1) + "px");
+        if (Math.abs(target - r) > 0.6) {
+          raf = window.requestAnimationFrame(grow);
+        } else {
+          r = target;
+          el.style.setProperty("--tr", r.toFixed(1) + "px");
+          raf = null;
+        }
+      }
+      function kick() { if (!raf) raf = window.requestAnimationFrame(grow); }
+
+      function move(x, y) {
+        var b = el.getBoundingClientRect();
+        el.style.setProperty("--tx", (((x - b.left) / b.width) * 100).toFixed(2) + "%");
+        el.style.setProperty("--ty", (((y - b.top) / b.height) * 100).toFixed(2) + "%");
+      }
+
+      el.addEventListener("pointerenter", function (e) {
+        el.classList.add("is-live");
+        move(e.clientX, e.clientY);
+        target = Math.min(el.clientWidth, el.clientHeight) * 0.46;
+        kick();
+      });
+      el.addEventListener("pointermove", function (e) { move(e.clientX, e.clientY); });
+      el.addEventListener("pointerleave", function () {
+        target = 0;
+        kick();
+        /* الصنف يُزال بعد انقباض القناع، وإلا عاد التعتيم فجأةً */
+        window.setTimeout(function () {
+          if (target === 0) el.classList.remove("is-live");
+        }, 420);
+      });
+
+      /* على اللمس: المشعل يتبع الإصبع */
+      el.addEventListener("touchmove", function (e) {
+        if (!e.touches.length) return;
+        el.classList.add("is-live");
+        move(e.touches[0].clientX, e.touches[0].clientY);
+        target = Math.min(el.clientWidth, el.clientHeight) * 0.5;
+        kick();
+      }, { passive: true });
+    });
+  })();
+
+  /* ==========================================================================
+     الميل ثلاثي الأبعاد
+     ⚠ مُقيَّد بـ(hover:hover) و(pointer:fine): تأثيرٌ لا يعمل على
+     الهاتف أصلاً، وتشغيله هناك يُضيف حساباً بلا أي فائدة مرئيّة.
+     ========================================================================== */
+  (function tilt() {
+    if (reduce || !fine) return;
+    var els = document.querySelectorAll(".tilt");
+    if (!els.length) return;
+
+    els.forEach(function (el) {
+      var raf = null, nx = 0, ny = 0;
+
+      function apply() {
+        raf = null;
+        el.style.transform =
+          "perspective(900px) rotateY(" + (nx * 5).toFixed(2) + "deg) rotateX(" +
+          (-ny * 5).toFixed(2) + "deg) translateY(-4px)";
+      }
+
+      el.addEventListener("pointermove", function (e) {
+        var b = el.getBoundingClientRect();
+        nx = (e.clientX - (b.left + b.width / 2)) / (b.width / 2);
+        ny = (e.clientY - (b.top + b.height / 2)) / (b.height / 2);
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      });
+      el.addEventListener("pointerleave", function () {
+        if (raf) { window.cancelAnimationFrame(raf); raf = null; }
+        el.style.transform = "";
+      });
+    });
+  })();
+
+  /* ==========================================================================
+     جمر النار — توزيع عشوائي خفيف
+     القيم الافتراضيّة في CSS، وهذه تكسر التناسق فقط.
+     ========================================================================== */
+  (function embers() {
+    if (reduce) return;
+    document.querySelectorAll(".fire__embers b").forEach(function (b) {
+      b.style.setProperty("--t", (Math.random() * 7).toFixed(2) + "s");
+      b.style.setProperty("--d", (6 + Math.random() * 5).toFixed(2) + "s");
+      b.style.setProperty("--dx", ((Math.random() - 0.5) * 80).toFixed(0) + "px");
+    });
+  })();
+})();
