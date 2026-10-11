@@ -991,3 +991,262 @@
 
 /* ===== سطر البهار ===== */
 .spices strong { display: block; }
+
+/* ============================================================================
+   ٢١) الطبقة الراقية
+   ----------------------------------------------------------------------------
+   الهدف: مستوى مطعم خمس نجوم. والرافعة ليست إضافة عناصر بل طرحها.
+   أربعة مبادئ طُبّقت هنا:
+
+     ١) الفراغ قبل الزخرفة. الفخامة تُقاس بما يُترك فارغاً.
+     ٢) اللون بشُحّ. الزرّ البرتقالي الممتلئ كان يُقرأ تجاريّاً؛
+        والفخامة تستخدم الخطّ الرقيق والأرضيّة الشفّافة.
+     ٣) الحركة بطيئة وخطّيّة. المنحنى النابض يُقرأ مرحاً لا فاخراً.
+     ٤) المنيو **طباعي** لا بطاقات مصوّرة. شبكة البطاقات المصوّرة
+        سمة تطبيقات التوصيل؛ ومنيو المطعم الراقي قائمة بخطوط
+        منقّطة وفراغ واسع — والصور لحظاتٌ كبيرة قليلة لا صورة
+        لكل صنف.
+   ========================================================================== */
+
+/* ===== فراغ القسم ===== */
+.sec { padding-block: var(--pad-sec); }
+.sec--tight { padding-block: calc(var(--pad-sec) * 0.55); }
+
+.sec__head { margin-block-end: var(--s-9); max-width: 44rem; }
+.sec__head--center {
+  margin-inline: auto;
+  text-align: center;
+}
+.sec__head--center .eyebrow { justify-content: center; }
+.sec__head--center .lead { margin-inline: auto; }
+
+/* ===== اللافتة الصغيرة: تتبُّع واسع ===== */
+.eyebrow {
+  letter-spacing: var(--track-label);
+  font-weight: 400;
+  font-size: var(--t-micro);
+}
+.eyebrow::before { inline-size: var(--s-7); opacity: 0.5; }
+
+/* ===== العناوين ===== */
+h1, h2, h3, .h1, .h2, .h3 { letter-spacing: var(--track-head); }
+.h2 { font-size: var(--t-h2); }
+.lead {
+  font-weight: 300;
+  max-width: 46ch;
+  line-height: 1.75;
+}
+.prose p { max-width: 50ch; font-weight: 300; }
+body { font-weight: 300; }
+
+/* ===== الأزرار: ضبط لوني =====
+   زرٌّ واحد ممتلئ على الأكثر، وبالكريمي لا بالطيني الصارخ. */
+.btn {
+  border-radius: 0;                 /* الحواف الحادّة أرقى هنا */
+  padding: 1rem 2.25rem;
+  font-size: var(--t-micro);
+  font-weight: 400;
+  letter-spacing: var(--track-label);
+  text-transform: none;
+}
+.btn--solid {
+  background: var(--cream-100);
+  color: var(--navy-900);
+  box-shadow: none;
+}
+.btn--solid:hover {
+  background: #fff;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
+}
+.btn--ghost {
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  background: transparent;
+}
+.btn--ghost:hover {
+  border-color: currentColor;
+  background: color-mix(in srgb, currentColor 7%, transparent);
+  box-shadow: none;
+  color: inherit;
+}
+.btn-row { gap: var(--s-4); margin-block-start: var(--s-7); }
+
+/* ===== الكشف: بطيء وهادئ، بلا ارتداد ===== */
+[data-reveal] {
+  transform: translateY(18px);
+  transition: opacity 1200ms var(--ease-silk),
+              transform 1200ms var(--ease-silk);
+}
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ===== الميل ثلاثي الأبعاد: أُلغي =====
+   تأثيرٌ يُقرأ مرحاً لا فاخراً، ولا يعمل على الهاتف أصلاً.
+   يُستبدل بتكبير بطيء جدّاً للصورة وحدها. */
+.tilt { transform: none !important; }
+.frame img, .mo img { transition: transform 1800ms var(--ease-silk); }
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover img, .mo:hover img { transform: scale(1.035); }
+}
+
+/* ============================================================
+   المنيو الطباعي
+   ============================================================ */
+.carte { display: grid; gap: var(--s-9); }
+
+.carte__part { display: grid; gap: var(--s-6); }
+
+/* العنوان مع خطّ شعري يمتدّ: حيلة المنيو الكلاسيكيّة */
+.carte__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  margin: 0;
+}
+.carte__head > span:first-child { flex: 0 0 auto; }
+.carte__head::after {
+  content: "";
+  flex: 1 1 auto;
+  block-size: 1px;
+  background: var(--hair);
+  transform: translateY(-0.3em);
+}
+.carte__note {
+  flex: 0 0 auto;
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--fg-muted);
+  order: 9;
+}
+
+.carte__list { display: grid; gap: var(--s-6); }
+
+.carte__item { display: grid; gap: 0.35rem; }
+
+.carte__line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin: 0;
+}
+.carte__name {
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  line-height: 1.3;
+  flex: 0 1 auto;
+}
+/* الخطّ المنقّط يمتدّ بعد الاسم — بلا سعر، فالمشروع قبل الافتتاح */
+.carte__line::after {
+  content: "";
+  flex: 1 1 auto;
+  min-inline-size: var(--s-5);
+  border-block-end: 1px dotted var(--hair);
+  transform: translateY(-0.28em);
+}
+.carte__mark {
+  flex: 0 0 auto;
+  order: 9;
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.carte__desc {
+  margin: 0;
+  font-size: var(--t-small);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  max-width: 58ch;
+}
+
+/* ============================================================
+   اللحظة الفوتوغرافيّة — صورة كبيرة ممتدّة بدل بطاقات صغيرة
+   ============================================================ */
+.signature {
+  margin: var(--s-9) 0;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--navy-900);
+}
+.signature picture { display: block; }
+.signature img {
+  inline-size: 100%;
+  block-size: clamp(22rem, 62vh, 40rem);
+  object-fit: cover;
+  display: block;
+  /* تدرّج لوني موحَّد: الصور من مصادر مختلفة، والتوحيد الخفيف
+     يجعلها تبدو من جلسة تصوير واحدة. */
+  filter: saturate(0.92) contrast(1.04);
+}
+.signature figcaption {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  padding: var(--s-9) var(--s-6) var(--s-7);
+  display: grid;
+  gap: var(--s-2);
+  text-align: center;
+  color: var(--cream-100);
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--navy-900) 92%, transparent) 0%,
+    color-mix(in srgb, var(--navy-900) 45%, transparent) 55%,
+    transparent 100%);
+}
+.signature__k {
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-label);
+  color: var(--clay-400);
+}
+.signature__t {
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  line-height: 1.1;
+}
+.signature__d {
+  font-size: var(--t-small);
+  font-weight: 300;
+  color: color-mix(in srgb, var(--cream-100) 78%, transparent);
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+/* ===== سطر البهار: أهدأ ===== */
+.spices {
+  background: none;
+  border-inline-start: 0;
+  border-block: 1px solid var(--hair);
+  border-radius: 0;
+  padding: var(--s-5) 0;
+  margin-block: 0 var(--s-9);
+  text-align: center;
+  max-width: none;
+  letter-spacing: 0.04em;
+}
+.spices strong {
+  letter-spacing: var(--track-label);
+  font-size: var(--t-micro);
+  font-weight: 400;
+  margin-block-end: var(--s-3);
+}
+
+/* ===== الفلاتر أُزيلت من المنيو الطباعي ===== */
+.filters { display: none; }
+
+/* ===== الترويسة أهدأ ===== */
+.hdr__pour { block-size: 1px; }
+.nav a { letter-spacing: 0.1em; font-size: var(--t-micro); font-weight: 300; }
+.hdr__lang { border-radius: 0; letter-spacing: 0.16em; }
+
+/* ===== الواجهة: نصّ أرقى ===== */
+.hero__kicker { letter-spacing: var(--track-label); }
+.hero__tag { font-weight: 300; line-height: 1.7; }
+.hero__stage { border-radius: 0; font-weight: 300; }

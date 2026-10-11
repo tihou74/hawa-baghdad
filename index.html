@@ -22,12 +22,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rakkas&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=4">
-<link rel="stylesheet" href="assets/css/base.css?v=4">
-<link rel="stylesheet" href="assets/css/layout.css?v=4">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=4">
+<link rel="stylesheet" href="assets/css/tokens.css?v=5">
+<link rel="stylesheet" href="assets/css/base.css?v=5">
+<link rel="stylesheet" href="assets/css/layout.css?v=5">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=5">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -341,135 +341,171 @@
 
 <section class="sec" id="menu">
   <div class="wrap">
-    <div class="sec__head">
+    <div class="sec__head sec__head--center">
       <p class="eyebrow" data-reveal>٠٤ — المائدة</p>
       <h2 class="h2" data-reveal>ما يُوضَع أمامك</h2>
       <p class="lead" data-reveal>
         قائمة قصيرة مقصودة. كل صنف له سبب وجود، ولا يوجد صنف
-        «لإرضاء الجميع». وهي <strong>مقترحة</strong> في مرحلة التطوير.
+        «لإرضاء الجميع». وهي <em>مقترحة</em> في مرحلة التطوير.
       </p>
     </div>
+  </div>
+
+    <figure class="signature" data-reveal>
+      <picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="المسكوف على النار المكشوفة" loading="lazy" decoding="async"></picture>
+      <figcaption><span class="signature__k">طبق الدار</span>
+        <span class="signature__t">المسكوف</span>
+        <span class="signature__d">خمسون دقيقة حول الجمر. لا تُقصَّر.</span>
+      </figcaption>
+    </figure>
+
+  <div class="wrap wrap--narrow">
     <p class="spices" data-reveal>
       <strong>بصمة البهار</strong>
       سمّاق · دبس رمّان · زعفران · كركم · بهار حلو · قرفة · هيل ·
       كمّون · نومي بصرة
     </p>
-    <div class="filters" role="group" aria-label="تصفية المائدة">
-      <button class="filter" data-filter="all" aria-pressed="true">الكل</button><button class="filter" data-filter="breakfast" aria-pressed="false">الفطور</button><button class="filter" data-filter="lunch" aria-pressed="false">الغداء</button><button class="filter" data-filter="dinner" aria-pressed="false">العشاء</button><button class="filter" data-filter="mezze" aria-pressed="false">المقبّلات</button><button class="filter" data-filter="drink" aria-pressed="false">الچاي والمشروب</button>
+
+    <div class="carte">
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>الفطور</span><span class="carte__note">من الصباح حتى الحادية عشرة</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">قيمر وعسل</span></p>
+          <p class="carte__desc">قيمر ثقيل، عسل، وخبز حارّ. ثلاثة مكوّنات، ونجاحها كلّه في جودة القيمر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">فول مدمَّس</span></p>
+          <p class="carte__desc">فول مدقوق بزيت الزيتون والثوم والليمون.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">سمبوسة</span></p>
+          <p class="carte__desc">معجّنات مقليّة تُحشى بالخضار أو اللحم المبهَّر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">بابا غنوج</span></p>
+          <p class="carte__desc">باذنجان مشويّ على اللهب حتى يتفحّم قشره، يُدقّ بالطحينة والليمون.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">خبز التنّور</span></p>
+          <p class="carte__desc">يُلصق العجين على جدار التنّور الطيني بيد مكشوفة.</p>
+        </li>
+        </ul>
+      </section>
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>من النار</span><span class="carte__note">طوال اليوم</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">مسكوف</span><span class="carte__mark">طبق الدار</span></p>
+          <p class="carte__desc">سمكة نهريّة تُفرش حول الجمر ساعةً كاملة، بالكركم والثوم والكمّون، مع صلصة الطحينة والتمن المُبخَّر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">كباب عراقي</span></p>
+          <p class="carte__desc">لحم مفروم باليد لا بالمفرمة، فيبقى له نسيج يُحَسّ. بصل وبقدونس وبهار بغدادي.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">تكّة وشقف</span></p>
+          <p class="carte__desc">قطع غنم تُنقع بالبصل والبهار وتُشوى على الجمر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">ريش غنم</span></p>
+          <p class="carte__desc">ريش مُتبَّلة تُشوى حتى تحمرّ حوافها ويبقى قلبها طريّاً.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">شيش طاووق</span></p>
+          <p class="carte__desc">قطع دجاج مُنقَّعة في اللبن والبهار، على سيخ فوق الجمر.</p>
+        </li>
+        </ul>
+      </section>
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>قدور المائدة</span><span class="carte__note">من الظهر</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">قوزي</span><span class="carte__mark">بطلب مسبق</span></p>
+          <p class="carte__desc">لحم غنم وتمن ولوز وزبيب، بالقرفة والبهار الحلو والهيل. طبق المناسبات البغدادي.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">دولمة</span></p>
+          <p class="carte__desc">ورق عنب وخضار محشيّة، تُطبخ ببطء ثم تُقلب على الصينيّة فتنزل كما بُنيت.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">تشريب ومرق</span></p>
+          <p class="carte__desc">مرق سميك يُسكب على الخبز حتى يتشرّبه.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">كبّة بُرغل</span></p>
+          <p class="carte__desc">قشرة برغل رقيقة وحشوة لحم وبصل وصنوبر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">بامية بالدهن الحُرّ</span></p>
+          <p class="carte__desc">بامية صغيرة كاملة مع لحم، والدهن الحُرّ يُسكب في آخر دقيقة.</p>
+        </li>
+        </ul>
+      </section>
     </div>
-    <div class="plates">
-      <article class="plate" data-category="breakfast" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-gaymar-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-gaymar-480.jpg" alt="قيمر وعسل" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>قيمر وعسل</h3>
-          <p>قيمر ثقيل مع عسل وخبز حارّ. ثلاثة مكوّنات، ونجاحها كلّه في جودة القيمر.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="breakfast" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-sambusa-480.webp 480w, assets/img/profile/dish-sambusa-960.webp 960w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-sambusa-960.jpg" alt="سمبوسة" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>سمبوسة</h3>
-          <p>معجّنات مقليّة تُحشى بالخضار أو اللحم المبهَّر، تُخبز طازجة مع چاي الصباح.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="breakfast" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-pastry-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-pastry-480.jpg" alt="خبز التنّور" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>خبز التنّور</h3>
-          <p>يُلصق العجين على جدار التنّور الطيني بيد مكشوفة فيخرج منفوخاً مُبقَّعاً.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="lunch" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="مسكوف" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>مسكوف</h3>
-          <p>سمكة نهريّة تُفرش حول الجمر ساعةً، بالكركم والثوم والكمّون، مع الطحينة والتمن.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="lunch" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-kebab-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-kebab-480.jpg" alt="كباب عراقي" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>كباب عراقي</h3>
-          <p>لحم مفروم باليد لا بالمفرمة، فيبقى له نسيج يُحَسّ. بصل وبقدونس وبهار بغدادي.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="lunch" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-kebab-veg-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-kebab-veg-480.jpg" alt="تكّة وشقف" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>تكّة وشقف</h3>
-          <p>قطع غنم تُنقع بالبصل والبهار وتُشوى على الجمر، مع خبز التنّور والطرشي.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="dinner" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-quzi-pot-474.webp 474w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-quzi-pot-474.jpg" alt="قوزي" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>قوزي</h3>
-          <p>لحم غنم وتمن ولوز وزبيب، بالقرفة والبهار الحلو والهيل. طبق المناسبات البغدادي.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="dinner" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-kubba-platter-480.webp 480w, assets/img/profile/dish-kubba-platter-960.webp 960w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-kubba-platter-960.jpg" alt="دولمة" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>دولمة</h3>
-          <p>ورق عنب وخضار محشيّة، تُطبخ ببطء ثم تُقلب على الصينيّة فتنزل كما بُنيت.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="dinner" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-tashreeb-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-tashreeb-480.jpg" alt="تشريب ومرق" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>تشريب ومرق</h3>
-          <p>مرق سميك يُسكب على الخبز حتى يتشرّبه. طبق الشتاء الذي يُؤكل بالملعقة واليد.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="dinner" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-kubba-blue-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-kubba-blue-480.jpg" alt="كبّة" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>كبّة</h3>
-          <p>قشرة برغل رقيقة وحشوة لحم وبصل وصنوبر، تُقلى حتى تنشفّ قشرتها.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="mezze" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/dish-torshi-474.webp 474w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/dish-torshi-474.jpg" alt="طرشي البيت" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>طرشي البيت</h3>
-          <p>مخلّل مكبوس عندنا: شلغم وخيار وقرنابيط. حامضٌ حادّ مقصود — يقطع دهن اللحم.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="mezze" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/spread-01-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/spread-01-480.jpg" alt="مائدة المقبّلات" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>مائدة المقبّلات</h3>
-          <p>حمّص وبابا غنوج وتبّولة وفتّوش — الحامض والطريّ والمقرمش معاً.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="mezze" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/spread-03-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/spread-03-480.jpg" alt="مشاوي مشتركة" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>مشاوي مشتركة</h3>
-          <p>صينيّة تُوضع في الوسط وتمتدّ إليها الأيدي.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="drink" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/istikan-01-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/istikan-01-480.jpg" alt="چاي استكان" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>چاي استكان</h3>
-          <p>چاي أحمر ثقيل يُسكب من قوري على قوري، في استكان زجاجي. يُوضع ولا يُطلب.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="drink" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/tea-figs-480.webp 480w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/tea-figs-480.jpg" alt="نومي بصرة" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>نومي بصرة</h3>
-          <p>منقوع الليمون البصري المجفّف: حامضٌ دافئ بلون العنبر، هاضمٌ بعد اللحم.</p>
-        </div>
-      </article>
-      <article class="plate" data-category="drink" data-reveal>
-        <div class="plate__shot"><picture><source type="image/webp" srcset="assets/img/profile/istikan-03-472.webp 472w" sizes="(min-width:1100px) 30vw, (min-width:700px) 46vw, 92vw"><img src="assets/img/profile/istikan-03-472.jpg" alt="شربت زبيب" loading="lazy" decoding="async"></picture></div>
-        <div class="plate__body">
-          <h3>شربت زبيب</h3>
-          <p>منقوع زبيب بارد، حلوٌ طبيعي بلا سكّر مضاف. مشروب رمضان في بغداد.</p>
-        </div>
-      </article>
+  </div>
+
+    <figure class="signature signature--split" data-reveal>
+      <picture><source type="image/webp" srcset="assets/img/profile/istikan-01-480.webp 480w" sizes="(min-width:900px) 50vw, 100vw"><img src="assets/img/profile/istikan-01-480.jpg" alt="استكان چاي على صحن" loading="lazy" decoding="async"></picture>
+      <figcaption><span class="signature__k">ضيافة</span>
+        <span class="signature__t">الچاي لا يُحتسب</span>
+        <span class="signature__d">في بغداد لا يُقال للضيف «هل تريد شاياً؟» — يُوضع أمامه.</span>
+      </figcaption>
+    </figure>
+
+  <div class="wrap wrap--narrow">
+    <div class="carte">
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>المقبّلات والطرشي</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">طرشي البيت</span><span class="carte__mark">ضيافة</span></p>
+          <p class="carte__desc">مخلّل مكبوس عندنا: شلغم وخيار وقرنابيط. حامضٌ حادّ مقصود — يقطع دهن اللحم.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">تبّولة · حمّص · فتّوش</span></p>
+          <p class="carte__desc">ثلاث سلطات تُوضع مع المشاوي: الحامض والطريّ والمقرمش.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">شلغم بالدبس</span><span class="carte__mark">موسمي</span></p>
+          <p class="carte__desc">شلغم مطبوخ في دبس التمر حتى يصير غامقاً حلواً.</p>
+        </li>
+        </ul>
+      </section>
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>الحلو</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">زلابية</span></p>
+          <p class="carte__desc">حلقات عجين مقليّة تُغمس في القطر وهي ساخنة.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">منّ السما</span></p>
+          <p class="carte__desc">حلوى بغداديّة بيضاء بالفستق، قوامها مطّاطي خفيف.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">بقلاوة بالفستق</span></p>
+          <p class="carte__desc">طبقات رقيقة، فستق، وقطر خفيف.</p>
+        </li>
+        </ul>
+      </section>
+      <section class="carte__part">
+        <h3 class="carte__head" data-reveal><span>الچاي والمشروب</span></h3>
+        <ul class="carte__list">
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">چاي استكان</span><span class="carte__mark">ضيافة الدار</span></p>
+          <p class="carte__desc">چاي أحمر ثقيل يُسكب من قوري على قوري، في استكان زجاجي. يُوضع ولا يُطلب.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">نومي بصرة</span></p>
+          <p class="carte__desc">منقوع الليمون البصري المجفّف: حامضٌ دافئ بلون العنبر.</p>
+        </li>
+        <li class="carte__item" data-reveal>
+          <p class="carte__line"><span class="carte__name">شربت زبيب</span></p>
+          <p class="carte__desc">منقوع زبيب بارد، حلوٌ طبيعي بلا سكّر مضاف.</p>
+        </li>
+        </ul>
+      </section>
     </div>
   </div>
 </section>
@@ -757,6 +793,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=4" defer></script>
+<script src="assets/js/app.js?v=5" defer></script>
 </body>
 </html>
