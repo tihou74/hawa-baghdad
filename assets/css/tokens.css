@@ -80,7 +80,8 @@
   --bg-sunk: var(--cream-200);
   --fg: var(--navy-800);
   --fg-muted: color-mix(in srgb, var(--navy-800) 68%, var(--cream-100));
-  --rule: color-mix(in srgb, var(--navy-600) 24%, transparent);
+  --rule: color-mix(in srgb, var(--navy-600) 18%, transparent);
+  --hair: color-mix(in srgb, var(--navy-800) 12%, transparent);
 
   --accent: var(--clay-600);          /* نصّ وأيقونات على الفاتح */
   --accent-2: var(--magenta-600);     /* لمسة ثانية على الفاتح */
@@ -92,45 +93,63 @@
   --logo: url("../img/logo.svg");
 
   /* ===== المقياس الطباعي =============================================
-     مقياس سائل: يتمدّد بين الهاتف وسطح المكتب بلا نقاط انكسار. */
-  --t-hero: clamp(2.75rem, 1.4rem + 6.8vw, 7.5rem);
-  --t-h1: clamp(2.1rem, 1.2rem + 4.2vw, 4.25rem);
-  --t-h2: clamp(1.65rem, 1.1rem + 2.6vw, 3rem);
-  --t-h3: clamp(1.25rem, 1rem + 1.1vw, 1.75rem);
-  --t-lead: clamp(1.1rem, 1rem + 0.6vw, 1.5rem);
-  --t-body: clamp(1rem, 0.96rem + 0.22vw, 1.15rem);
-  --t-small: 0.875rem;
-  --t-micro: 0.75rem;
+     مقياس خمس نجوم. ثلاثة فروق عن المقياس العادي:
 
-  /* العائلات.
-     البروفايل مبنيّ بخطوط Mj_Faraz و ProductSans و HelveticaNeue —
-     وليست كلها متاحة للويب (ProductSans مرخّصة لجوجل، و Mj_Faraz غير
-     موجودة على مزوّدي خطوط الويب). فالاختيار هنا بدائل مفتوحة المصدر
-     أقرب ما يكون في البنية:
-       العناوين  → Rakkas: كوفي عريض بروح الشعار العربي
-       النصّ     → IBM Plex Sans Arabic: هندسي محايد قريب من ProductSans
-     إن امتلك العميل ترخيص الخطوط الأصليّة تُستبدل هنا وحدها. */
-  --font-display: "Rakkas", "Aref Ruqaa", "Amiri", Georgia, serif;
-  --font-body: "IBM Plex Sans Arabic", "Tajawal", system-ui, -apple-system,
-               "Segoe UI", sans-serif;
+     ١) **مدى أوسع**: العنوان يبلغ ٦rem على سطح المكتب لا ٣. الحجم
+        الكبير مع فراغ كثير هو أرخص إشارة فخامة وأصدقها — والمطاعم
+        الراقية تفعل هذا في مطبوعاتها قبل مواقعها.
+     ٢) **أوزان أخفّ**: النصّ بوزن ٣٠٠ لا ٤٠٠. الخطّ الرقيق الواسع
+        يُقرأ راقياً، والعريض يُقرأ تجاريّاً.
+     ٣) **تتبُّع أوسع للعناوين الصغيرة**: الحروف المتباعدة في اللافتات
+        الصغيرة إشارة فخامة راسخة في الهويّات الفندقيّة.
+  */
+  --t-display: clamp(3rem, 1.2rem + 8vw, 8.5rem);
+  --t-hero: clamp(2.5rem, 1.2rem + 6vw, 6.5rem);
+  --t-h1: clamp(2rem, 1rem + 4.4vw, 4.75rem);
+  --t-h2: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+  --t-h3: clamp(1.2rem, 1rem + 1vw, 1.65rem);
+  --t-lead: clamp(1.1rem, 1rem + 0.7vw, 1.6rem);
+  --t-body: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+  --t-small: 0.9rem;
+  --t-micro: 0.72rem;
+
+  /* العائلات — ثلاثيّة مقصودة:
+       Amiri      : نسخ كلاسيكي عالي التباين، كخطّ الكتاب الفاخر.
+                    للعناوين فقط.
+       Tajawal    : هندسي نظيف بأوزان خفيفة. للنصّ.
+       Cormorant  : سيريف لاتيني رقيق للأرقام والكلمات اللاتينيّة،
+                    فلا تبدو الأرقام من عائلة أخرى.
+     الاستبدال السابق (Rakkas) كان زخرفيّاً يميل إلى الشعبي، وهو
+     نقيض ما تطلبه علامة خمس نجوم. */
+  --font-display: "Amiri", "Aref Ruqaa", Georgia, serif;
+  --font-body: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-latin: "Cormorant Garamond", Georgia, serif;
+
+  --track-label: 0.28em;   /* تتبُّع اللافتات الصغيرة */
+  --track-head: -0.01em;   /* العناوين الكبيرة تُشدّ قليلاً */
 
   --lh-tight: 1.18;
-  --lh-head: 1.3;
-  --lh-body: 1.85;   /* العربيّة تحتاج فراغاً سطريّاً أوسع من اللاتينيّة */
+  --lh-head: 1.16;
+  --lh-body: 2;   /* العربيّة تحتاج فراغاً سطريّاً أوسع من اللاتينيّة */
 
   /* ===== المسافات — سلّم نسبته ١.٥ تقريباً ========================== */
   --s-1: 0.25rem;  --s-2: 0.5rem;   --s-3: 0.75rem;
   --s-4: 1rem;     --s-5: 1.5rem;   --s-6: 2rem;
-  --s-7: 3rem;     --s-8: 4rem;     --s-9: 6rem;
-  --s-10: 8rem;    --s-11: 12rem;
+  --s-7: 3rem;     --s-8: 4.5rem;   --s-9: 7rem;
+  --s-10: 10rem;   --s-11: 15rem;
+  /* فراغ القسم: سخاءٌ مقصود. الفخامة تُقاس بما يُترك فارغاً
+     لا بما يُحشى. */
+  --pad-sec: clamp(5rem, 11vw, 13rem);
 
-  --page: min(100% - 2.5rem, 78rem);
-  --page-narrow: min(100% - 2.5rem, 46rem);
+  --page: min(100% - 3rem, 80rem);
+  --page-narrow: min(100% - 3rem, 44rem);
 
   /* ===== الحواف والظلال ============================================= */
-  --r-sm: 4px;
-  --r-md: 10px;
-  --r-lg: 20px;
+  /* حواف شبه حادّة: الحواف الدائريّة الكبيرة سمة التطبيقات
+     لا سمة العلامات الفاخرة. */
+  --r-sm: 1px;
+  --r-md: 2px;
+  --r-lg: 3px;
 
   /* الظلال مصبوغة بالكحلي لا بالأسود: الظلّ الأسود على لوحة دافئة
      يبدو موحلاً، والمصبوغ يبدو جزءاً من اللوحة. */
@@ -142,9 +161,12 @@
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.46, 0.64, 1);
-  --dur-fast: 180ms;
-  --dur-mid: 420ms;
-  --dur-slow: 900ms;
+  /* الحركة الراقية بطيئة وهادئة. المنحنى النابض (spring) يُقرأ
+     مرحاً لا فاخراً، فأُزيل من الاستخدام العام. */
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 240ms;
+  --dur-mid: 620ms;
+  --dur-slow: 1400ms;
 
   /* ===== محرّك الضوء ==================================================
      `--sun` قيمة واحدة بين ٠ و١ يحرّكها التمرير، وتمثّل مرور النهار:
@@ -163,7 +185,8 @@
   --bg-sunk: var(--navy-900);
   --fg: var(--cream-100);
   --fg-muted: color-mix(in srgb, var(--cream-100) 70%, var(--navy-800));
-  --rule: color-mix(in srgb, var(--cream-200) 22%, transparent);
+  --rule: color-mix(in srgb, var(--cream-200) 18%, transparent);
+  --hair: color-mix(in srgb, var(--cream-100) 15%, transparent);
 
   /* تنقلب نسخ اللون: الفاتحة للنصّ، لأن الداكنة تختفي على الكحلي */
   --accent: var(--clay-400);
