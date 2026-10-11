@@ -921,3 +921,85 @@
   margin-block-end: var(--s-1);
   letter-spacing: 0.04em;
 }
+
+/* ============================================================
+   ١٨) تنويه المرجع البصري
+   المطعم لم يُنفَّذ، فالصور مرجعٌ للاتجاه لا توثيقٌ للمكان. والتنويه
+   يُكتب بجوار الصور نفسها لا في الذيل — فمن يرى الصورة يرى حكمها.
+   ============================================================ */
+.refnote {
+  margin-block-end: var(--s-6);
+  padding: var(--s-3) var(--s-5);
+  border-inline-start: 3px solid var(--ornament-2);
+  background: color-mix(in srgb, var(--magenta-500) 9%, transparent);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  font-size: var(--t-small);
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 64ch;
+}
+.refnote strong { color: var(--accent-2); font-weight: 600; }
+
+/* ============================================================
+   ١٩) لوح المرجع البصري
+   شبكة غير منتظمة: بطاقة عريضة وأخريات عاديّة. الانتظام التامّ
+   يجعل اللوح يبدو جدول بيانات، والتنويع يجعله لوحاً بصرياً.
+   ============================================================ */
+.gallery {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+  margin-block-start: var(--s-5);
+}
+@media (min-width: 700px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gal--wide { grid-column: span 2; }
+}
+@media (min-width: 1100px) {
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+  .gal--wide { grid-column: span 2; grid-row: span 1; }
+}
+
+.gal {
+  position: relative;
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-sunk);
+  box-shadow: var(--sh-1);
+  isolation: isolate;
+}
+.gal picture { display: block; }
+.gal img {
+  inline-size: 100%;
+  block-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  transition: transform 900ms var(--ease-out);
+}
+.gal--wide img { aspect-ratio: 16 / 10; }
+
+/* ⚠ قصّ مقصود: يُخرج الزاوية السفلى اليمنى من الإطار لأن فيها
+   بطاقة منيو تحمل شعار مطعم آخر. `object-position` يقصّ عند العرض
+   فقط، فيبقى الملف الأصلي سليماً على القرص. */
+.gal--crop img { object-position: 50% 22%; }
+
+@media (hover: hover) and (pointer: fine) {
+  .gal:hover img { transform: scale(1.04); }
+}
+
+.gal figcaption {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--s-5) var(--s-4) var(--s-3);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--cream-100);
+  /* تدرّج لا لون صلب: النصّ يُقرأ فوق أي صورة بلا حجب الصورة كلها */
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--navy-900) 88%, transparent),
+    transparent);
+}
