@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>RTL rail direction proof + legibility proof</title>
+<!--
+  ============================================================================
+  Why this file exists
+  ----------------------------------------------------------------------------
+  Two things cannot be checked by looking at a screenshot of the real page in
+  this sandbox:
+
+  1. SIGN OF translateX IN AN RTL HORIZONTAL RAIL.
+     In an RTL document the overflow of a flex row extends to the LEFT of the
+     start edge. Revealing it therefore needs a POSITIVE translateX. A negative
+     value pushes it further off-screen, and the page looks frozen. This file
+     measures both signs and reports which one actually brings the last card
+     into the viewport, so the answer is arithmetic rather than opinion.
+
+  2. TEXT LEGIBILITY.
+     This sandbox has ZERO Arabic fonts installed, so a screenshot of the real
+     Arabic page renders every glyph as an empty box. Judging contrast or
+     reading comfort from such a screenshot is worthless. The type specimen
+     below is deliberately LATIN so the rendering is honest, and the contrast
+     ratios are computed numerically against WCAG rather than eyeballed.
+
+  Open with: chrome --headless --dump-dom tools/rtl-proof.html | grep -A40 'id="out"'
+  ============================================================================
+-->
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/cinematic.css">
+<style>
+  body { padding: 2rem; font-family: system-ui, sans-serif; }
+  pre { background: #0A1F26; color: #E7D3B1; padding: 1.25rem; border-radius: 8px;
+        font-size: 13px; line-height: 1.65; overflow-x: auto; direction: ltr; text-align: left; }
+  h2 { font-family: system-ui, sans-serif; margin-block: 2rem 1rem; }
+  .specimen { background: var(--sand-100); color: var(--ink-900); padding: 1.5rem;
+              border-radius: 8px; direction: ltr; text-align: left; }
+  .specimen.dark { background: var(--ink-800); color: var(--sand-100); }
+</style>
+</head>
+<body>
+
+<h2>1 — RTL rail: which sign reveals the overflow?</h2>
+
+<!-- A miniature of the real rail: same classes, same CSS, narrow viewport so
+     the track genuinely overflows. -->
+<div style="position:relative; overflow:hidden; width:520px; border:1px solid #ccc">
+  <div class="rail-sticky" id="sticky" style="block-size:auto; position:static">
+    <div class="rail" id="track" style="padding-inline:0">
+      <article class="rail__card" style="flex:0 0 200px"><div class="rail__body"><h3>Card 1</h3></div></article>
+      <article class="rail__card" style="flex:0 0 200px"><div class="rail__body"><h3>Card 2</h3></div></article>
+      <article class="rail__card" style="flex:0 0 200px"><div class="rail__body"><h3>Card 3</h3></div></article>
+      <article class="rail__card" style="flex:0 0 200px"><div class="rail__body"><h3>Card 4</h3></div></article>
+      <article class="rail__card" style="flex:0 0 200px"><div class="rail__body"><h3>Card 5</h3></div></article>
+      <article class="rail__card" id="last" style="flex:0 0 200px"><div class="rail__body"><h3>Card 6 LAST</h3></div></article>
+    </div>
+  </div>
+</div>
+
+<h2>2 — Type specimen (Latin, so the rendering is honest)</h2>
+<div class="specimen">
+  <p class="eyebrow">01 — EYEBROW AT 0.75REM</p>
+  <h3 class="h2" style="font-family:Georgia,serif">Heading two at the fluid h2 scale</h3>
+  <p class="lead">Lead paragraph. The quick brown fox jumps over the lazy dog, and the oven keeps its heat.</p>
+  <p>Body copy at the fluid body scale. The quick brown fox jumps over the lazy dog while the tandoor bread puffs against the clay wall and the tea is poured from pot to pot.</p>
+  <p style="font-size:var(--t-small); color:var(--fg-muted)">Small muted text, used for dish descriptions and captions.</p>
+</div>
+<div class="specimen dark on-dark" style="margin-block-start:1rem">
+  <p class="eyebrow">01 — EYEBROW ON DARK</p>
+  <h3 class="h2" style="font-family:Georgia,serif">Heading two, reversed out</h3>
+  <p>Body copy on the dark ground, which is where roughly half of this site's reading happens.</p>
+  <p style="font-size:var(--t-small); color:var(--fg-muted)">Small muted text on dark — the riskiest contrast pair on the site.</p>
+</div>
+
+<h2>3 — Measurements</h2>
+<pre id="out">running…</pre>
+
+<script>
+var out = [];
+function log(s) { out.push(s); }
+
+/* ---------------- 1. the sign question, answered by measurement ---------- */
+var sticky = document.getElementById('sticky');
+var track  = document.getElementById('track');
+var last   = document.getElementById('last');
+var stageBox = sticky.parentElement.getBoundingClientRect();
+
+log('DOCUMENT dir            = ' + document.documentElement.getAttribute('dir'));
+log('visible window (px)     = ' + Math.round(stageBox.left) + ' .. ' + Math.round(stageBox.right));
+log('track.scrollWidth       = ' + track.scrollWidth);
+log('sticky.clientWidth      = ' + sticky.clientWidth);
+var dist = Math.max(0, track.scrollWidth - sticky.clientWidth);
+log('overflow distance       = ' + dist);
+log('');
+
+function probe(sign) {
+  track.style.transform = 'translate3d(' + (sign * dist) + 'px,0,0)';
+  var b = last.getBoundingClientRect();
+  /* "revealed" = the last card overlaps the visible window of the stage */
+  var revealed = b.right > stageBox.left + 1 && b.left < stageBox.right - 1;
+  return { sign: sign, left: Math.round(b.left), right: Math.round(b.right), revealed: revealed };
+}
+
+track.style.transform = 'none';
+var at0 = last.getBoundingClientRect();
+log('LAST CARD at translateX(0):      left=' + Math.round(at0.left) +
+    ' right=' + Math.round(at0.right) +
+    (at0.right > stageBox.left && at0.left < stageBox.right ? '  [visible]' : '  [OFF-SCREEN]'));
+
+var neg = probe(-1);
+log('LAST CARD at NEGATIVE translateX: left=' + neg.left + ' right=' + neg.right +
+    (neg.revealed ? '  [revealed]' : '  [still hidden]'));
+
+var pos = probe(+1);
+log('LAST CARD at POSITIVE translateX: left=' + pos.left + ' right=' + pos.right +
+    (pos.revealed ? '  [revealed]' : '  [still hidden]'));
+
+track.style.transform = 'none';
+log('');
+var correct = pos.revealed && !neg.revealed ? 'POSITIVE'
+            : neg.revealed && !pos.revealed ? 'NEGATIVE'
+            : 'INCONCLUSIVE';
+log('>>> CORRECT SIGN FOR THIS dir = ' + correct);
+log('>>> app.js uses: sign = isRTL ? 1 : -1  →  ' +
+    (correct === 'POSITIVE' ? 'MATCHES (rail will animate)' : 'MISMATCH — FIX app.js'));
+
+/* ---------------- 2. contrast ratios, computed not guessed --------------- */
+log('');
+log('--- WCAG contrast ratios (computed) ---');
+
+/* Colours in this project are authored with color-mix(), which a browser
+   reports back in modern syntax such as `color(srgb …)` or `oklab(…)`. A
+   regex for `rgb()` silently fails on those — which is exactly why the first
+   run of this file reported "could not resolve" and hid several pairs from
+   scrutiny. Painting the colour onto a 1×1 canvas and reading the pixel back
+   makes the browser do the conversion, so ANY CSS colour syntax resolves. */
+var cx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+function toRGBA(css) {
+  cx.clearRect(0, 0, 1, 1);
+  cx.fillStyle = '#000';            // reset so an invalid value can be detected
+  cx.fillStyle = css;
+  cx.fillRect(0, 0, 1, 1);
+  var d = cx.getImageData(0, 0, 1, 1).data;
+  return [d[0], d[1], d[2], d[3] / 255];
+}
+function lum(rgb) {
+  var c = rgb.slice(0, 3).map(function (v) {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+/* Flatten a translucent colour over its backdrop before measuring: a text
+   colour at 64% alpha is not the colour the eye receives. */
+function over(fg, bg) {
+  var a = fg[3];
+  return [fg[0] * a + bg[0] * (1 - a),
+          fg[1] * a + bg[1] * (1 - a),
+          fg[2] * a + bg[2] * (1 - a), 1];
+}
+/* Walk up until an actually opaque background is found — the nearest ancestor
+   with a painted background is what sits behind the glyphs. */
+function effectiveBG(el) {
+  var node = el;
+  var stack = [];
+  while (node && node.nodeType === 1) {
+    var c = toRGBA(getComputedStyle(node).backgroundColor);
+    if (c[3] > 0) { stack.push(c); if (c[3] >= 0.999) break; }
+    node = node.parentElement;
+  }
+  var base = [255, 255, 255, 1];
+  for (var i = stack.length - 1; i >= 0; i--) base = over(stack[i], base);
+  return base;
+}
+function ratio(fg, bg) {
+  var a = lum(fg), b = lum(bg);
+  var hi = Math.max(a, b), lo = Math.min(a, b);
+  return (hi + 0.05) / (lo + 0.05);
+}
+function check(label, el) {
+  if (!el) { log('  ' + label.padEnd(34) + 'element not found'); return; }
+  var cs = getComputedStyle(el);
+  var bg = effectiveBG(el);
+  var fg = over(toRGBA(cs.color), bg);
+  var r = ratio(fg, bg);
+  var size = parseFloat(cs.fontSize);
+  var weight = parseInt(cs.fontWeight, 10) || 400;
+  var large = size >= 24 || (size >= 18.66 && weight >= 700);
+  var need = large ? 3.0 : 4.5;
+  log('  ' + label.padEnd(34) + r.toFixed(2) + ':1  need ' + need.toFixed(1) +
+      '  ' + (r >= need ? 'PASS' : '*** FAIL ***') +
+      '  (' + size.toFixed(1) + 'px' + (large ? ', large' : '') + ')');
+}
+
+var lightCard = document.querySelector('.specimen');
+var darkCard  = document.querySelector('.specimen.dark');
+check('body on sand',            lightCard.querySelectorAll('p')[2]);
+check('lead on sand',            lightCard.querySelector('.lead'));
+check('small muted on sand',     lightCard.querySelector('p:last-child'));
+check('eyebrow (gold) on sand',  lightCard.querySelector('.eyebrow'));
+check('h2 on sand',              lightCard.querySelector('.h2'));
+check('body on ink',             darkCard.querySelectorAll('p')[1]);
+check('small muted on ink',      darkCard.querySelector('p:last-child'));
+check('eyebrow (gold) on ink',   darkCard.querySelector('.eyebrow'));
+check('h2 on ink',               darkCard.querySelector('.h2'));
+
+/* The two colour pairs that carry the most text on the real page but are not
+   present in this specimen: the dish description and the accent price. */
+log('');
+log('--- key pairs sampled directly from tokens ---');
+function pair(label, fgCSS, bgCSS, px, bold) {
+  var fg = toRGBA(fgCSS), bg = toRGBA(bgCSS);
+  var r = ratio(over(fg, bg), bg);
+  var large = px >= 24 || (px >= 18.66 && bold);
+  var need = large ? 3.0 : 4.5;
+  log('  ' + label.padEnd(34) + r.toFixed(2) + ':1  need ' + need.toFixed(1) +
+      '  ' + (r >= need ? 'PASS' : '*** FAIL ***') + '  (' + px + 'px)');
+}
+var S = getComputedStyle(document.documentElement);
+var sand100 = S.getPropertyValue('--sand-100').trim();
+var sand200 = S.getPropertyValue('--sand-200').trim();
+var ink800  = S.getPropertyValue('--ink-800').trim();
+var gold500 = S.getPropertyValue('--gold-500').trim();
+var gold400 = S.getPropertyValue('--gold-400').trim();
+/* These first two are EXPECTED to fail. They are kept as the documented
+   reason --bronze-600 exists: raw gold is for ornament only and is never
+   assigned to text on a light ground. A regression that points --accent back
+   at gold-500 would show up in the rows above this block. */
+pair('gold-500 on sand-100 [ornament only]',  gold500, sand100, 12);
+pair('gold-500 on sand-200 [ornament only]',  gold500, sand200, 12);
+pair('gold-400 on ink-800',   gold400, ink800, 12);
+pair('wood-700 on sand-100',  S.getPropertyValue('--wood-700').trim(), sand100, 12);
+pair('ruby on sand-100',      S.getPropertyValue('--glass-ruby').trim(), sand100, 12);
+pair('emerald on sand-100',   S.getPropertyValue('--glass-emerald').trim(), sand100, 12);
+
+/* ---------------- 3. resolved token sanity ------------------------------- */
+log('');
+log('--- resolved fluid type at this viewport (' + window.innerWidth + 'px) ---');
+['--t-hero', '--t-h1', '--t-h2', '--t-h3', '--t-lead', '--t-body', '--t-small'].forEach(function (k) {
+  var probe = document.createElement('span');
+  probe.style.fontSize = 'var(' + k + ')';
+  document.body.appendChild(probe);
+  log('  ' + k.padEnd(12) + getComputedStyle(probe).fontSize);
+  probe.remove();
+});
+
+document.getElementById('out').textContent = out.join('\n');
+</script>
+</body>
+</html>

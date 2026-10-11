@@ -1,0 +1,740 @@
+/* ============================================================================
+   هوى بغداد — الطبقة السينمائيّة
+   ----------------------------------------------------------------------------
+   الفكرة المركزيّة: الشناشيل.
+   الشُنشول هو النافذة البغداديّة الخشبيّة المحفورة بزجاجها الملوّن. وظيفتها
+   الأصليّة أنها تُرشّح الضوء: فتدخل الشمس شفرات ملوّنة تتحرّك على الأرض
+   طول النهار. الموقع يبني عليها محرّكاً واحداً:
+
+     التمرير = مرور النهار.
+
+   متغيّر واحد `--sun` بين ٠ و١ يحرّكه الجافاسكربت مع التمرير، ومنه تُشتق
+   حرارة اللون وزاوية شفرات الضوء وشدّتها. فالصفحة لا «تتحرّك عناصرها»
+   فقط، بل يتغيّر وقتها: تبدأ فجراً بارداً وتنتهي ليلاً دافئاً حول الجمر.
+   ========================================================================== */
+
+/* `@property` يجعل المتغيّر قابلاً للاستيفاء (interpolation) — بدونه
+   لا يستطيع المتصفّح أن ينتقل بين قيمتين بسلاسة بل يقفز. */
+@property --sun {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* ============================================================
+   ١) طبقة ضوء الشناشيل
+   ثابتة فوق الصفحة، لا تستقبل المؤشّر، ولا تُقرأ لقارئ الشاشة.
+   شفرتان من الضوء بميلان مختلف تمنحان إحساس العمق.
+   ============================================================ */
+.shanashil-light {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: var(--shaft-opacity, 0);
+  transition: opacity 600ms var(--ease-out);
+}
+.shanashil-light::before,
+.shanashil-light::after {
+  content: "";
+  position: absolute;
+  /* أوسع من الشاشة لأن الدوران يقصّ الأطراف */
+  inset: -40%;
+  background-repeat: repeat;
+}
+/* الشفرة الأولى: شبكة المشربيّة المعينيّة بلون العنبر */
+.shanashil-light::before {
+  background-image:
+    repeating-linear-gradient(
+      calc(62deg + var(--sun) * 46deg),
+      color-mix(in srgb, var(--glass-amber) 40%, transparent) 0 2px,
+      transparent 2px 30px),
+    repeating-linear-gradient(
+      calc(-62deg - var(--sun) * 46deg),
+      color-mix(in srgb, var(--glass-amber) 26%, transparent) 0 2px,
+      transparent 2px 30px);
+  /* الشفرات تنزلق مع النهار */
+  transform: translate3d(
+    calc(var(--sun) * 7vw), calc(var(--sun) * -4vh), 0);
+}
+/* الشفرة الثانية: زجاج ياقوتي/زمرّدي أخفّ، بميلان معاكس */
+.shanashil-light::after {
+  background-image:
+    repeating-linear-gradient(
+      calc(-28deg + var(--sun) * 30deg),
+      color-mix(in srgb, var(--glass-ruby) 22%, transparent) 0 3px,
+      transparent 3px 64px),
+    repeating-linear-gradient(
+      calc(-28deg + var(--sun) * 30deg),
+      color-mix(in srgb, var(--glass-emerald) 16%, transparent) 32px 35px,
+      transparent 35px 64px);
+  transform: translate3d(
+    calc(var(--sun) * -5vw), calc(var(--sun) * 6vh), 0);
+  opacity: 0.8;
+}
+@media (prefers-reduced-motion: reduce) {
+  .shanashil-light { display: none; }
+}
+
+/* ============================================================
+   ٢) حبيبات الفيلم
+   طبقة SVG خارجيّة واحدة بدل ضجيج مُولَّد بـ CSS: أرخص على الرسم
+   لأن المتصفّح يفكّ تشفيرها مرّة واحدة ثم يكرّرها بلا حساب.
+   ============================================================ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 61;
+  pointer-events: none;
+  background-image: url("../img/grain.svg");
+  background-size: 180px 180px;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+
+/* ============================================================
+   ٣) الافتتاحيّة — انفتاح الشُنشول
+   مصراعان خشبيّان ينفتحان عن الاسم. تُعرض مرّة واحدة في الجلسة؛
+   لا أحد يريد مقدّمة سينمائيّة كلّما ضغط رجوع.
+   ============================================================ */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--ink-900);
+  overflow: hidden;
+}
+.intro__leaf {
+  position: absolute;
+  inset-block: 0;
+  inline-size: 50.5%;   /* تجاوز بسيط يمنع ظهور خطّ شعر بين المصراعين */
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--wood-700) 92%, #000) 0%,
+      var(--wood-600) 45%,
+      color-mix(in srgb, var(--wood-700) 92%, #000) 100%),
+    url("../img/mashrabiya.svg");
+  background-size: cover, 96px 96px;
+  background-blend-mode: multiply;
+  transition: transform 1150ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+.intro__leaf--a { inset-inline-start: 0; }
+.intro__leaf--b { inset-inline-end: 0; }
+.intro.is-leaving .intro__leaf--a { transform: translateX(-101%); }
+.intro.is-leaving .intro__leaf--b { transform: translateX(101%); }
+
+.intro__core {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--sand-100);
+  transition: opacity 500ms var(--ease-out), transform 900ms var(--ease-out);
+}
+.intro__core svg { inline-size: clamp(130px, 28vw, 230px); block-size: auto; margin-inline: auto; }
+.intro__word {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, 3.4rem);
+  margin-block-start: var(--s-4);
+  letter-spacing: 0.02em;
+}
+.intro__sub {
+  font-size: var(--t-micro);
+  letter-spacing: 0.3em;
+  color: var(--gold-400);
+  margin-block-start: var(--s-3);
+}
+.intro.is-leaving .intro__core { opacity: 0; transform: scale(1.08); }
+
+/* بلا جافاسكربت: لا افتتاحيّة أبداً. أفضل من شاشة سوداء عالقة. */
+.no-js .intro { display: none; }
+
+/* ============================================================
+   ٤) الواجهة
+   قوس بغدادي مقصوص بـ clip-path، وداخله مشهد متحرّك بالتمرير.
+   ============================================================ */
+.hero {
+  position: relative;
+  min-block-size: 100svh;   /* svh لا vh: يمنع قفزة شريط عنوان الهاتف */
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+  background: var(--ink-900);
+  color: var(--sand-100);
+  isolation: isolate;
+}
+
+/* السماء: تدرّج يتحرّك من فجر إلى ليل حسب `--sun` */
+.hero__sky {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(120% 80% at 70% 112%,
+      color-mix(in srgb, var(--glass-amber) calc(26% + var(--sun) * 34%), transparent) 0%,
+      transparent 62%),
+    linear-gradient(180deg,
+      var(--ink-900) 0%,
+      color-mix(in srgb, var(--ink-700) 70%, var(--wood-700)) 58%,
+      color-mix(in srgb, var(--wood-600) 54%, var(--ink-900)) 100%);
+}
+
+/* نهر دجلة: شريطان من الموج يتحرّكان بسرعتين مختلفتين.
+   SVG مكرّر أفقياً — لا صور، لا كلفة تحميل. */
+.hero__river {
+  position: absolute;
+  inset-inline: -10%;
+  inset-block-end: -2%;
+  block-size: 42%;
+  z-index: -2;
+  overflow: hidden;
+  opacity: 0.55;
+  mask-image: linear-gradient(180deg, transparent, #000 38%, #000);
+}
+.hero__river i {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 100%;
+  background: url("../img/wave.svg") repeat-x bottom / 820px 100%;
+}
+.hero__river i:nth-child(1) { opacity: 0.85; animation: drift 34s linear infinite; }
+.hero__river i:nth-child(2) {
+  opacity: 0.5;
+  block-size: 76%;
+  inset-block-end: 0;
+  animation: drift 52s linear infinite reverse;
+  filter: hue-rotate(-12deg);
+}
+@keyframes drift { to { background-position-x: -820px; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero__river i { animation: none; }
+}
+
+/* ظلّ نخلتين على الحاشية — عمق بلا صورة */
+.hero__palms {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  z-index: -1;
+  inline-size: clamp(180px, 26vw, 420px);
+  opacity: 0.42;
+  pointer-events: none;
+}
+.hero__palms svg { inline-size: 100%; block-size: auto; }
+
+.hero__body {
+  width: var(--page);
+  margin-inline: auto;
+  padding-block: var(--s-10) var(--s-9);
+  position: relative;
+  z-index: 1;
+}
+.hero__kicker {
+  font-size: var(--t-micro);
+  letter-spacing: 0.3em;
+  color: var(--gold-400);
+  margin: 0 0 var(--s-5);
+}
+.hero__name {
+  font-family: var(--font-display);
+  font-size: var(--t-hero);
+  line-height: 0.98;
+  margin: 0;
+  /* الاسم يُشتقّ لونه من الذهب لا من صورة: يبقى حادّاً على أي شاشة */
+  background: linear-gradient(170deg,
+    var(--sand-100) 0%,
+    var(--gold-400) 52%,
+    color-mix(in srgb, var(--gold-500) 72%, var(--wood-600)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* احتياط: إن فشل القصّ على متصفّح قديم يظهر النصّ رملياً */
+  -webkit-text-fill-color: transparent;
+}
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+  .hero__name { color: var(--sand-100); -webkit-text-fill-color: currentColor; }
+}
+.hero__tag {
+  font-size: var(--t-lead);
+  max-width: 34ch;
+  margin-block-start: var(--s-5);
+  color: color-mix(in srgb, var(--sand-100) 82%, transparent);
+}
+
+/* سهم النزول — نبضة هادئة */
+.hero__down {
+  position: absolute;
+  inset-block-end: var(--s-6);
+  inset-inline-start: 50%;
+  translate: 50% 0;        /* RTL-safe: `translate` منطقيّ هنا بالنسبة للمحور */
+  inline-size: 1px;
+  block-size: var(--s-7);
+  background: linear-gradient(var(--gold-400), transparent);
+  z-index: 2;
+}
+.hero__down::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: -2.5px;
+  inline-size: 6px; block-size: 6px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  animation: fall 2.4s var(--ease-in-out) infinite;
+}
+@keyframes fall {
+  0%   { inset-block-start: 0; opacity: 0; }
+  30%  { opacity: 1; }
+  100% { inset-block-start: 100%; opacity: 0; }
+}
+
+/* ============================================================
+   ٥) الكشف عند الظهور
+   يُفضَّل مسار CSS الأصلي `animation-timeline: view()` حين يتوفّر:
+   يعمل على خيط المُركِّب فلا يتعثّر، ويحتاج صفر جافاسكربت.
+   المراقِب في app.js هو البديل، وإضافته للصنف لا تضرّ من أخذ مسار CSS.
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--delay, 0ms);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+/* شبكة أمان: بلا جافاسكربت لا يبقى المحتوى شفّافاً للأبد */
+.no-js [data-reveal] { opacity: 1; transform: none; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      /* يبدأ الظهور قبل دخول العنصر ٢٠٪ وينتهي عند ٤٥٪ من رحلته */
+      animation-range: entry 8% entry 46%;
+    }
+  }
+}
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   ٦) القوس البغدادي — يُرسَم خطّه مع التمرير
+   `stroke-dashoffset` مربوط بتقدّم العنصر في الشاشة: يبدو كأن يداً
+   ترسم القوس أمامك.
+   ============================================================ */
+.arch-draw {
+  display: block;
+  inline-size: min(100%, 30rem);
+  margin-inline: auto;
+}
+.arch-draw path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  /* `pathLength="1"` في الـ SVG يجعل الطول وحدةً واحدة،
+     فلا حاجة لقياس المسار بالجافاسكربت. */
+}
+@supports (animation-timeline: view()) {
+  .arch-draw path {
+    animation: draw linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 42%;
+  }
+}
+.arch-draw.is-visible path { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s var(--ease-out); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* ============================================================
+   ٧) شارع المتنبّي — لفّ أفقي مربوط بالتمرير
+   ⚠ درس مُكلف: في صفحة RTL يمتدّ المحتوى الزائد في حاوية flex إلى
+   اليسار. فالكشف عنه يتطلّب تحريك الشريط إلى اليمين — أي `translateX`
+   بقيمة *موجبة*. القيمة السالبة تدفعه بعيداً فيبدو أن «لا شيء يتحرّك».
+   الجافاسكربت في app.js يُسند الإشارة حسب `dir` الفعليّ للصفحة.
+   ============================================================ */
+.rail-stage { position: relative; }
+.rail-sticky {
+  position: sticky;
+  inset-block-start: 0;
+  block-size: 100svh;
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+}
+.rail {
+  display: flex;
+  gap: var(--s-5);
+  padding-inline: max(var(--s-5), calc((100vw - var(--page)) / 2));
+  will-change: transform;
+}
+.rail__card {
+  flex: 0 0 clamp(248px, 30vw, 390px);
+  background: var(--bg-raised);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-2);
+  transform: scale(0.94);
+  opacity: 0.58;
+  transition: transform var(--dur-mid) var(--ease-out),
+              opacity var(--dur-mid) var(--ease-out),
+              box-shadow var(--dur-mid) var(--ease-out);
+}
+/* البطاقة الأقرب لمنتصف الشاشة تُضاء */
+.rail__card.is-focus {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: var(--sh-3),
+              0 0 0 1px color-mix(in srgb, var(--gold-500) 40%, transparent);
+}
+.rail__art { aspect-ratio: 4 / 5; background: var(--ink-700); }
+.rail__art svg, .rail__art img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.rail__body { padding: var(--s-5); }
+.rail__body h3 { font-size: var(--t-h3); margin-block-end: var(--s-2); }
+.rail__body p { font-size: var(--t-small); color: var(--fg-muted); margin: 0; }
+
+.rail__prog {
+  position: absolute;
+  inset-block-end: var(--s-6);
+  inset-inline: max(var(--s-5), calc((100vw - var(--page)) / 2));
+  block-size: 1px;
+  background: var(--rule);
+}
+.rail__prog i {
+  display: block;
+  block-size: 100%;
+  inline-size: 0;
+  background: var(--accent);
+}
+
+/* على الهاتف: لفّ أفقي باللمس بدل التثبيت. التثبيت على شاشة صغيرة
+   يسجن المستخدم في قسم طويل لا يفهم طوله. */
+@media (max-width: 860px) {
+  .rail-stage { block-size: auto !important; }
+  .rail-sticky { position: static; block-size: auto; overflow: visible; }
+  .rail {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-block: var(--s-4);
+    transform: none !important;   /* يُلغي ما يضعه الجافاسكربت */
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail__card { scroll-snap-align: center; transform: none; opacity: 1; }
+  .rail__prog { display: none; }
+}
+
+/* ============================================================
+   ٨) المسكوف — اهتزاز الحرارة
+   مرشّح SVG حقيقي (feTurbulence + feDisplacementMap) يُطبَّق على
+   طبقة الهواء فوق النار، لا على الصورة: فتبقى الصورة حادّة ويهتزّ
+   الهواء وحده — وهذا ما تفعله الحرارة فعلاً.
+   ============================================================ */
+.fire { position: relative; isolation: isolate; overflow: hidden; }
+.fire__haze {
+  position: absolute;
+  inset: -8%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(60% 46% at 50% 100%,
+    color-mix(in srgb, var(--glass-amber) 34%, transparent) 0%,
+    transparent 70%);
+  filter: url("#heat");
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fire__haze { filter: none; }
+}
+/* جمر: نقاط تصعد وتخبو. العدد قليل مقصوداً — الكثافة تُكلّف رسماً. */
+.fire__embers { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.fire__embers b {
+  position: absolute;
+  inset-block-end: -4%;
+  inline-size: 3px; block-size: 3px;
+  border-radius: 50%;
+  background: var(--glass-amber);
+  box-shadow: 0 0 7px 2px color-mix(in srgb, var(--glass-amber) 65%, transparent);
+  opacity: 0;
+  animation: ember var(--d, 7s) linear var(--t, 0s) infinite;
+}
+@keyframes ember {
+  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+  14%  { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(var(--dx, 18px), -74vh) scale(0.25); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fire__embers { display: none; }
+}
+
+/* ============================================================
+   ٩) المشهد المثبَّت — نصّ يتحرّك وصورة تتبعه
+   ============================================================ */
+.scene { display: grid; gap: var(--s-7); }
+@media (min-width: 980px) {
+  .scene { grid-template-columns: 1fr 1fr; gap: var(--s-9); align-items: start; }
+  .scene__media {
+    position: sticky;
+    inset-block-start: 14vh;
+    block-size: 72vh;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--sh-3);
+  }
+}
+.scene__media { position: relative; background: var(--ink-800); border-radius: var(--r-md); overflow: hidden; }
+.scene__media figure {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 760ms var(--ease-out), transform 1400ms var(--ease-out);
+}
+.scene__media figure.is-active { opacity: 1; transform: none; }
+/* أوّل لوحة ظاهرة قبل أن يعمل الجافاسكربت، فلا يرى أحد مستطيلاً فارغاً */
+.scene__media figure:first-child { opacity: 1; transform: none; }
+.scene__media figure.is-active ~ figure:first-child { opacity: 0; }
+.scene__media svg, .scene__media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+
+.scene__steps { display: grid; gap: var(--s-9); }
+@media (min-width: 980px) {
+  .scene__steps { gap: 46vh; padding-block: 18vh; }
+}
+.scene__step h3 { font-size: var(--t-h2); margin-block-end: var(--s-4); }
+.scene__step .n {
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  color: var(--accent);
+  display: block;
+  margin-block-end: var(--s-3);
+}
+
+/* على الهاتف تصبح الصورة فوق كل خطوة بدل عمود ثابت */
+@media (max-width: 979px) {
+  .scene__media { display: none; }
+  .scene__step { padding-block-end: var(--s-5); border-block-end: 1px solid var(--rule); }
+  .scene__step:last-child { border-block-end: 0; }
+}
+
+/* ============================================================
+   ١٠) شريط مقتبس بعمق
+   طبقة خلفيّة تتحرّك أبطأ من التمرير. بـ transform لا
+   `background-attachment: fixed` — الأخيرة تُجبر المتصفّح على إعادة
+   رسم الخلفيّة كل إطار فيتقطّع التمرير على الهاتف.
+   ============================================================ */
+.band {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-block: var(--s-10);
+  background: var(--ink-900);
+  color: var(--sand-100);
+  text-align: center;
+}
+.band__layer {
+  position: absolute;
+  inset: -16% 0;
+  z-index: -2;
+  opacity: 0.3;
+  will-change: transform;
+}
+.band__layer svg, .band__layer img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--ink-900) 82%, transparent),
+    color-mix(in srgb, var(--ink-900) 58%, transparent));
+}
+.band blockquote {
+  font-family: var(--font-display);
+  font-size: var(--t-h2);
+  line-height: 1.45;
+  width: var(--page-narrow);
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.band cite {
+  display: block;
+  margin-block-start: var(--s-5);
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--gold-400);
+}
+
+/* ============================================================
+   ١١) المنيو
+   ============================================================ */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-block-end: var(--s-7);
+}
+.filter {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.filter:hover { border-color: var(--accent); color: var(--fg); }
+/* نصّ كريمي على البرونز لا نصّ داكن: البرونز لونٌ متوسّط القتامة،
+   فالنصّ الداكن عليه يعطي 2.48:1 والكريمي يعطي 6.09:1. */
+.filter[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sand-100);
+  font-weight: 500;
+}
+
+.dishes { display: grid; gap: var(--s-5); }
+@media (min-width: 700px) { .dishes { grid-template-columns: 1fr 1fr; gap: var(--s-6); } }
+@media (min-width: 1100px) { .dishes { grid-template-columns: repeat(3, 1fr); } }
+
+.dish {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-4);
+  align-items: start;
+  padding-block-end: var(--s-5);
+  border-block-end: 1px solid var(--rule);
+}
+.dish__art {
+  inline-size: 3.6rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--wood-500) 14%, transparent);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.dish__art svg { inline-size: 62%; block-size: auto; }
+.dish__top {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-block-end: var(--s-1);
+}
+.dish__name { font-family: var(--font-display); font-size: var(--t-h3); }
+/* خطّ منقّط يمدّ بين الاسم والسعر — حيلة المنيو الكلاسيكيّة */
+.dish__dots {
+  flex: 1 1 auto;
+  border-block-end: 1px dotted var(--rule);
+  transform: translateY(-0.25em);
+  min-inline-size: var(--s-5);
+}
+.dish__price {
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.dish__desc { font-size: var(--t-small); color: var(--fg-muted); margin: 0; line-height: 1.65; }
+.dish__tags { display: flex; gap: var(--s-2); margin-block-start: var(--s-2); flex-wrap: wrap; }
+.dish__tag {
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--glass-emerald) 16%, transparent);
+  color: color-mix(in srgb, var(--glass-emerald) 82%, var(--fg));
+}
+.dish__tag--hot { background: color-mix(in srgb, var(--glass-ruby) 16%, transparent); color: color-mix(in srgb, var(--glass-ruby) 84%, var(--fg)); }
+/* الخلفيّة ذهبيّة (زخرفة) والنصّ برونزي (قراءة): 5.68:1 بدل 2.18:1 */
+.dish__tag--signature { background: color-mix(in srgb, var(--gold-500) 22%, transparent); color: color-mix(in srgb, var(--bronze-600) 92%, var(--fg)); }
+
+/* ============================================================
+   ١٢) بطاقات الركائز
+   ============================================================ */
+.pillars { display: grid; gap: var(--s-5); }
+@media (min-width: 760px) { .pillars { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .pillars { grid-template-columns: repeat(4, 1fr); } }
+.pillar {
+  padding: var(--s-6) var(--s-5);
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  box-shadow: var(--sh-1);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-mid) var(--ease-out),
+              box-shadow var(--dur-mid) var(--ease-out);
+}
+.pillar:hover { transform: translateY(-4px); box-shadow: var(--sh-2); }
+/* شريط لوني رقيق في أعلى البطاقة، لون كل واحدة من زجاج مختلف */
+.pillar::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 3px;
+  background: var(--tint, var(--gold-500));
+}
+.pillar__n {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--tint, var(--gold-500));
+  opacity: 0.65;
+  display: block;
+  margin-block-end: var(--s-3);
+}
+.pillar h3 { font-size: var(--t-h3); margin-block-end: var(--s-3); }
+.pillar p { font-size: var(--t-small); color: var(--fg-muted); margin: 0; }
+
+/* ============================================================
+   ١٣) الأسئلة الشائعة — `<details>` أصليّ، بلا جافاسكربت
+   ============================================================ */
+.faq { display: grid; gap: var(--s-3); }
+.faq details {
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+.faq summary {
+  padding: var(--s-4) var(--s-5);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  margin-inline-start: auto;
+  font-size: 1.4em;
+  line-height: 1;
+  color: var(--accent);
+  transition: transform var(--dur-mid) var(--ease-spring);
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq .faq__a { padding: 0 var(--s-5) var(--s-5); color: var(--fg-muted); font-size: var(--t-small); }
+
+/* ============================================================
+   ١٤) فاصل زخرفي
+   ============================================================ */
+.divider {
+  border: 0;
+  block-size: 26px;
+  margin-block: 0;
+  background: url("../img/mashrabiya.svg") repeat-x center / auto 26px;
+  opacity: 0.3;
+}
+.divider--gold { filter: sepia(1) saturate(2.4) hue-rotate(-14deg); }

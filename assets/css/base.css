@@ -1,0 +1,179 @@
+/* ============================================================================
+   هوى بغداد — الأساس: إعادة التهيئة والطباعة والعناصر الأوّليّة
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* لا `scroll-behavior: smooth` عامّ: يجعل القفز لمرساة بعيدة رحلة
+     بطيئة مزعجة. يُطبَّق على روابط التنقّل وحدها في layout.css. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  /* الأرقام العربيّة-الهنديّة (٠١٢٣) هي الافتراض في النصّ العربي،
+     ويُستثنى منها ما يجب أن يبقى لاتينيّاً كالهواتف والأسعار الدوليّة. */
+  font-variant-numeric: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;   /* يمنع الانزلاق الأفقي من الزخارف المتجاوزة */
+}
+
+/* قفل التمرير أثناء الافتتاحيّة أو القائمة المفتوحة */
+html.is-locked, html.is-locked body { overflow: hidden; }
+
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* الصور تحتفظ بنسبتها قبل التحميل فلا تهتزّ الصفحة (CLS) */
+img[width][height] { height: auto; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--lh-head);
+  letter-spacing: 0;
+  text-wrap: balance;   /* يمنع السطر الأخير اليتيم في العناوين */
+}
+
+p { margin: 0 0 var(--s-4); text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+a {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+a:hover { text-decoration-color: currentColor; }
+
+/* إطار التركيز: ظاهر دائماً لمستخدم الكيبورد، ومخفيّ لمستخدم الفأرة.
+   `:focus-visible` وحده يحقّق هذا بلا جافاسكربت. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+blockquote { margin: 0; }
+figure { margin: 0; }
+
+::selection {
+  background: color-mix(in srgb, var(--glass-amber) 42%, transparent);
+  color: var(--ink-900);
+}
+
+/* ===== أدوات مساعدة ================================================== */
+
+/* نصّ لقارئ الشاشة فقط — يبقى في شجرة الوصوليّة ويختفي بصرياً.
+   `clip-path` وحده لا يكفي على بعض القارئات، فتُستخدم الوصفة الكاملة. */
+.sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* رابط التخطّي: أوّل ما يصله الكيبورد، ويظهر عند التركيز فقط */
+.skip {
+  position: fixed;
+  inset-block-start: var(--s-3);
+  inset-inline-start: var(--s-3);
+  z-index: 999;
+  padding: var(--s-3) var(--s-5);
+  background: var(--ink-900);
+  color: var(--sand-100);
+  border-radius: var(--r-md);
+  font-size: var(--t-small);
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip:focus { transform: translateY(0); }
+
+.wrap { width: var(--page); margin-inline: auto; }
+.wrap--narrow { width: var(--page-narrow); margin-inline: auto; }
+
+/* أرقام لاتينيّة داخل نصّ عربي: الهواتف والعناوين البريديّة.
+   `direction: ltr` مع `unicode-bidi: isolate` يمنع تشويه الترتيب. */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-body);
+  font-feature-settings: "tnum" 1;
+}
+
+/* ===== الطباعة الدلاليّة ============================================= */
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 var(--s-4);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+/* شُرطة قصيرة قبل العنوان الفرعي — تتمدّد مع ظهور القسم */
+.eyebrow::before {
+  content: "";
+  inline-size: var(--s-6);
+  block-size: 1px;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+.h1 { font-size: var(--t-h1); }
+.h2 { font-size: var(--t-h2); }
+.h3 { font-size: var(--t-h3); }
+
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 42ch;
+}
+
+.prose p { max-width: 62ch; }
+.prose strong { font-weight: 600; color: var(--fg); }
+.prose em { font-style: normal; color: var(--accent); }
+
+/* عبارة مفردة بحجم كبير — تُستخدم كفاصل سرديّ بين الأقسام */
+.statement {
+  font-family: var(--font-display);
+  font-size: var(--t-h2);
+  line-height: 1.35;
+  max-width: 34ch;
+  text-wrap: balance;
+}

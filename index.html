@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>هوى بغداد — مطعم بغدادي في الدوحة · قطر</title>
+<meta name="description" content="هوى بغداد: مائدة بغداديّة في قطر. مسكوف على حطب المشمش، قوزي وتمن وقيمة، خبز التنور، وچاي الاستكان — في بيت بالشناشيل.">
+<meta name="theme-color" content="#0A1F26">
+<link rel="canonical" href="https://tihou74.github.io/hawa-baghdad/">
+<link rel="alternate" hreflang="ar" href="https://tihou74.github.io/hawa-baghdad/">
+<link rel="alternate" hreflang="en" href="https://tihou74.github.io/hawa-baghdad/en/">
+
+<meta property="og:type" content="restaurant">
+<meta property="og:locale" content="ar_QA">
+<meta property="og:site_name" content="هوى بغداد">
+<meta property="og:title" content="هوى بغداد — مائدة بغداديّة في الدوحة">
+<meta property="og:description" content="من ضفّة دجلة إلى ضفّة الخليج: مسكوف على حطب المشمش، وخبز يُلصق على التنور أمامك.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/mark-provisional.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa+Ink:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/tokens.css?v=1">
+<link rel="stylesheet" href="assets/css/base.css?v=1">
+<link rel="stylesheet" href="assets/css/layout.css?v=1">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=1">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "هوى بغداد",
+  "alternateName": "Hawa Baghdad",
+  "servesCuisine": ["Iraqi", "Mesopotamian", "Middle Eastern"],
+  "description": "مائدة بغداديّة في قطر: مسكوف على حطب المشمش، قوزي، تمن وقيمة، وخبز التنور.",
+  "address": { "@type": "PostalAddress", "addressCountry": "QA", "addressLocality": "الدوحة" },
+  "url": "https://tihou74.github.io/hawa-baghdad/"
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">تخطَّ إلى المحتوى</a>
+
+<!-- ============================================================
+     مرشّحات SVG — تُستدعى من CSS بـ filter: url(#id)
+     تُوضع مرّة واحدة في أعلى المستند، بصندوق صفري فلا تشغل مكاناً.
+     ============================================================ -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <!-- اهتزاز هواء النار: ضجيج كسوري متحرّك يُزيح البكسلات.
+         `baseFrequency` غير متساوٍ بين المحورين لأن الحرارة تصعد
+         عمودياً أكثر مما تنتشر أفقياً. -->
+    <filter id="heat" x="-20%" y="-20%" width="140%" height="140%"
+            color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.032"
+                    numOctaves="3" seed="13" result="n">
+        <animate attributeName="baseFrequency" dur="7s" repeatCount="indefinite"
+                 values="0.011 0.032; 0.019 0.048; 0.013 0.036; 0.011 0.032"/>
+        <animate attributeName="seed" dur="4s" repeatCount="indefinite"
+                 values="13; 29; 47; 13"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14"
+                         xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ============================================================
+     أيقونات الأطباق — رسم متجهي أصلي
+     كلها مرسومة لهذا المشروع: لا صور مرخّصة، لا علامات مائيّة،
+     ولا أصل خارجي يحتاج تصريحاً. وتتلوّن من currentColor.
+     ============================================================ -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <!-- سمكة مسكوف مفروشة على الحطب -->
+    <symbol id="i-masgouf" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M32 12 C46 12, 56 24, 56 34 C56 44, 46 54, 32 54 C18 54, 8 44, 8 34 C8 24, 18 12, 32 12 Z"/>
+        <path d="M32 12 L32 54"/>
+        <path d="M20 26 L26 34 L20 42 M44 26 L38 34 L44 42"/>
+        <circle cx="32" cy="20" r="1.6" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+    <!-- سيخ كباب -->
+    <symbol id="i-kebab" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M6 52 L58 12"/>
+        <path d="M18 44 C14 38, 20 32, 26 34 C32 36, 30 44, 24 46 C20 47, 19 46, 18 44 Z"/>
+        <path d="M30 34 C26 28, 32 22, 38 24 C44 26, 42 34, 36 36 C32 37, 31 36, 30 34 Z"/>
+        <path d="M42 24 C38 18, 44 12, 50 14 C56 16, 54 24, 48 26 C44 27, 43 26, 42 24 Z"/>
+      </g>
+    </symbol>
+    <!-- قدر القوزي -->
+    <symbol id="i-quzi" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M10 28 L54 28 L50 52 C50 54, 48 56, 46 56 L18 56 C16 56, 14 54, 14 52 Z"/>
+        <path d="M6 28 L58 28"/>
+        <path d="M32 28 C32 20, 26 18, 26 12 M40 28 C40 22, 36 20, 36 16"/>
+      </g>
+    </symbol>
+    <!-- ورق دولمة ملفوف -->
+    <symbol id="i-dolma" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M14 20 C14 16, 18 14, 22 16 L48 32 C52 34, 52 40, 48 42 L22 56 C18 58, 14 55, 14 51 Z"/>
+        <path d="M20 24 L20 50 M28 28 L28 48 M36 33 L36 45"/>
+      </g>
+    </symbol>
+    <!-- خبز التنور -->
+    <symbol id="i-tandoor" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M32 10 C44 10, 54 18, 54 28 C54 44, 42 54, 32 54 C22 54, 10 44, 10 28 C10 18, 20 10, 32 10 Z"/>
+        <circle cx="24" cy="26" r="2.4"/><circle cx="38" cy="24" r="2.4"/>
+        <circle cx="31" cy="38" r="2.4"/><circle cx="43" cy="36" r="2.4"/>
+        <circle cx="20" cy="38" r="2.4"/>
+      </g>
+    </symbol>
+    <!-- استكان چاي -->
+    <symbol id="i-istikan" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M22 12 L42 12 L38 44 C38 46, 36 48, 34 48 L30 48 C28 48, 26 46, 26 44 Z"/>
+        <path d="M20 54 L44 54"/>
+        <path d="M24 24 L40 24"/>
+      </g>
+    </symbol>
+    <!-- قيمر على طبق -->
+    <symbol id="i-gaymar" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M8 40 C8 32, 18 24, 32 24 C46 24, 56 32, 56 40 Z"/>
+        <path d="M6 44 L58 44"/>
+        <path d="M24 24 C24 18, 28 14, 32 14 C36 14, 40 18, 40 24"/>
+      </g>
+    </symbol>
+    <!-- زلابية -->
+    <symbol id="i-zalabia" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M32 10 C44 10, 54 20, 54 32 C54 44, 44 54, 32 54 C20 54, 10 44, 10 32 C10 20, 20 10, 32 10 Z"/>
+        <path d="M32 20 C38 20, 44 26, 44 32 C44 38, 38 44, 32 44 C26 44, 20 38, 20 32 C20 26, 26 20, 32 20 Z"/>
+        <path d="M32 10 L32 20 M54 32 L44 32 M32 54 L32 44 M10 32 L20 32"/>
+      </g>
+    </symbol>
+    <!-- طرشي ومخلل -->
+    <symbol id="i-torshi" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M20 18 L44 18 L46 52 C46 54, 44 56, 42 56 L22 56 C20 56, 18 54, 18 52 Z"/>
+        <path d="M24 18 L24 10 L40 10 L40 18"/>
+        <path d="M18 30 L46 30"/>
+        <circle cx="27" cy="40" r="2.2"/><circle cx="36" cy="44" r="2.2"/><circle cx="33" cy="36" r="2.2"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================
+     الافتتاحيّة — انفتاح الشُنشول
+     ============================================================ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__core">
+    <img src="assets/img/mark-provisional.svg" alt="" width="200" height="240">
+    <p class="intro__word">هوى بغداد</p>
+    <p class="intro__sub">الدوحة · قطر</p>
+  </div>
+  <div class="intro__leaf intro__leaf--a"></div>
+  <div class="intro__leaf intro__leaf--b"></div>
+</div>
+
+<!-- طبقتا الغلاف السينمائي: ضوء الشناشيل وحبيبات الفيلم -->
+<div class="shanashil-light" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================================================
+     الترويسة
+     ============================================================ -->
+<header class="hdr" id="hdr">
+  <div class="hdr__inner">
+    <a class="hdr__brand" href="#top">
+      <img src="assets/img/mark-provisional.svg" alt="" width="200" height="240">
+      <span class="hdr__name">هوى بغداد</span>
+    </a>
+
+    <button class="hdr__burger" id="burger" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+      <span class="sr">القائمة</span>
+    </button>
+
+    <nav class="nav" id="nav" aria-label="التنقّل الرئيسي">
+      <a href="#story">الحكاية</a>
+      <a href="#masgouf">المسكوف</a>
+      <a href="#baghdad">بغداد</a>
+      <a href="#menu">المائدة</a>
+      <a href="#majlis">المكان</a>
+      <a href="#visit">زيارتنا</a>
+      <a class="hdr__lang" href="en/" hreflang="en" lang="en">EN</a>
+    </nav>
+  </div>
+  <div class="hdr__pour" id="pour" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================
+     الواجهة
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="hero__sky" aria-hidden="true"></div>
+  <div class="hero__river" aria-hidden="true"><i></i><i></i></div>
+  <div class="hero__palms" aria-hidden="true">
+    <img src="assets/img/palms.svg" alt="" width="420" height="520">
+  </div>
+
+  <div class="hero__body">
+    <p class="hero__kicker">مائدة بغداديّة · الدوحة</p>
+    <h1 class="hero__name">هوى بغداد</h1>
+    <p class="hero__tag">
+      من ضفّة دجلة إلى ضفّة الخليج.<br>
+      نارٌ مكشوفة، وتنّورٌ يُلصق عليه الخبز أمامك، ومائدة تُوضع كاملةً
+      لا طبقاً طبقاً.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="#menu">المائدة</a>
+      <a class="btn btn--ghost" href="#masgouf">كيف يُشوى المسكوف</a>
+    </div>
+  </div>
+
+  <span class="hero__down" aria-hidden="true"></span>
+</section>
+
+<hr class="divider divider--gold">
+
+<!-- ============================================================
+     الحكاية — معنى الاسم
+     ============================================================ -->
+<section class="sec" id="story">
+  <div class="wrap">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠١ — الاسم</p>
+      <h2 class="h2" data-reveal>كلمتان، وفي كلٍّ منهما معنيان</h2>
+    </div>
+
+    <div class="grid grid--2-wide">
+      <div class="prose" data-reveal>
+        <p>
+          <strong>«هوى»</strong> في العربيّة بابٌ ذو وجهين. هي الحُبّ الذي
+          يشدّك إلى شيء لا تملكه، وهي الهواء نفسه — النسمة التي تحمل الرائحة
+          قبل أن تراها. والاسم يقصد المعنيين معاً: <em>شوقٌ إلى بغداد،
+          وهواءٌ منها</em>.
+        </p>
+        <p>
+          لأن هذا ما يحدث فعلاً على المائدة البغداديّة. لا يبدأ الطبق
+          بالنظر إليه، بل برائحة تصل قبله: حطب المشمش تحت السمك، وعجينٌ
+          يلتصق بجدار التنّور فيفوح، ودهنٌ حُرّ يُسكب على البامية فيُعلن
+          عن نفسه من الغرفة المجاورة.
+        </p>
+        <p class="lead">
+          نحن لا نقدّم «أكلاً عراقياً» في قطر. نحن نحاول نقل الهواء نفسه.
+        </p>
+      </div>
+
+      <div data-reveal style="--delay:140ms">
+        <svg class="arch-draw" viewBox="0 0 300 260" aria-hidden="true">
+          <!-- القوس البغدادي المدبّب — يُرسَم خطّه مع التمرير.
+               pathLength="1" يجعل طول المسار وحدةً واحدة، فتعمل
+               stroke-dasharray بلا قياس بالجافاسكربت. -->
+          <path pathLength="1" d="M150 16 C214 16, 250 72, 250 126 L250 244 L50 244 L50 126 C50 72, 86 16, 150 16 Z"/>
+          <path pathLength="1" d="M150 52 C198 52, 222 94, 222 132 L222 244 L78 244 L78 132 C78 94, 102 52, 150 52 Z"/>
+          <path pathLength="1" d="M150 16 L150 244 M50 126 L250 126 M50 186 L250 186"/>
+          <path pathLength="1" d="M150 84 L160 106 L182 116 L160 126 L150 148 L140 126 L118 116 L140 106 Z"/>
+        </svg>
+        <p style="text-align:center; font-size:var(--t-micro); letter-spacing:.2em; color:var(--fg-muted); margin-block-start:var(--s-4)">
+          الشُنشول — نافذة بغداد
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     الركائز الأربع
+     ============================================================ -->
+<section class="sec on-dark" style="background:var(--ink-800)">
+  <div class="wrap">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠٢ — الركائز</p>
+      <h2 class="h2" data-reveal>أربعة قرارات تسبق المنيو</h2>
+      <p class="lead" data-reveal style="--delay:80ms">
+        المطعم يُبنى على قرارات لا على أطباق. هذه قراراتنا الأربعة،
+        وكل طبق بعدها نتيجة لها.
+      </p>
+    </div>
+
+    <ul class="pillars">
+      <li class="pillar on-dark" style="--tint:var(--glass-amber); background:var(--ink-700)" data-reveal>
+        <span class="pillar__n">١</span>
+        <h3>النار مكشوفة</h3>
+        <p>
+          المسكوف والكباب والتنّور كلها في صالة الضيف لا في مطبخ مغلق.
+          الضيف يرى الجمر، ويسمع الطقطقة، ويشمّ قبل أن يذوق. وهذه طبقة
+          تجربة لا تُنسخ بقائمة طعام.
+        </p>
+      </li>
+      <li class="pillar on-dark" style="--tint:var(--glass-ruby); background:var(--ink-700); --delay:90ms" data-reveal>
+        <span class="pillar__n">٢</span>
+        <h3>المائدة تُوضع كاملة</h3>
+        <p>
+          لا تتابُع أطباق على الطريقة الأوروبيّة. تُوضع المائدة كلها
+          في وقت واحد — تمن، ومرق، وطرشي، وخبز — لأن هذه هي طريقة الأكل
+          في بغداد: مشتركة، وفيها يدٌ تمتدّ إلى طبق الآخر.
+        </p>
+      </li>
+      <li class="pillar on-dark" style="--tint:var(--glass-emerald); background:var(--ink-700)" data-reveal>
+        <span class="pillar__n">٣</span>
+        <h3>بيتٌ لا ديكور</h3>
+        <p>
+          شناشيل خشبيّة بزجاج ملوّن، طابوق فرشي أصفر، وضوء دافئ منخفض.
+          مواد حقيقيّة بحرفة حقيقيّة — لا ملصقات تمثّل بغداد ولا صور
+          مطبوعة على الحائط.
+        </p>
+      </li>
+      <li class="pillar on-dark" style="--tint:var(--glass-cobalt); background:var(--ink-700)" data-reveal>
+        <span class="pillar__n">٤</span>
+        <h3>الچاي لا يُحتسب</h3>
+        <p>
+          استكان الچاي بعد الأكل ضيافة لا بند في الفاتورة. في بغداد لا
+          يُقال للضيف «هل تريد شاياً؟» — يُوضع أمامه. نحتفظ بهذه العادة
+          كما هي.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     شريط العبارة
+     ملاحظة حقوق: العبارة مكتوبة خصّيصاً لهذه العلامة وليست بيت شعر
+     منقولاً. تجنُّب اقتباس شعراء القرن العشرين مقصود — أعمالهم ما
+     زالت محميّة، واقتباسها في مادّة تجاريّة يحتاج ترخيصاً.
+     ============================================================ -->
+<section class="band">
+  <div class="band__layer" data-parallax aria-hidden="true">
+    <img src="assets/img/palms.svg" alt="" width="420" height="520"
+         style="object-fit:contain; opacity:.5">
+  </div>
+  <blockquote>
+    من قال إن المدينة مكان؟<br>
+    المدينة رائحةٌ تعرفها قبل أن تفتح الباب.
+  </blockquote>
+  <cite>هوى بغداد</cite>
+</section>
+
+<!-- ============================================================
+     المسكوف — المشهد المثبَّت مع اهتزاز الحرارة
+     ============================================================ -->
+<section class="sec fire" id="masgouf" style="background:var(--ink-900)">
+  <div class="on-dark" style="color:var(--sand-100)">
+    <!-- طبقة الهواء الساخن: المرشّح يُطبَّق عليها لا على الصور،
+         فتبقى الصور حادّة ويهتزّ الهواء وحده. -->
+    <div class="fire__haze" aria-hidden="true"></div>
+    <div class="fire__embers" aria-hidden="true">
+      <b style="inset-inline-start:14%; --d:8s;  --t:0s;   --dx:26px"></b>
+      <b style="inset-inline-start:27%; --d:6.4s;--t:1.2s; --dx:-18px"></b>
+      <b style="inset-inline-start:41%; --d:9.2s;--t:2.6s; --dx:34px"></b>
+      <b style="inset-inline-start:56%; --d:7.1s;--t:0.6s; --dx:-28px"></b>
+      <b style="inset-inline-start:68%; --d:8.6s;--t:3.4s; --dx:16px"></b>
+      <b style="inset-inline-start:83%; --d:6.8s;--t:1.9s; --dx:-22px"></b>
+    </div>
+
+    <div class="wrap" style="position:relative; z-index:4">
+      <div class="sec__head">
+        <p class="eyebrow" data-reveal>٠٣ — الطبق الذي لا يُفوَّض</p>
+        <h2 class="h2" data-reveal>المسكوف: ساعةٌ واحدة، وأربع خطوات لا تُختصر</h2>
+        <p class="lead" data-reveal style="--delay:80ms">
+          المسكوف ليس «سمكاً مشوياً». إنه طريقة: تُفرش السمكة مفتوحةً
+          مواجهةً للجمر، وتُطبخ بالحرارة المنعكسة لا بالتلامس. هذا ما
+          يجعلها تخرج طريّة من الداخل ومُدخَّنة من الخارج — ولهذا لا
+          يمكن تسريعها.
+        </p>
+      </div>
+
+      <div class="scene">
+        <!-- العمود الثابت: اللوحة تتبع الخطوة المقروءة -->
+        <div class="scene__media" data-scene-media aria-hidden="true">
+          <figure data-scene="1" class="is-active">
+            <svg viewBox="0 0 600 760" style="background:linear-gradient(170deg,#143A45,#0A1F26)">
+              <g fill="none" stroke="#C9A24A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity=".92">
+                <path d="M300 180 C420 180, 500 290, 500 380 C500 480, 420 580, 300 580 C180 580, 100 480, 100 380 C100 290, 180 180, 300 180 Z"/>
+                <path d="M300 180 L300 580"/>
+                <path d="M190 300 L240 380 L190 460 M410 300 L360 380 L410 460"/>
+                <circle cx="300" cy="248" r="9" fill="#C9A24A"/>
+              </g>
+              <text x="300" y="672" fill="#DCBB69" font-size="30" text-anchor="middle"
+                    font-family="serif" opacity=".85">الشبّوط</text>
+            </svg>
+          </figure>
+          <figure data-scene="2">
+            <svg viewBox="0 0 600 760" style="background:linear-gradient(170deg,#4A2A16,#0A1F26)">
+              <g stroke="#E8A33D" stroke-width="7" stroke-linecap="round" opacity=".9">
+                <path d="M120 560 L300 420 L480 560"/>
+                <path d="M170 580 L300 470 L430 580"/>
+                <path d="M230 600 L300 540 L370 600"/>
+              </g>
+              <g fill="#E8A33D" opacity=".55">
+                <circle cx="260" cy="610" r="14"/><circle cx="330" cy="620" r="18"/>
+                <circle cx="300" cy="595" r="11"/><circle cx="380" cy="612" r="9"/>
+              </g>
+              <text x="300" y="700" fill="#DCBB69" font-size="30" text-anchor="middle"
+                    font-family="serif" opacity=".85">حطب المشمش</text>
+            </svg>
+          </figure>
+          <figure data-scene="3">
+            <svg viewBox="0 0 600 760" style="background:linear-gradient(170deg,#6B3F22,#0A1F26)">
+              <g fill="none" stroke="#DCBB69" stroke-width="4" stroke-linecap="round">
+                <path d="M300 120 L300 640"/>
+                <path d="M300 200 L170 300 M300 200 L430 300"/>
+                <path d="M300 340 L150 430 M300 340 L450 430"/>
+                <path d="M300 480 L180 550 M300 480 L420 550"/>
+              </g>
+              <text x="300" y="706" fill="#DCBB69" font-size="30" text-anchor="middle"
+                    font-family="serif" opacity=".85">الفرش والتسمير</text>
+            </svg>
+          </figure>
+          <figure data-scene="4">
+            <svg viewBox="0 0 600 760" style="background:linear-gradient(170deg,#1C4C59,#0A1F26)">
+              <g fill="none" stroke="#DCBB69" stroke-width="4" stroke-linejoin="round">
+                <ellipse cx="300" cy="430" rx="220" ry="90"/>
+                <ellipse cx="300" cy="412" rx="186" ry="72"/>
+                <path d="M180 400 C220 370, 260 396, 300 380 C340 364, 382 392, 420 400"/>
+              </g>
+              <g fill="#1F6B52" opacity=".75">
+                <circle cx="212" cy="440" r="15"/><circle cx="388" cy="440" r="15"/>
+              </g>
+              <g fill="#A8323C" opacity=".8">
+                <circle cx="268" cy="452" r="13"/><circle cx="332" cy="452" r="13"/>
+              </g>
+              <text x="300" y="640" fill="#DCBB69" font-size="30" text-anchor="middle"
+                    font-family="serif" opacity=".85">على الصينيّة</text>
+            </svg>
+          </figure>
+        </div>
+
+        <!-- الخطوات -->
+        <div class="scene__steps">
+          <article class="scene__step" data-scene-step="1" data-reveal>
+            <span class="n">خطوة ٠١</span>
+            <h3>الشبّوط أوّلاً</h3>
+            <p>
+              المسكوف الصحيح يبدأ من نوع السمكة: <strong>الشبّوط</strong> —
+              سمكة نهريّة عريضة الجسم، دهنها موزّع في اللحم لا متكتّل.
+              هذا الدهن هو ما يُذيبه الجمر ببطء فيَسقي اللحم من داخله.
+              تُنظَّف وتُفتح من الظهر، وتُترك بقشرتها: القشرة هي الصحن
+              الذي يُطبخ فيه.
+            </p>
+          </article>
+
+          <article class="scene__step" data-scene-step="2" data-reveal>
+            <span class="n">خطوة ٠٢</span>
+            <h3>حطب المشمش لا الفحم</h3>
+            <p>
+              الفحم يعطي حرارة بلا رائحة. <strong>حطب المشمش</strong> يعطي
+              دخاناً حلواً خفيفاً يدخل في اللحم. يُترك الحطب حتى يسكن لهبه
+              ويصير جمراً أحمر — الشيّ على اللهب يُحرق السطح قبل أن ينضج
+              الداخل، وهذا أشيع خطأ في المسكوف.
+            </p>
+          </article>
+
+          <article class="scene__step" data-scene-step="3" data-reveal>
+            <span class="n">خطوة ٠٣</span>
+            <h3>الفرش والوقوف حول النار</h3>
+            <p>
+              تُسمَّر السمكة مفتوحةً على أوتاد خشبيّة، وتُنصب <em>واقفةً
+              حول</em> الجمر لا فوقه — بينها وبين النار نحو شبر. فتطبخ
+              بالحرارة المنعكسة وحدها. تُدار مرّة واحدة فقط. والمدّة
+              بين ٤٥ و٦٠ دقيقة، وهي مدّة لا تُقصَّر مهما كان الطلب.
+            </p>
+          </article>
+
+          <article class="scene__step" data-scene-step="4" data-reveal>
+            <span class="n">خطوة ٠٤</span>
+            <h3>تُفرَش ولا تُقطَّع</h3>
+            <p>
+              تنزل السمكة على صينيّة واسعة كما هي، مفتوحة، ويُحيط بها
+              البصل والطماطم المشويّة والليمون والطرشي والخبز. لا تُقسَّم
+              إلى حصص في المطبخ. <strong>المائدة تُوضع، والأيدي تقتسم.</strong>
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     بغداد — لفّ أفقي مربوط بالتمرير
+     ⚠ الإشارة الموجبة في translateX إلزاميّة في RTL. التفصيل في
+     cinematic.css و app.js.
+     ============================================================ -->
+<section class="rail-stage" id="baghdad" data-rail>
+  <div class="rail-sticky" style="background:var(--sand-200)">
+    <div class="wrap" style="margin-block-end:var(--s-6)">
+      <p class="eyebrow" data-reveal>٠٤ — المرجع</p>
+      <h2 class="h2" data-reveal>بغداد التي نرسم عنها</h2>
+    </div>
+
+    <div class="rail" data-rail-track>
+      <article class="rail__card">
+        <div class="rail__art" style="background:linear-gradient(160deg,#6B3F22,#0A1F26)">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <rect width="400" height="500" fill="#4A2A16"/>
+            <g fill="none" stroke="#E8A33D" stroke-width="3" opacity=".8">
+              <path d="M200 60 C280 60, 320 130, 320 190 L320 440 L80 440 L80 190 C80 130, 120 60, 200 60 Z"/>
+              <path d="M200 60 L200 440 M80 190 L320 190 M80 310 L320 310"/>
+              <path d="M140 125 L200 190 L140 255 L80 190 Z M260 125 L320 190 L260 255 L200 190 Z"/>
+              <path d="M140 245 L200 310 L140 375 L80 310 Z M260 245 L320 310 L260 375 L200 310 Z"/>
+            </g>
+            <g opacity=".5">
+              <rect x="96" y="206" width="88" height="88" fill="#A8323C"/>
+              <rect x="216" y="206" width="88" height="88" fill="#1F6B52"/>
+              <rect x="96" y="326" width="88" height="88" fill="#2A5A8C"/>
+              <rect x="216" y="326" width="88" height="88" fill="#E8A33D"/>
+            </g>
+          </svg>
+        </div>
+        <div class="rail__body">
+          <h3>الشناشيل</h3>
+          <p>
+            النافذة الخشبيّة البارزة بزجاجها الملوّن. وظيفتها الأصليّة
+            ترشيح الضوء والهواء وحفظ الخصوصيّة — ومنها استعرنا محرّك
+            الضوء الذي يمرّ على هذه الصفحة كلّها.
+          </p>
+        </div>
+      </article>
+
+      <article class="rail__card">
+        <div class="rail__art" style="background:linear-gradient(160deg,#C9A878,#6B3F22)">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <rect width="400" height="500" fill="#C9A878"/>
+            <!-- رفوف كتب: شارع المتنبّي -->
+            <g fill="#4A2A16" opacity=".82">
+              <rect x="40" y="120" width="320" height="12"/>
+              <rect x="40" y="250" width="320" height="12"/>
+              <rect x="40" y="380" width="320" height="12"/>
+            </g>
+            <g opacity=".9">
+              <rect x="52" y="60" width="26" height="60" fill="#A8323C"/>
+              <rect x="84" y="48" width="22" height="72" fill="#1F6B52"/>
+              <rect x="112" y="66" width="30" height="54" fill="#2A5A8C"/>
+              <rect x="148" y="52" width="24" height="68" fill="#4A2A16"/>
+              <rect x="178" y="70" width="28" height="50" fill="#E8A33D"/>
+              <rect x="212" y="56" width="22" height="64" fill="#A8323C"/>
+              <rect x="240" y="64" width="30" height="56" fill="#1F6B52"/>
+              <rect x="276" y="50" width="24" height="70" fill="#2A5A8C"/>
+              <rect x="306" y="68" width="28" height="52" fill="#4A2A16"/>
+
+              <rect x="56" y="188" width="24" height="62" fill="#1F6B52"/>
+              <rect x="86" y="196" width="30" height="54" fill="#E8A33D"/>
+              <rect x="122" y="182" width="22" height="68" fill="#A8323C"/>
+              <rect x="150" y="200" width="28" height="50" fill="#2A5A8C"/>
+              <rect x="184" y="186" width="24" height="64" fill="#4A2A16"/>
+              <rect x="214" y="194" width="30" height="56" fill="#1F6B52"/>
+              <rect x="250" y="180" width="22" height="70" fill="#E8A33D"/>
+              <rect x="278" y="198" width="28" height="52" fill="#A8323C"/>
+              <rect x="312" y="190" width="24" height="60" fill="#2A5A8C"/>
+
+              <rect x="48" y="318" width="28" height="62" fill="#E8A33D"/>
+              <rect x="82" y="326" width="24" height="54" fill="#2A5A8C"/>
+              <rect x="112" y="312" width="30" height="68" fill="#1F6B52"/>
+              <rect x="148" y="330" width="22" height="50" fill="#A8323C"/>
+              <rect x="176" y="316" width="28" height="64" fill="#4A2A16"/>
+              <rect x="210" y="324" width="24" height="56" fill="#E8A33D"/>
+              <rect x="240" y="310" width="30" height="70" fill="#2A5A8C"/>
+              <rect x="276" y="328" width="22" height="52" fill="#1F6B52"/>
+              <rect x="304" y="320" width="28" height="60" fill="#A8323C"/>
+            </g>
+          </svg>
+        </div>
+        <div class="rail__body">
+          <h3>شارع المتنبّي</h3>
+          <p>
+            سوق الكتب الذي يُفرَش على الرصيف. منه تأتي فكرة أن المنيو
+            يُقرأ لا يُستعرض فقط — ومنه طباعة القائمة على ورق يُشبه ورق
+            الكتب القديمة.
+          </p>
+        </div>
+      </article>
+
+      <article class="rail__card">
+        <div class="rail__art" style="background:linear-gradient(160deg,#D8B98C,#8A5A33)">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <rect width="400" height="500" fill="#D8B98C"/>
+            <!-- الطابوق الفرشي: صفوف متبادلة الإزاحة -->
+            <g fill="#C9A878" stroke="#8A5A33" stroke-width="1.6">
+              <g>
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 40)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(0 80)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 120)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(0 160)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 200)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(0 240)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 280)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(0 320)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 360)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(0 400)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/>
+              </g>
+              <g transform="translate(-41 440)">
+                <rect x="0"   y="0"   width="78" height="36"/><rect x="82"  y="0"   width="78" height="36"/>
+                <rect x="164" y="0"   width="78" height="36"/><rect x="246" y="0"   width="78" height="36"/>
+                <rect x="328" y="0"   width="78" height="36"/><rect x="410" y="0"   width="78" height="36"/>
+              </g>
+            </g>
+            <!-- ضوء مائل على الجدار -->
+            <path d="M0 0 L400 0 L400 160 L0 420 Z" fill="#DCBB69" opacity=".16"/>
+          </svg>
+        </div>
+        <div class="rail__body">
+          <h3>الطابوق الفرشي</h3>
+          <p>
+            الطوبة البغداديّة الصفراء الرقيقة التي بُنيت بها المدينة.
+            لونها هو أساس لوحة ألوان المطعم: رملٌ دافئ، لا بيج محايد.
+          </p>
+        </div>
+      </article>
+
+      <article class="rail__card">
+        <div class="rail__art" style="background:linear-gradient(160deg,#1C4C59,#0A1F26)">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <rect width="400" height="500" fill="#143A45"/>
+            <!-- دجلة وقارب -->
+            <g fill="none" stroke="#2A5A8C" stroke-width="3" opacity=".7">
+              <path d="M0 300 C70 282, 130 318, 200 300 C270 282, 330 318, 400 300"/>
+              <path d="M0 340 C70 322, 130 358, 200 340 C270 322, 330 358, 400 340"/>
+              <path d="M0 380 C70 362, 130 398, 200 380 C270 362, 330 398, 400 380"/>
+              <path d="M0 420 C70 402, 130 438, 200 420 C270 402, 330 438, 400 420"/>
+            </g>
+            <g fill="#4A2A16">
+              <path d="M110 268 L290 268 L262 296 L138 296 Z"/>
+            </g>
+            <g fill="none" stroke="#DCBB69" stroke-width="3">
+              <path d="M200 268 L200 150"/>
+              <path d="M200 160 L256 236 L200 236 Z" fill="#DCBB69" opacity=".4"/>
+            </g>
+            <circle cx="300" cy="110" r="34" fill="#DCBB69" opacity=".55"/>
+            <g stroke="#DCBB69" stroke-width="2" opacity=".35">
+              <path d="M300 300 C294 340, 306 380, 300 430"/>
+            </g>
+          </svg>
+        </div>
+        <div class="rail__body">
+          <h3>دجلة</h3>
+          <p>
+            النهر الذي يأتي منه الشبّوط، وعلى ضفّته وُلد المسكوف أصلاً:
+            صيّادون يشوون ما صادوه على ضفّة النهر مباشرة.
+          </p>
+        </div>
+      </article>
+
+      <article class="rail__card">
+        <div class="rail__art" style="background:linear-gradient(160deg,#8A5A33,#0A1F26)">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <rect width="400" height="500" fill="#6B3F22"/>
+            <!-- التنّور: فوهة طينيّة وخبز ملصق -->
+            <ellipse cx="200" cy="200" rx="150" ry="58" fill="#4A2A16"/>
+            <ellipse cx="200" cy="200" rx="118" ry="42" fill="#0A1F26"/>
+            <ellipse cx="200" cy="214" rx="104" ry="34" fill="#E8A33D" opacity=".75"/>
+            <path d="M50 200 L74 460 L326 460 L350 200 Z" fill="#8A5A33"/>
+            <path d="M50 200 L74 460 L150 460 L124 200 Z" fill="#A8784B" opacity=".5"/>
+            <g fill="#D8B98C" opacity=".9">
+              <ellipse cx="140" cy="300" rx="42" ry="30"/>
+              <ellipse cx="258" cy="320" rx="42" ry="30"/>
+              <ellipse cx="196" cy="380" rx="42" ry="30"/>
+            </g>
+            <g fill="#8A5A33" opacity=".55">
+              <circle cx="132" cy="294" r="4"/><circle cx="150" cy="306" r="4"/>
+              <circle cx="250" cy="314" r="4"/><circle cx="268" cy="326" r="4"/>
+              <circle cx="188" cy="374" r="4"/><circle cx="206" cy="386" r="4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="rail__body">
+          <h3>التنّور</h3>
+          <p>
+            فرن طيني عمودي، يُلصق العجين على جداره الداخلي بيد مكشوفة.
+            لا يُشبه خبزه أي خبز آخر، ولا يمكن تقليده بفرن كهربائي.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <div class="rail__prog" aria-hidden="true"><i data-rail-prog></i></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     المائدة
+     ملاحظة: بلا أسعار. المطعم قبل الافتتاح، واختراع أسعار على
+     موقع رسمي يخلق التزاماً لا يمكن الوفاء به. خانة السعر جاهزة
+     في cinematic.css (.dish__price) وتُفعّل بسطر واحد عند اعتماد
+     قائمة الأسعار.
+     ============================================================ -->
+<section class="sec" id="menu" style="background:var(--sand-100)">
+  <div class="wrap">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠٥ — المائدة</p>
+      <h2 class="h2" data-reveal>ما يُوضَع أمامك</h2>
+      <p class="lead" data-reveal style="--delay:80ms">
+        قائمة قصيرة مقصودة. كل صنف هنا له سبب وجود، ولا يوجد صنف
+        «لإرضاء الجميع».
+      </p>
+    </div>
+
+    <!-- التصفية: تعمل بالجافاسكربت، وبدونه تظهر كل الأصناف.
+         `aria-pressed` هو ما يقرؤه قارئ الشاشة لمعرفة المُفعَّل. -->
+    <div class="filters" role="group" aria-label="تصفية المائدة">
+      <button class="filter" data-filter="all" aria-pressed="true">الكل</button>
+      <button class="filter" data-filter="fire" aria-pressed="false">من النار</button>
+      <button class="filter" data-filter="pot" aria-pressed="false">قدور المائدة</button>
+      <button class="filter" data-filter="tandoor" aria-pressed="false">من التنّور</button>
+      <button class="filter" data-filter="start" aria-pressed="false">مقبّلات وطرشي</button>
+      <button class="filter" data-filter="sweet" aria-pressed="false">الحلو</button>
+      <button class="filter" data-filter="drink" aria-pressed="false">المشروب</button>
+    </div>
+
+    <div class="dishes">
+      <!-- من النار -->
+      <article class="dish" data-category="fire" data-reveal>
+        <div class="dish__art" style="color:var(--glass-ruby)">
+          <svg aria-hidden="true"><use href="#i-masgouf"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">مسكوف شبّوط</h3></div>
+          <p class="dish__desc">
+            شبّوط نهري يُفرش على أوتاد حول جمر حطب المشمش، ٥٠ دقيقة.
+            يصل على صينيّة واسعة مع بصل وطماطم مشويّة وليمون وطرشي.
+          </p>
+          <div class="dish__tags">
+            <span class="dish__tag dish__tag--signature">طبق الدار</span>
+            <span class="dish__tag">يحتاج وقتاً</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="fire" data-reveal>
+        <div class="dish__art" style="color:var(--glass-ruby)">
+          <svg aria-hidden="true"><use href="#i-kebab"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">كباب عراقي</h3></div>
+          <p class="dish__desc">
+            لحم مفروم باليد لا بالمفرمة — فيبقى للحم نسيج يُحَسّ.
+            بصل وبقدونس وبهار بغدادي، على سيخ عريض.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">مفروم يدوياً</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="fire" data-reveal>
+        <div class="dish__art" style="color:var(--glass-ruby)">
+          <svg aria-hidden="true"><use href="#i-kebab"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">تكّة وشقف</h3></div>
+          <p class="dish__desc">
+            قطع غنم من الفخذ، تُنقع بالبصل والبهار ثم تُشوى على الجمر.
+            تُقدَّم مع خبز التنّور وطرشي.
+          </p>
+        </div>
+      </article>
+
+      <!-- قدور المائدة -->
+      <article class="dish" data-category="pot" data-reveal>
+        <div class="dish__art" style="color:var(--wood-600)">
+          <svg aria-hidden="true"><use href="#i-quzi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">قوزي</h3></div>
+          <p class="dish__desc">
+            ربع خروف يُطبخ ببطء حتى يسقط اللحم عن العظم، على تمن
+            بالزبيب واللوز والبهار. طبق المناسبات البغدادي.
+          </p>
+          <div class="dish__tags">
+            <span class="dish__tag dish__tag--signature">للمشاركة</span>
+            <span class="dish__tag">بطلب مسبق</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="pot" data-reveal>
+        <div class="dish__art" style="color:var(--wood-600)">
+          <svg aria-hidden="true"><use href="#i-quzi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">تمن وقيمة</h3></div>
+          <p class="dish__desc">
+            القيمة: لحم وحمّص يُطبخان حتى يتفتّتا في مرقهما.
+            تُسكب على تمن عنبر مُبخَّر. طبق الجمعة.
+          </p>
+        </div>
+      </article>
+
+      <article class="dish" data-category="pot" data-reveal>
+        <div class="dish__art" style="color:var(--glass-emerald)">
+          <svg aria-hidden="true"><use href="#i-dolma"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">دولمة</h3></div>
+          <p class="dish__desc">
+            ورق عنب وباذنجان وفلفل وبصل وكوسا — كلّها محشيّة ومرتّبة
+            في قدر واحد، تُقلب على الصينيّة فتنزل كما بُنيت.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">تُقلب على المائدة</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="pot" data-reveal>
+        <div class="dish__art" style="color:var(--glass-emerald)">
+          <svg aria-hidden="true"><use href="#i-quzi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">بامية بالدهن الحُرّ</h3></div>
+          <p class="dish__desc">
+            بامية صغيرة كاملة مع لحم، والدهن الحُرّ يُسكب في آخر دقيقة
+            — وهو ما يعطيها رائحتها التي تُعرَف من الباب.
+          </p>
+        </div>
+      </article>
+
+      <article class="dish" data-category="pot" data-reveal>
+        <div class="dish__art" style="color:var(--wood-600)">
+          <svg aria-hidden="true"><use href="#i-quzi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">كبّة بُرغل</h3></div>
+          <p class="dish__desc">
+            قشرة برغل رقيقة وحشوة لحم وبصل وصنوبر. تُقلى حتى تنشفّ
+            قشرتها وتبقى الحشوة طريّة.
+          </p>
+        </div>
+      </article>
+
+      <!-- من التنّور -->
+      <article class="dish" data-category="tandoor" data-reveal>
+        <div class="dish__art" style="color:var(--glass-amber)">
+          <svg aria-hidden="true"><use href="#i-tandoor"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">خبز التنّور</h3></div>
+          <p class="dish__desc">
+            يُلصق على جدار التنّور الطيني بيد مكشوفة، ويخرج منفوخاً
+            مُبقَّعاً. يُخبز على الطلب، لا يُخزَّن.
+          </p>
+          <div class="dish__tags"><span class="dish__tag dish__tag--hot">على الطلب</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="tandoor" data-reveal>
+        <div class="dish__art" style="color:var(--glass-amber)">
+          <svg aria-hidden="true"><use href="#i-tandoor"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">صمون حجري</h3></div>
+          <p class="dish__desc">
+            الرغيف المعيّن المعروف في بغداد، يُخبز على حجر ساخن
+            فتصير قشرته هشّة ولُبّه خفيفاً.
+          </p>
+        </div>
+      </article>
+
+      <article class="dish" data-category="tandoor" data-reveal>
+        <div class="dish__art" style="color:var(--glass-amber)">
+          <svg aria-hidden="true"><use href="#i-tandoor"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">لحم بعجين بغدادي</h3></div>
+          <p class="dish__desc">
+            عجين رقيق، لحم مفروم بالطماطم والبهار، ورشّة سمّاق
+            وليمون عند الخروج.
+          </p>
+        </div>
+      </article>
+
+      <!-- مقبّلات -->
+      <article class="dish" data-category="start" data-reveal>
+        <div class="dish__art" style="color:var(--glass-emerald)">
+          <svg aria-hidden="true"><use href="#i-torshi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">طرشي البيت</h3></div>
+          <p class="dish__desc">
+            مخلّل مكبوس عندنا: شلغم وخيار وقرنابيط وفلفل. حامضٌ حادّ
+            مقصود — وظيفته أن يقطع دهن اللحم.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">ضيافة</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="start" data-reveal>
+        <div class="dish__art" style="color:var(--glass-ruby)">
+          <svg aria-hidden="true"><use href="#i-torshi"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">شلغم بالدبس</h3></div>
+          <p class="dish__desc">
+            شلغم مطبوخ في دبس التمر حتى يصير غامقاً حلواً.
+            أكلة شتاء بغداديّة تُؤكل ساخنة بالملعقة.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">موسمي</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="start" data-reveal>
+        <div class="dish__art" style="color:var(--glass-emerald)">
+          <svg aria-hidden="true"><use href="#i-dolma"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">باجلا ورز</h3></div>
+          <p class="dish__desc">
+            فول أخضر مطبوخ مع الشبنت على التمن. فطور بغدادي قديم
+            نقدّمه في وقت محدّد من الصباح.
+          </p>
+        </div>
+      </article>
+
+      <!-- الحلو -->
+      <article class="dish" data-category="sweet" data-reveal>
+        <div class="dish__art" style="color:var(--gold-500)">
+          <svg aria-hidden="true"><use href="#i-zalabia"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">زلابية</h3></div>
+          <p class="dish__desc">
+            حلقات عجين مقليّة تُغمس في القطر وهي ساخنة، فتبقى
+            مقرمشة من الخارج. تُقلى عند الطلب.
+          </p>
+          <div class="dish__tags"><span class="dish__tag dish__tag--hot">على الطلب</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="sweet" data-reveal>
+        <div class="dish__art" style="color:var(--gold-500)">
+          <svg aria-hidden="true"><use href="#i-gaymar"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">قيمر وعسل</h3></div>
+          <p class="dish__desc">
+            قيمر ثقيل مع عسل وخبز حارّ. ثلاثة مكوّنات، ونجاحها كلّه
+            في جودة القيمر وحده.
+          </p>
+        </div>
+      </article>
+
+      <article class="dish" data-category="sweet" data-reveal>
+        <div class="dish__art" style="color:var(--gold-500)">
+          <svg aria-hidden="true"><use href="#i-zalabia"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">منّ السما</h3></div>
+          <p class="dish__desc">
+            حلوى بغداديّة بيضاء بالفستق، قوامها مطّاطي خفيف.
+            تُقطَّع صغيرة وتُقدَّم مع الچاي.
+          </p>
+        </div>
+      </article>
+
+      <!-- المشروب -->
+      <article class="dish" data-category="drink" data-reveal>
+        <div class="dish__art" style="color:var(--wood-600)">
+          <svg aria-hidden="true"><use href="#i-istikan"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">چاي استكان</h3></div>
+          <p class="dish__desc">
+            چاي أحمر ثقيل يُسكب من قوري على قوري، في استكان زجاجي
+            بحدّ ذهبي. يُوضع ولا يُطلب.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">ضيافة الدار</span></div>
+        </div>
+      </article>
+
+      <article class="dish" data-category="drink" data-reveal>
+        <div class="dish__art" style="color:var(--glass-amber)">
+          <svg aria-hidden="true"><use href="#i-istikan"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">نومي بصرة</h3></div>
+          <p class="dish__desc">
+            منقوع الليمون البصري المجفّف: حامضٌ دافئ بلون العنبر.
+            يُشرب ساخناً، وهو هاضمٌ بعد اللحم.
+          </p>
+        </div>
+      </article>
+
+      <article class="dish" data-category="drink" data-reveal>
+        <div class="dish__art" style="color:var(--glass-cobalt)">
+          <svg aria-hidden="true"><use href="#i-istikan"></use></svg>
+        </div>
+        <div>
+          <div class="dish__top"><h3 class="dish__name">شربت زبيب</h3></div>
+          <p class="dish__desc">
+            منقوع زبيب بارد، حلوٌ طبيعي بلا سكّر مضاف.
+            مشروب رمضان في بغداد.
+          </p>
+          <div class="dish__tags"><span class="dish__tag">بلا سكّر مضاف</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================
+     المكان
+     ============================================================ -->
+<section class="sec on-dark" id="majlis" style="background:var(--ink-800)">
+  <div class="wrap">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠٦ — المكان</p>
+      <h2 class="h2" data-reveal>بيتٌ له حوش، لا صالة لها طاولات</h2>
+    </div>
+
+    <div class="grid grid--2">
+      <div class="prose" data-reveal>
+        <p>
+          البيت البغدادي التقليدي مبنيٌّ حول <strong>الحوش</strong> — فناء
+          مكشوف في الوسط تنفتح عليه الغرف، وفي قلبه غالباً شجرة أو
+          حوض ماء. هذا التخطيط ليس زينة، بل هندسة مناخ: الفناء يسحب
+          الهواء الساخن للأعلى فتبقى الغرف باردة.
+        </p>
+        <p>
+          خذنا هذا التخطيط كما هو. المسكوف والتنّور في وسط الحوش
+          مكشوفين، والجلسات حولهما على مستويين: <strong>طارمة</strong>
+          مرتفعة بالشناشيل للمجموعات، وأرضيّة أقرب إلى النار للعائلات.
+        </p>
+        <p>
+          المواد ثلاث فقط: <em>طابوق فرشي</em>، و<em>خشب</em>،
+          و<em>زجاج ملوّن</em>. ولا شيء مطبوع على الحائط — لا صور
+          قديمة ولا ملصقات. الجدار الفارغ أصدق من صورة مستعارة.
+        </p>
+      </div>
+
+      <div class="grid" data-reveal style="--delay:120ms">
+        <div class="pillar" style="--tint:var(--glass-amber); background:var(--ink-700)">
+          <h3>الطارمة</h3>
+          <p>جلسة مرتفعة خلف مشبّك الشناشيل: ترى الحوش كلّه، ولا يراك.</p>
+        </div>
+        <div class="pillar" style="--tint:var(--glass-emerald); background:var(--ink-700)">
+          <h3>الحوش</h3>
+          <p>الفناء المكشوف. النار في وسطه، والجلسات حوله على الأرض.</p>
+        </div>
+        <div class="pillar" style="--tint:var(--glass-cobalt); background:var(--ink-700)">
+          <h3>السرداب</h3>
+          <p>قاعة مناسبات تحت الأرض — مكان البغداديّين في عزّ الصيف.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     زيارتنا
+     ============================================================ -->
+<section class="sec" id="visit" style="background:var(--sand-200)">
+  <div class="wrap">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠٧ — زيارتنا</p>
+      <h2 class="h2" data-reveal>قريباً في الدوحة</h2>
+    </div>
+
+    <!-- ⚠ بيانات ناقصة: التنبيه مكتوب في الصفحة نفسها لا في المحادثة
+         وحدها، فلا يضيع إن سُلّم الموقع لجهة أخرى. يُحذف هذا العنصر
+         عند استكمال البيانات. -->
+    <div class="notice" data-tbd="contact" style="width:auto; margin-inline:0">
+      <b>تنبيه للمالك — يُحذف قبل النشر العلني:</b>
+      العنوان ورقم الهاتف وساعات العمل وتاريخ الافتتاح أدناه
+      <b>بيانات مؤقّتة</b> لم تُزوَّد بعد. لا تُنشر الصفحة على الجمهور
+      قبل استبدالها، فنشر رقم خاطئ على موقع رسمي أسوأ من عدم نشر رقم.
+      المواضع معلَّمة كلّها بـ <code>data-tbd</code> في شيفرة الصفحة.
+    </div>
+
+    <div class="grid grid--3">
+      <div data-reveal>
+        <h3 class="h3">الموقع</h3>
+        <p style="color:var(--fg-muted)" data-tbd="address">
+          الدوحة — قطر<br>
+          <span style="opacity:.7">[الحيّ والشارع ورقم المبنى]</span>
+        </p>
+      </div>
+      <div data-reveal style="--delay:80ms">
+        <h3 class="h3">الحجز</h3>
+        <p style="color:var(--fg-muted)" data-tbd="phone">
+          <span class="ltr">+974 0000 0000</span><br>
+          <span style="opacity:.7">[رقم الحجز والواتساب]</span>
+        </p>
+      </div>
+      <div data-reveal style="--delay:160ms">
+        <h3 class="h3">الأوقات</h3>
+        <p style="color:var(--fg-muted)" data-tbd="hours">
+          <span style="opacity:.7">[ساعات العمل · وموعد الفطور البغدادي]</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn btn--solid" href="#" data-tbd="booking">احفظ طاولتك عند الافتتاح</a>
+      <a class="btn btn--ghost" href="#menu">اقرأ المائدة</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     الأسئلة الشائعة — عنصر details أصليّ، يعمل بلا جافاسكربت
+     ============================================================ -->
+<section class="sec sec--tight" id="faq" style="background:var(--sand-100)">
+  <div class="wrap wrap--narrow">
+    <div class="sec__head">
+      <p class="eyebrow" data-reveal>٠٨ — أسئلة</p>
+      <h2 class="h2" data-reveal>ما يُسأل عنه عادةً</h2>
+    </div>
+
+    <div class="faq">
+      <details data-reveal>
+        <summary>لماذا يحتاج المسكوف وقتاً طويلاً؟</summary>
+        <div class="faq__a">
+          لأن الطريقة نفسها بطيئة. السمكة تُطبخ بالحرارة المنعكسة من
+          الجمر لا بالتلامس معه، وهذا يستغرق بين ٤٥ و٦٠ دقيقة.
+          تقصير المدّة يعني سمكةً محروقة السطح نيئة القلب. ننصح
+          بطلبه عند الوصول أو بالحجز المسبق.
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>هل الأكل العراقي حارّ؟</summary>
+        <div class="faq__a">
+          لا. البهار البغدادي عطريّ لا لاذع — بهار حلو، كركم، كمّون،
+          قرفة، ليمون مجفّف. الحِدّة في المائدة تأتي من
+          <strong>الطرشي</strong> الحامض، وهو مُنفصل على جانب
+          الطبق فيتحكّم به كل ضيف بنفسه.
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>هل لديكم خيارات نباتيّة؟</summary>
+        <div class="faq__a">
+          نعم، والمائدة البغداديّة غنيّة بها أصلاً: دولمة نباتيّة،
+          باجلا ورز، شلغم بالدبس، طرشي، وخبز التنّور.
+          ونُوضّح على القائمة ما يُطبخ بدهن حيواني.
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>هل الطعام حلال؟</summary>
+        <div class="faq__a">
+          نعم، كل اللحوم حلال ومن مصادر معتمدة في قطر. ولا نقدّم كحولاً.
+        </div>
+      </details>
+      <details data-reveal>
+        <summary>هل تستقبلون المجموعات والمناسبات؟</summary>
+        <div class="faq__a">
+          نعم. <strong>السرداب</strong> قاعة مستقلّة تحت الأرض
+          للمناسبات، و<strong>القوزي</strong> يُجهَّز بطلب مسبق
+          للمجموعات الكبيرة.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     الذيل
+     ============================================================ -->
+<footer class="ftr">
+  <div class="ftr__grid">
+    <div>
+      <div class="ftr__mark">
+        <img src="assets/img/mark-provisional.svg" alt="هوى بغداد" width="200" height="240">
+      </div>
+      <p style="margin-block-start:var(--s-4); max-width:30ch">
+        مائدة بغداديّة في الدوحة. من ضفّة دجلة إلى ضفّة الخليج.
+      </p>
+    </div>
+
+    <div>
+      <h3>الصفحة</h3>
+      <ul>
+        <li><a href="#story">الحكاية</a></li>
+        <li><a href="#masgouf">المسكوف</a></li>
+        <li><a href="#baghdad">بغداد</a></li>
+        <li><a href="#menu">المائدة</a></li>
+        <li><a href="#majlis">المكان</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>تواصل</h3>
+      <ul>
+        <li data-tbd="phone"><span class="ltr">+974 0000 0000</span></li>
+        <li data-tbd="email"><a href="#">البريد الإلكتروني</a></li>
+        <li data-tbd="social">إنستغرام</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>اللغة</h3>
+      <ul>
+        <li><a href="./" aria-current="true">العربيّة</a></li>
+        <li><a href="en/" hreflang="en" lang="en">English</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ftr__bar">
+    <span>© <span id="year">٢٠٢٦</span> هوى بغداد · الدوحة، قطر</span>
+    <span>كل الرسوم والزخارف في هذا الموقع أصليّة ومرسومة له خصّيصاً.</span>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=1" defer></script>
+</body>
+</html>
