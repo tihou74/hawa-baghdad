@@ -94,63 +94,81 @@
 }
 
 /* ============================================================
-   ٣) الافتتاحيّة — انفتاح الشُنشول
-   مصراعان خشبيّان ينفتحان عن الاسم. تُعرض مرّة واحدة في الجلسة؛
-   لا أحد يريد مقدّمة سينمائيّة كلّما ضغط رجوع.
+   ٣) الافتتاحيّة — بوّابة عشتار تنفتح عن الشعار
+   ------------------------------------------------------------
+   المشهد: بوّابة عشتار مغلقة تملأ الشاشة، ثم ينزلق مصراعاها
+   داخل القائمتين فيظهر ضوء دافئ من الداخل، ثم يظهر الشعار في
+   الفتحة، ثم تتقدّم الكاميرا عبر القوس فيُكشف الموقع — كأن
+   الضيف دخل من البوّابة.
+
+   ⚠ القطعة مُدمَجة في HTML لا مُحمَّلة بـ<img>. فالـSVG المُحمَّل
+   كصورة يعمل في وضع معزول: حركته الداخليّة لم تُنفَّذ أصلاً،
+   ولا يصل إليه CSS هذا الملف. (جُرّب وفشل.)
+
+   ⚠ والإزاحة بوحدات المستخدم لا بالنسبة المئويّة: في SVG تُحسب
+   النسبة على `view-box` أي ١٢٠٠ وحدة لا على عرض المصراع (١٤٠).
    ============================================================ */
 .intro {
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: grid;
-  place-items: center;
-  background: var(--navy-900);
   overflow: hidden;
+  background: var(--navy-900);
+  /* تقدّم الكاميرا عبر القوس عند الخروج */
+  transition: transform 1250ms cubic-bezier(.5, 0, .75, 0),
+              opacity 900ms ease-in 320ms;
 }
-.intro__leaf {
+.intro__art,
+.gate__art {
   position: absolute;
-  inset-block: 0;
-  inline-size: 50.5%;   /* تجاوز بسيط يمنع ظهور خطّ شعر بين المصراعين */
-  /* الأزرق المزجَّج فوق بلاطة القاشاني: مصراعان من القاشاني ينفتحان */
-  background:
-    linear-gradient(180deg,
-      var(--navy-900) 0%,
-      var(--tile-700) 48%,
-      var(--navy-900) 100%),
-    url("../img/tile.svg");
-  background-size: cover, 104px 104px;
-  background-blend-mode: multiply;
-  transition: transform 1150ms cubic-bezier(0.76, 0, 0.24, 1);
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
 }
-.intro__leaf--a { inset-inline-start: 0; }
-.intro__leaf--b { inset-inline-end: 0; }
-.intro.is-leaving .intro__leaf--a { transform: translateX(-101%); }
-.intro.is-leaving .intro__leaf--b { transform: translateX(101%); }
 
-.intro__core {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: var(--cream-100);
-  transition: opacity 500ms var(--ease-out), transform 900ms var(--ease-out);
+/* --- المصراعان --- */
+.gate__leaf {
+  /* الانزلاق أفقي فقط: الدوران ثلاثي الأبعاد داخل SVG غير
+     متّسق بين المتصفّحات، والانزلاق داخل سماكة الجدار مُقنع
+     لأن القناع يقصّ ما يخرج عن الفتحة. */
+  transition: transform 1500ms cubic-bezier(.62, 0, .2, 1) 350ms;
 }
-.intro__core svg { inline-size: clamp(130px, 28vw, 230px); block-size: auto; margin-inline: auto; }
-.intro__word {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 7vw, 3.4rem);
-  margin-block-start: var(--s-4);
-  letter-spacing: 0.02em;
-}
-.intro__sub {
-  font-size: var(--t-micro);
-  letter-spacing: 0.3em;
-  color: var(--accent);
-  margin-block-start: var(--s-3);
-}
-.intro.is-leaving .intro__core { opacity: 0; transform: scale(1.08); }
+.intro.is-playing .gate__leaf--a { transform: translateX(-140px); }
+.intro.is-playing .gate__leaf--b { transform: translateX(140px); }
 
-/* بلا جافاسكربت: لا افتتاحيّة أبداً. أفضل من شاشة سوداء عالقة. */
+/* --- الضوء من الداخل --- */
+.gate__glow {
+  opacity: 0;
+  transition: opacity 1200ms ease-out 650ms;
+}
+.intro.is-playing .gate__glow { opacity: 1; }
+
+/* --- الشعار في الفتحة --- */
+.gate__logo {
+  opacity: 0;
+  transform: scale(.8);
+  transform-box: fill-box;      /* ليكون مركز التكبير مركز الشعار */
+  transform-origin: center;
+  transition: opacity 760ms var(--ease-out) 1200ms,
+              transform 1000ms var(--ease-spring) 1200ms;
+}
+.intro.is-playing .gate__logo { opacity: 1; transform: scale(1); }
+
+/* --- الخروج: الكاميرا تمرّ عبر القوس --- */
+.intro.is-leaving {
+  transform: scale(5.2);
+  opacity: 0;
+}
+
+/* بلا جافاسكربت: لا افتتاحيّة أبداً. أفضل من بوّابة مغلقة
+   تحجب الموقع إلى الأبد. */
 .no-js .intro { display: none; }
+
+/* من طلب تقليل الحركة: لا بوّابة ولا تكبير. الدخول مباشر. */
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
+}
 
 /* ============================================================
    ٤) الواجهة
@@ -920,4 +938,86 @@
   display: block;
   margin-block-end: var(--s-1);
   letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   ١٨) تنويه المرجع البصري
+   المطعم لم يُنفَّذ، فالصور مرجعٌ للاتجاه لا توثيقٌ للمكان. والتنويه
+   يُكتب بجوار الصور نفسها لا في الذيل — فمن يرى الصورة يرى حكمها.
+   ============================================================ */
+.refnote {
+  margin-block-end: var(--s-6);
+  padding: var(--s-3) var(--s-5);
+  border-inline-start: 3px solid var(--ornament-2);
+  background: color-mix(in srgb, var(--magenta-500) 9%, transparent);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  font-size: var(--t-small);
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 64ch;
+}
+.refnote strong { color: var(--accent-2); font-weight: 600; }
+
+/* ============================================================
+   ١٩) لوح المرجع البصري
+   شبكة غير منتظمة: بطاقة عريضة وأخريات عاديّة. الانتظام التامّ
+   يجعل اللوح يبدو جدول بيانات، والتنويع يجعله لوحاً بصرياً.
+   ============================================================ */
+.gallery {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+  margin-block-start: var(--s-5);
+}
+@media (min-width: 700px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gal--wide { grid-column: span 2; }
+}
+@media (min-width: 1100px) {
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+  .gal--wide { grid-column: span 2; grid-row: span 1; }
+}
+
+.gal {
+  position: relative;
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-sunk);
+  box-shadow: var(--sh-1);
+  isolation: isolate;
+}
+.gal picture { display: block; }
+.gal img {
+  inline-size: 100%;
+  block-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  transition: transform 900ms var(--ease-out);
+}
+.gal--wide img { aspect-ratio: 16 / 10; }
+
+/* ⚠ قصّ مقصود: يُخرج الزاوية السفلى اليمنى من الإطار لأن فيها
+   بطاقة منيو تحمل شعار مطعم آخر. `object-position` يقصّ عند العرض
+   فقط، فيبقى الملف الأصلي سليماً على القرص. */
+.gal--crop img { object-position: 50% 22%; }
+
+@media (hover: hover) and (pointer: fine) {
+  .gal:hover img { transform: scale(1.04); }
+}
+
+.gal figcaption {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--s-5) var(--s-4) var(--s-3);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--cream-100);
+  /* تدرّج لا لون صلب: النصّ يُقرأ فوق أي صورة بلا حجب الصورة كلها */
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--navy-900) 88%, transparent),
+    transparent);
 }
