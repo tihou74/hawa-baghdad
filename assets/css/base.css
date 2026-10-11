@@ -36,8 +36,14 @@ img, svg, video, canvas {
   height: auto;
 }
 
-/* الصور تحتفظ بنسبتها قبل التحميل فلا تهتزّ الصفحة (CLS) */
-img[width][height] { height: auto; }
+/* ⚠ أُزيلت من هنا قاعدة `img[width][height] { height: auto }`.
+   كانت تنوي الحفاظ على نسبة الصورة قبل التحميل، لكنها:
+   ١) زائدة — `height: auto` في القاعدة العامّة أعلاه يكفي، والمتصفّحات
+      الحديثة تشتقّ `aspect-ratio` من سمتَي width/height تلقائياً.
+   ٢) ضارّة — تخصيصها (0,2,1) يتغلّب على أي قاعدة صنف مثل
+      `.hdr__brand img { block-size: 2.6rem }` التي تخصيصها (0,1,1)،
+      و`height` و`block-size` خصيصةٌ واحدة. فكان الشعار يُرسم بحجمه
+      الطبيعي في الترويسة ويغطّي الصفحة. */
 
 h1, h2, h3, h4 {
   margin: 0;
@@ -83,8 +89,8 @@ blockquote { margin: 0; }
 figure { margin: 0; }
 
 ::selection {
-  background: color-mix(in srgb, var(--glass-amber) 42%, transparent);
-  color: var(--ink-900);
+  background: color-mix(in srgb, var(--clay-500) 42%, transparent);
+  color: var(--navy-900);
 }
 
 /* ===== أدوات مساعدة ================================================== */
@@ -109,8 +115,8 @@ figure { margin: 0; }
   inset-inline-start: var(--s-3);
   z-index: 999;
   padding: var(--s-3) var(--s-5);
-  background: var(--ink-900);
-  color: var(--sand-100);
+  background: var(--navy-900);
+  color: var(--cream-100);
   border-radius: var(--r-md);
   font-size: var(--t-small);
   text-decoration: none;

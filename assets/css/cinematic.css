@@ -48,11 +48,11 @@
   background-image:
     repeating-linear-gradient(
       calc(62deg + var(--sun) * 46deg),
-      color-mix(in srgb, var(--glass-amber) 40%, transparent) 0 2px,
+      color-mix(in srgb, var(--clay-500) 40%, transparent) 0 2px,
       transparent 2px 30px),
     repeating-linear-gradient(
       calc(-62deg - var(--sun) * 46deg),
-      color-mix(in srgb, var(--glass-amber) 26%, transparent) 0 2px,
+      color-mix(in srgb, var(--clay-500) 26%, transparent) 0 2px,
       transparent 2px 30px);
   /* الشفرات تنزلق مع النهار */
   transform: translate3d(
@@ -63,11 +63,11 @@
   background-image:
     repeating-linear-gradient(
       calc(-28deg + var(--sun) * 30deg),
-      color-mix(in srgb, var(--glass-ruby) 22%, transparent) 0 3px,
+      color-mix(in srgb, var(--magenta-500) 22%, transparent) 0 3px,
       transparent 3px 64px),
     repeating-linear-gradient(
       calc(-28deg + var(--sun) * 30deg),
-      color-mix(in srgb, var(--glass-emerald) 16%, transparent) 32px 35px,
+      color-mix(in srgb, var(--tile-500) 16%, transparent) 32px 35px,
       transparent 35px 64px);
   transform: translate3d(
     calc(var(--sun) * -5vw), calc(var(--sun) * 6vh), 0);
@@ -104,20 +104,21 @@
   z-index: 200;
   display: grid;
   place-items: center;
-  background: var(--ink-900);
+  background: var(--navy-900);
   overflow: hidden;
 }
 .intro__leaf {
   position: absolute;
   inset-block: 0;
   inline-size: 50.5%;   /* تجاوز بسيط يمنع ظهور خطّ شعر بين المصراعين */
+  /* الأزرق المزجَّج فوق بلاطة القاشاني: مصراعان من القاشاني ينفتحان */
   background:
     linear-gradient(180deg,
-      color-mix(in srgb, var(--wood-700) 92%, #000) 0%,
-      var(--wood-600) 45%,
-      color-mix(in srgb, var(--wood-700) 92%, #000) 100%),
-    url("../img/mashrabiya.svg");
-  background-size: cover, 96px 96px;
+      var(--navy-900) 0%,
+      var(--tile-700) 48%,
+      var(--navy-900) 100%),
+    url("../img/tile.svg");
+  background-size: cover, 104px 104px;
   background-blend-mode: multiply;
   transition: transform 1150ms cubic-bezier(0.76, 0, 0.24, 1);
 }
@@ -130,7 +131,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  color: var(--sand-100);
+  color: var(--cream-100);
   transition: opacity 500ms var(--ease-out), transform 900ms var(--ease-out);
 }
 .intro__core svg { inline-size: clamp(130px, 28vw, 230px); block-size: auto; margin-inline: auto; }
@@ -143,7 +144,7 @@
 .intro__sub {
   font-size: var(--t-micro);
   letter-spacing: 0.3em;
-  color: var(--gold-400);
+  color: var(--accent);
   margin-block-start: var(--s-3);
 }
 .intro.is-leaving .intro__core { opacity: 0; transform: scale(1.08); }
@@ -161,24 +162,75 @@
   display: grid;
   align-content: center;
   overflow: hidden;
-  background: var(--ink-900);
-  color: var(--sand-100);
+  background: var(--navy-900);
+  color: var(--cream-100);
   isolation: isolate;
 }
 
 /* السماء: تدرّج يتحرّك من فجر إلى ليل حسب `--sun` */
+/* السماء.
+   ⚠ درس لوني: خلط الطيني (#D65C45، أحمر) مع الكحلي (#202241، أزرق)
+   عبر `color-mix` يُنتج بنفسجيّاً موحلاً ليس من اللوحة. والحلّ أن
+   يُفصَل اللونان طبقياً لا أن يُمزجا: الكحلي يتدرّج إلى الأزرق
+   القاشاني (وهما من عائلة واحدة فلا يتعكّر)، والطيني يُضاف وهجاً
+   مستقلّاً عند الحاشية السفلى حيث يلامس الموج — كضوء على الماء. */
 .hero__sky {
   position: absolute;
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(120% 80% at 70% 112%,
-      color-mix(in srgb, var(--glass-amber) calc(26% + var(--sun) * 34%), transparent) 0%,
-      transparent 62%),
-    linear-gradient(180deg,
-      var(--ink-900) 0%,
-      color-mix(in srgb, var(--ink-700) 70%, var(--wood-700)) 58%,
-      color-mix(in srgb, var(--wood-600) 54%, var(--ink-900)) 100%);
+    /* وهج طيني منخفض ومركّز: لا يصل وسط الشاشة فلا يُبنفسج الكحلي */
+    radial-gradient(90% 44% at 72% 108%,
+      color-mix(in srgb, var(--clay-500) calc(34% + var(--sun) * 30%), transparent) 0%,
+      transparent 70%),
+    /* تدرّج داخل العائلة الزرقاء وحدها */
+    linear-gradient(185deg,
+      var(--navy-900) 0%,
+      var(--navy-800) 42%,
+      color-mix(in srgb, var(--tile-700) 42%, var(--navy-800)) 100%);
+}
+
+/* لوح القاشاني: حضور الموتيف في الواجهة.
+   يشغل الفراغ الأيسر الذي يتركه النصّ المحاذي لليمين في RTL،
+   ويُقصّ بتدرّج فلا يبدو ملصقاً. */
+/* ⚠ فخّ RTL مُتحقَّق بلقطة شاشة:
+   في صفحة RTL فإن `inset-inline-start` = **اليمين**. ونصّ الواجهة
+   يحاذي اليمين أيضاً، فوضع اللوح على `inline-start` جعله يتراكب مع
+   النصّ تماماً بدل أن يملأ الفراغ المقابل — وهذا ما حدث فعلاً.
+
+   الصحيح `inset-inline-end`: فيحلّ دائماً في الجهة المقابلة للنصّ
+   في الاتجاهين (يسار في RTL، يمين في LTR) بلا قاعدة خاصّة لكلٍّ.
+
+   أمّا القناع فالتدرّجات في CSS **فيزيائيّة** لا منطقيّة، فلا
+   يكفي فيها الاتجاه المنطقي. ولذلك يُمرَّر اتجاهه بمتغيّر يُضبط
+   حسب `dir` الفعليّ للمستند. */
+.hero__tiles {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: clamp(140px, 32vw, 480px);
+  z-index: -2;
+  background: url("../img/tile.svg") repeat;
+  background-size: 118px 118px;
+  opacity: 0.22;
+  /* يتلاشى نحو النصّ وإلى الأعلى والأسفل: حافّة ناعمة بلا خطّ قاطع */
+  mask-image:
+    linear-gradient(to var(--fade-to, left), transparent, #000 62%),
+    linear-gradient(180deg, transparent, #000 26%, #000 74%, transparent);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to var(--fade-to, left), transparent, #000 62%),
+    linear-gradient(180deg, transparent, #000 26%, #000 74%, transparent);
+  -webkit-mask-composite: source-in;
+  pointer-events: none;
+}
+/* RTL: اللوح يسار، فيتلاشى نحو اليسار (أي يبدأ شفّافاً من اليمين) */
+[dir="rtl"] .hero__tiles { --fade-to: left; }
+/* LTR: اللوح يمين، فيتلاشى نحو اليمين */
+[dir="ltr"] .hero__tiles { --fade-to: right; }
+@media (max-width: 760px) {
+  /* على الهاتف يملأ النصّ العرض كلّه، فاللوح يصير خلفيّةً خافتة */
+  .hero__tiles { inline-size: 100%; opacity: 0.1; }
 }
 
 /* نهر دجلة: شريطان من الموج يتحرّكان بسرعتين مختلفتين.
@@ -234,33 +286,26 @@
 .hero__kicker {
   font-size: var(--t-micro);
   letter-spacing: 0.3em;
-  color: var(--gold-400);
+  color: var(--accent);
   margin: 0 0 var(--s-5);
 }
 .hero__name {
-  font-family: var(--font-display);
-  font-size: var(--t-hero);
-  line-height: 0.98;
+  /* الشعار صورةٌ متجهيّة لا نصّ: هو الأصل المُسلَّم من العميل،
+     وإعادة رسمه بخطّ ويب تُفقده هويّته. يبقى حادّاً على أي مقاس. */
   margin: 0;
-  /* الاسم يُشتقّ لونه من الذهب لا من صورة: يبقى حادّاً على أي شاشة */
-  background: linear-gradient(170deg,
-    var(--sand-100) 0%,
-    var(--gold-400) 52%,
-    color-mix(in srgb, var(--gold-500) 72%, var(--wood-600)) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* احتياط: إن فشل القصّ على متصفّح قديم يظهر النصّ رملياً */
-  -webkit-text-fill-color: transparent;
+  /* الشعار شبه مربّع (397×395)، فعرضٌ كبير يعني ارتفاعاً مساوياً
+     يأكل الشاشة كلها. يُقاس بـ min() مع سقف معتدل. */
+  inline-size: min(62vw, 19rem);
 }
-@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
-  .hero__name { color: var(--sand-100); -webkit-text-fill-color: currentColor; }
+.hero__name img { inline-size: 100%; block-size: auto; }
+@media (min-width: 900px) {
+  .hero__name { inline-size: min(38vw, 22rem); }
 }
 .hero__tag {
   font-size: var(--t-lead);
   max-width: 34ch;
   margin-block-start: var(--s-5);
-  color: color-mix(in srgb, var(--sand-100) 82%, transparent);
+  color: color-mix(in srgb, var(--cream-100) 82%, transparent);
 }
 
 /* سهم النزول — نبضة هادئة */
@@ -271,7 +316,7 @@
   translate: 50% 0;        /* RTL-safe: `translate` منطقيّ هنا بالنسبة للمحور */
   inline-size: 1px;
   block-size: var(--s-7);
-  background: linear-gradient(var(--gold-400), transparent);
+  background: linear-gradient(var(--accent), transparent);
   z-index: 2;
 }
 .hero__down::after {
@@ -280,7 +325,7 @@
   inset-inline-start: -2.5px;
   inline-size: 6px; block-size: 6px;
   border-radius: 50%;
-  background: var(--gold-400);
+  background: var(--accent);
   animation: fall 2.4s var(--ease-in-out) infinite;
 }
 @keyframes fall {
@@ -393,9 +438,9 @@
   transform: scale(1);
   opacity: 1;
   box-shadow: var(--sh-3),
-              0 0 0 1px color-mix(in srgb, var(--gold-500) 40%, transparent);
+              0 0 0 1px color-mix(in srgb, var(--ornament) 40%, transparent);
 }
-.rail__art { aspect-ratio: 4 / 5; background: var(--ink-700); }
+.rail__art { aspect-ratio: 4 / 5; background: var(--navy-700); }
 .rail__art svg, .rail__art img { inline-size: 100%; block-size: 100%; object-fit: cover; }
 .rail__body { padding: var(--s-5); }
 .rail__body h3 { font-size: var(--t-h3); margin-block-end: var(--s-2); }
@@ -445,7 +490,7 @@
   z-index: 2;
   pointer-events: none;
   background: radial-gradient(60% 46% at 50% 100%,
-    color-mix(in srgb, var(--glass-amber) 34%, transparent) 0%,
+    color-mix(in srgb, var(--clay-500) 34%, transparent) 0%,
     transparent 70%);
   filter: url("#heat");
   mix-blend-mode: screen;
@@ -460,8 +505,8 @@
   inset-block-end: -4%;
   inline-size: 3px; block-size: 3px;
   border-radius: 50%;
-  background: var(--glass-amber);
-  box-shadow: 0 0 7px 2px color-mix(in srgb, var(--glass-amber) 65%, transparent);
+  background: var(--clay-500);
+  box-shadow: 0 0 7px 2px color-mix(in srgb, var(--clay-500) 65%, transparent);
   opacity: 0;
   animation: ember var(--d, 7s) linear var(--t, 0s) infinite;
 }
@@ -489,7 +534,7 @@
     box-shadow: var(--sh-3);
   }
 }
-.scene__media { position: relative; background: var(--ink-800); border-radius: var(--r-md); overflow: hidden; }
+.scene__media { position: relative; background: var(--navy-800); border-radius: var(--r-md); overflow: hidden; }
 .scene__media figure {
   position: absolute;
   inset: 0;
@@ -534,8 +579,8 @@
   overflow: hidden;
   isolation: isolate;
   padding-block: var(--s-10);
-  background: var(--ink-900);
-  color: var(--sand-100);
+  background: var(--navy-900);
+  color: var(--cream-100);
   text-align: center;
 }
 .band__layer {
@@ -552,8 +597,8 @@
   inset: 0;
   z-index: -1;
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--ink-900) 82%, transparent),
-    color-mix(in srgb, var(--ink-900) 58%, transparent));
+    color-mix(in srgb, var(--navy-900) 82%, transparent),
+    color-mix(in srgb, var(--navy-900) 58%, transparent));
 }
 .band blockquote {
   font-family: var(--font-display);
@@ -570,7 +615,7 @@
   font-size: var(--t-small);
   font-style: normal;
   letter-spacing: 0.16em;
-  color: var(--gold-400);
+  color: var(--accent);
 }
 
 /* ============================================================
@@ -596,7 +641,7 @@
 .filter[aria-pressed="true"] {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--sand-100);
+  color: var(--cream-100);
   font-weight: 500;
 }
 
@@ -616,7 +661,7 @@
   inline-size: 3.6rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--wood-500) 14%, transparent);
+  background: color-mix(in srgb, var(--clay-500) 14%, transparent);
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -650,12 +695,12 @@
   letter-spacing: 0.08em;
   padding: 0.1rem 0.5rem;
   border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--glass-emerald) 16%, transparent);
-  color: color-mix(in srgb, var(--glass-emerald) 82%, var(--fg));
+  background: color-mix(in srgb, var(--tile-500) 16%, transparent);
+  color: color-mix(in srgb, var(--tile-500) 82%, var(--fg));
 }
-.dish__tag--hot { background: color-mix(in srgb, var(--glass-ruby) 16%, transparent); color: color-mix(in srgb, var(--glass-ruby) 84%, var(--fg)); }
+.dish__tag--hot { background: color-mix(in srgb, var(--magenta-500) 16%, transparent); color: color-mix(in srgb, var(--magenta-500) 84%, var(--fg)); }
 /* الخلفيّة ذهبيّة (زخرفة) والنصّ برونزي (قراءة): 5.68:1 بدل 2.18:1 */
-.dish__tag--signature { background: color-mix(in srgb, var(--gold-500) 22%, transparent); color: color-mix(in srgb, var(--bronze-600) 92%, var(--fg)); }
+.dish__tag--signature { background: color-mix(in srgb, var(--ornament) 22%, transparent); color: color-mix(in srgb, var(--accent) 92%, var(--fg)); }
 
 /* ============================================================
    ١٢) بطاقات الركائز
@@ -681,13 +726,13 @@
   inset-block-start: 0;
   inset-inline: 0;
   block-size: 3px;
-  background: var(--tint, var(--gold-500));
+  background: var(--tint, var(--ornament));
 }
 .pillar__n {
   font-family: var(--font-display);
   font-size: 2.2rem;
   line-height: 1;
-  color: var(--tint, var(--gold-500));
+  color: var(--tint, var(--ornament));
   opacity: 0.65;
   display: block;
   margin-block-end: var(--s-3);
@@ -730,14 +775,21 @@
 /* ============================================================
    ١٤) فاصل زخرفي
    ============================================================ */
+/* الفاصل: شريط من بلاطة القاشاني. يفصل الأقسام بموتيف العلامة
+   نفسه بدل خطّ محايد. */
 .divider {
   border: 0;
-  block-size: 26px;
+  block-size: 30px;
   margin-block: 0;
-  background: url("../img/mashrabiya.svg") repeat-x center / auto 26px;
-  opacity: 0.3;
+  background: url("../img/tile.svg") repeat-x center / auto 30px;
 }
-.divider--gold { filter: sepia(1) saturate(2.4) hue-rotate(-14deg); }
+
+/* طبقة العمق في شريط المقتبس */
+.band__layer--tile {
+  background: url("../img/tile.svg") repeat;
+  background-size: 150px 150px;
+  opacity: 0.16;
+}
 
 /* ============================================================
    ١٥) سطر حالة المشروع في الواجهة
@@ -751,26 +803,26 @@
   gap: var(--s-3);
   margin-block-start: var(--s-6);
   padding: 0.5rem 1rem 0.5rem 0.85rem;
-  border: 1px solid color-mix(in srgb, var(--gold-400) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--ink-900) 55%, transparent);
+  background: color-mix(in srgb, var(--navy-900) 55%, transparent);
   backdrop-filter: blur(6px);
   font-size: var(--t-small);
-  color: color-mix(in srgb, var(--sand-100) 88%, transparent);
+  color: color-mix(in srgb, var(--cream-100) 88%, transparent);
 }
-.hero__stage strong { color: var(--gold-400); font-weight: 600; }
+.hero__stage strong { color: var(--accent); font-weight: 600; }
 /* نقطة نابضة: إشارة «قيد العمل» مفهومة عالمياً */
 .hero__stage > span {
   inline-size: 7px;
   block-size: 7px;
   border-radius: 50%;
-  background: var(--gold-400);
+  background: var(--accent);
   flex: 0 0 auto;
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-400) 70%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
   animation: pulse 2.6s var(--ease-out) infinite;
 }
 @keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-400) 70%, transparent); }
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent); }
   70%  { box-shadow: 0 0 0 10px transparent; }
   100% { box-shadow: 0 0 0 0 transparent; }
 }
@@ -843,4 +895,29 @@
   .steps { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-8); }
   /* الخطّ يفقد معناه في عمودين، فيُخفى ويبقى التمييز في العُقَد */
   .steps::before { display: none; }
+}
+
+/* ============================================================
+   ١٧) سطر البهارات
+   بروفايل الهويّة يذكر البهارات صريحاً كبصمة المطبخ (سمّاق، دبس
+   رمّان، زعفران). فتُعرض كسطر واحد قبل المائدة بدل أن تُدفن في
+   وصف طبق — لأنها ما يُميّز المطبخ العراقي عن جيرانه.
+   ============================================================ */
+.spices {
+  margin-block: calc(-1 * var(--s-4)) var(--s-7);
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--clay-500) 12%, transparent);
+  border-inline-start: 3px solid var(--ornament);
+  font-size: var(--t-small);
+  line-height: 1.9;
+  color: var(--fg-muted);
+  max-width: 62ch;
+}
+.spices strong {
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+  margin-block-end: var(--s-1);
+  letter-spacing: 0.04em;
 }

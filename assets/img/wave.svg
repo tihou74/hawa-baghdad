@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="820" height="260" viewBox="0 0 820 260" preserveAspectRatio="none">
   <!-- ======================================================================
        موج دجلة — بلاطة تكرار أفقي
-       ----------------------------------------------------------------------
+       ======================================================================
        الشرط الوحيد لتكرار بلا انقطاع: أن تبدأ كل موجة وتنتهي على نفس
        الارتفاع (y=150 هنا) وبنفس الميل. الطول ٨٢٠ مقسوم على أربع موجات
        بعرض ٢٠٥ لكل واحدة.
        ====================================================================== -->
   <defs>
     <linearGradient id="w1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2A5A8C" stop-opacity=".0"/>
-      <stop offset=".45" stop-color="#1C4C59" stop-opacity=".85"/>
-      <stop offset="1" stop-color="#0A1F26"/>
+      <stop offset="0" stop-color="#1F4E8C" stop-opacity=".0"/>
+      <stop offset=".45" stop-color="#2E3154" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#14163A"/>
     </linearGradient>
     <linearGradient id="w2" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#C9A24A" stop-opacity=".0"/>
-      <stop offset=".5" stop-color="#E8A33D" stop-opacity=".55"/>
-      <stop offset="1" stop-color="#C9A24A" stop-opacity=".0"/>
+      <stop offset="0" stop-color="#D65C45" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#E88A72" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#D65C45" stop-opacity=".0"/>
     </linearGradient>
   </defs>
 
@@ -37,7 +37,7 @@
            C 666 180, 769 180, 820 148"/>
 
   <!-- موجة ثانية أدقّ وأعمق، تكسر رتابة المنحنى الواحد -->
-  <path fill="#0A1F26" fill-opacity=".5"
+  <path fill="#14163A" fill-opacity=".5"
         d="M0 186
            C 68 168, 137 204, 205 186
            C 273 168, 342 204, 410 186
