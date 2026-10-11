@@ -44,16 +44,29 @@
 
     root.classList.add("is-locked");
 
+    /* الصنف يُضاف في الإطار التالي لا فوراً: لو أُضيف في نفس الإطار
+       الذي رُسم فيه العنصر، لاحتُسبت حالة البداية والنهاية معاً فلم
+       يحدث انتقال أصلاً — تظهر البوّابة مفتوحة من أوّل لحظة. */
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        el.classList.add("is-playing");
+      });
+    });
+
     function lift() {
       el.classList.add("is-leaving");
       root.classList.remove("is-locked");
       try { sessionStorage.setItem("hb-intro", "1"); } catch (e) { /* تصفّح متخفّي */ }
       /* يُحذف بعد انتهاء الانتقال بدل أن يُترك مكدّساً: عنصر ثابت
          بحجم الشاشة يُبقي طبقة تركيب حيّة بلا فائدة. */
-      window.setTimeout(function () { el.remove(); }, 1250);
+      window.setTimeout(function () { el.remove(); }, 1400);
     }
 
-    var timer = window.setTimeout(lift, 2300);
+    /* التوقيت مشتقّ من مدّة المشهد في cinematic.css:
+       ٣٥٠ تأخير + ١٥٠٠ انزلاق = ١٨٥٠ لفتح المصراعين،
+       ثم ١٢٠٠ + ٧٦٠ ≈ ١٩٦٠ لظهور الشعار، فيُترك للشعار نَفَسٌ
+       يُرى فيه قبل الدخول. */
+    var timer = window.setTimeout(lift, 3100);
 
     /* أي نيّة للمتابعة تتخطّى الباقي. */
     ["wheel", "touchstart", "keydown", "click"].forEach(function (evt) {
