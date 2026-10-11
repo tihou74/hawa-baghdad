@@ -28,55 +28,11 @@
      الأفقي: الإشارة تختلف بين RTL و LTR. */
   var isRTL = (root.getAttribute("dir") || "").toLowerCase() === "rtl";
 
-  /* ==========================================================================
-     ١) الافتتاحيّة — انفتاح الشُنشول
-     تُعرض مرّة واحدة في الجلسة. لا أحد يريد مقدّمة سينمائيّة كلّما
-     ضغط زرّ الرجوع، ومن طلب تقليل الحركة لا يراها أبداً.
-     ========================================================================== */
-  (function intro() {
-    var el = document.getElementById("intro");
-    if (!el) return;
+  /* الافتتاحيّة (بوّابة عشتار) أُزيلت بطلب العميل: رآها غير
+     مناسبة. والصفحة تفتح الآن على الواجهة مباشرةً — وهو
+     أسرع أصلاً: لا قفل تمرير، ولا طبقة ثابتة بحجم الشاشة،
+     ولا ٥٤ كيلوبايت SVG مُدمَجة في HTML. */
 
-    var seen = false;
-    try { seen = sessionStorage.getItem("hb-intro") === "1"; } catch (e) { seen = false; }
-
-    if (seen || reduce) { el.remove(); return; }
-
-    root.classList.add("is-locked");
-
-    /* الصنف يُضاف في الإطار التالي لا فوراً: لو أُضيف في نفس الإطار
-       الذي رُسم فيه العنصر، لاحتُسبت حالة البداية والنهاية معاً فلم
-       يحدث انتقال أصلاً — تظهر البوّابة مفتوحة من أوّل لحظة. */
-    window.requestAnimationFrame(function () {
-      window.requestAnimationFrame(function () {
-        el.classList.add("is-playing");
-      });
-    });
-
-    function lift() {
-      el.classList.add("is-leaving");
-      root.classList.remove("is-locked");
-      try { sessionStorage.setItem("hb-intro", "1"); } catch (e) { /* تصفّح متخفّي */ }
-      /* يُحذف بعد انتهاء الانتقال بدل أن يُترك مكدّساً: عنصر ثابت
-         بحجم الشاشة يُبقي طبقة تركيب حيّة بلا فائدة. */
-      window.setTimeout(function () { el.remove(); }, 1400);
-    }
-
-    /* التوقيت مشتقّ من مدّة المشهد في cinematic.css:
-       ٣٥٠ تأخير + ١٥٠٠ انزلاق = ١٨٥٠ لفتح المصراعين،
-       ثم ١٢٠٠ + ٧٦٠ ≈ ١٩٦٠ لظهور الشعار، فيُترك للشعار نَفَسٌ
-       يُرى فيه قبل الدخول. */
-    var timer = window.setTimeout(lift, 3100);
-
-    /* أي نيّة للمتابعة تتخطّى الباقي. */
-    ["wheel", "touchstart", "keydown", "click"].forEach(function (evt) {
-      window.addEventListener(evt, function once() {
-        window.clearTimeout(timer);
-        lift();
-        window.removeEventListener(evt, once);
-      }, { passive: true, once: true });
-    });
-  })();
 
   /* ==========================================================================
      ٢) الكشف عند الظهور — بديل مسار CSS
