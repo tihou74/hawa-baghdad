@@ -738,3 +738,109 @@
   opacity: 0.3;
 }
 .divider--gold { filter: sepia(1) saturate(2.4) hue-rotate(-14deg); }
+
+/* ============================================================
+   ١٥) سطر حالة المشروع في الواجهة
+   المطعم لم يُفتح بعد. هذا السطر يقول ذلك في أوّل شاشة بدل أن
+   يُدفن في الذيل — فمن يفتح الصفحة يعرف ما يقرأ في أوّل ثانية.
+   مكتوبٌ بوضوح لكن بلا صراخ: نبرة إعلان مرحلة لا نبرة تحذير.
+   ============================================================ */
+.hero__stage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-start: var(--s-6);
+  padding: 0.5rem 1rem 0.5rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--gold-400) 40%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink-900) 55%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: var(--t-small);
+  color: color-mix(in srgb, var(--sand-100) 88%, transparent);
+}
+.hero__stage strong { color: var(--gold-400); font-weight: 600; }
+/* نقطة نابضة: إشارة «قيد العمل» مفهومة عالمياً */
+.hero__stage > span {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  flex: 0 0 auto;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-400) 70%, transparent);
+  animation: pulse 2.6s var(--ease-out) infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold-400) 70%, transparent); }
+  70%  { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage > span { animation: none; }
+}
+
+/* ============================================================
+   ١٦) مراحل المشروع
+   خطٌّ رأسي تتعلّق عليه العُقَد. المرحلة المنجزة تُملأ عُقدتها،
+   والباقية تبقى مفرَّغة — فيُقرأ الموقف من الشكل قبل النصّ.
+   ============================================================ */
+.steps {
+  display: grid;
+  gap: var(--s-6);
+  counter-reset: step;
+  position: relative;
+  padding-inline-start: var(--s-6);
+}
+/* الخطّ الرأسي: على الحاشية المنطقيّة فينقلب تلقائياً في LTR */
+.steps::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.55rem 0.55rem;
+  inset-inline-start: 5px;
+  inline-size: 1px;
+  background: linear-gradient(
+    var(--accent) 0%,
+    var(--rule) 22%,
+    var(--rule) 100%);
+}
+.step { position: relative; counter-increment: step; }
+/* العُقدة */
+.step::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-start: calc(-1 * var(--s-6) + 1px);
+  inline-size: 11px;
+  block-size: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--rule);
+  box-sizing: border-box;
+}
+.step.is-done::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.step h3 {
+  font-size: var(--t-h3);
+  margin-block-end: var(--s-2);
+}
+/* رقم المرحلة قبل عنوانها، بالأرقام العربيّة-الهنديّة */
+.step h3::before {
+  content: counter(step, arabic-indic) " · ";
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: 0.8em;
+}
+.step p {
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+  margin: 0;
+  max-width: 56ch;
+}
+.step p b { color: var(--accent); font-weight: 600; }
+
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-8); }
+  /* الخطّ يفقد معناه في عمودين، فيُخفى ويبقى التمييز في العُقَد */
+  .steps::before { display: none; }
+}
