@@ -1674,3 +1674,29 @@ body { font-weight: 300; }
 }
 .clip.is-ready { opacity: 1; }
 .torch { position: relative; }
+
+/* ============================================================
+   ٢٨) الفيديو داخل الحاويات المختلفة
+   الفيديو يحتلّ مكان الصورة تماماً في كل سياق، فلا يهتزّ التخطيط
+   عند ظهوره ولا يتجاوز حدود حاويته.
+   ============================================================ */
+.band__layer, .scene__media figure, .signature, .mo { position: relative; }
+
+.band__layer .clip,
+.scene__media figure .clip,
+.signature .clip,
+.mo .clip {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* داخل «اللحظة الفوتوغرافيّة» يجب أن يبقى النصّ فوق الفيديو */
+.signature figcaption { z-index: 3; }
+.mo figcaption { z-index: 3; }
+
+/* الفيديو في طبقة العمق يتبع نفس تحريك العمق */
+.band__layer .clip { will-change: transform; }
