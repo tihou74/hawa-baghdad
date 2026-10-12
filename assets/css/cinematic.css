@@ -1250,3 +1250,26 @@ body { font-weight: 300; }
 .hero__kicker { letter-spacing: var(--track-label); }
 .hero__tag { font-weight: 300; line-height: 1.7; }
 .hero__stage { border-radius: 0; font-weight: 300; }
+
+/* ============================================================
+   ٢٢) فيديو الواجهة
+   الصورة هي الأساس، والفيديو طبقةٌ تظهر فوقها إن سمحت الشروط.
+   هذا الترتيب مقصود: من لا يصله الفيديو — لبطء الشبكة أو لتوفير
+   البيانات أو لتقليل الحركة — يرى صورةً كاملة لا مستطيلاً أسود.
+   ============================================================ */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  /* تلاشٍ بطيء: الظهور المفاجئ للفيديو فوق الصورة يُقرأ كخلل */
+  transition: opacity 1400ms var(--ease-silk);
+  pointer-events: none;
+}
+.hero__video.is-ready { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; }
+}

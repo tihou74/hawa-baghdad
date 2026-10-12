@@ -477,3 +477,56 @@
     });
   })();
 })();
+
+/* ============================================================================
+   فيديو الواجهة — أربع حمايات قبل تحميل أي بايت
+   ----------------------------------------------------------------------------
+   `<video>` بـ`autoplay` وحده يُنزّل ميغابايتات على كل زائر، حتى من
+   كان على بيانات جوّال أو من طلب تقليل الحركة. فالشروط تُفحَص أوّلاً،
+   والصورة تبقى هي الأساس:
+
+     ١) تقليل الحركة  : لا تحميل إطلاقاً.
+     ٢) توفير البيانات: `saveData` أو شبكة 2g — لا تحميل.
+     ٣) القرب من الشاشة: لا تحميل قبل أن يقترب القسم.
+     ٤) فشل التحميل   : يُهمَل بصمت وتبقى الصورة.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var v = document.querySelector(".hero__video[data-src]");
+  if (!v) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var net = navigator.connection || {};
+  if (net.saveData || /(^|-)(2g|slow-2g)$/.test(net.effectiveType || "")) return;
+
+  function load() {
+    v.src = v.getAttribute("data-src");
+    v.removeAttribute("data-src");
+    /* `canplay` لا `loadeddata`: الأوّل يعني أن التشغيل يمكن أن يبدأ
+       فعلاً بلا تلعثم، والثاني يتحقّق بإطار واحد. */
+    v.addEventListener("canplay", function () {
+      v.play().then(function () {
+        v.classList.add("is-ready");
+      }).catch(function () {
+        /* المتصفّح رفض التشغيل التلقائي: تبقى الصورة. */
+      });
+    }, { once: true });
+    v.addEventListener("error", function () {
+      /* الملف غير مرفوع بعد أو تعذّر فكّه: لا شيء ينكسر. */
+      v.remove();
+    }, { once: true });
+  }
+
+  if (!("IntersectionObserver" in window)) { load(); return; }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      load();
+    });
+  }, { rootMargin: "200px" });
+  io.observe(v);
+})();

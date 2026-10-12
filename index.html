@@ -199,7 +199,15 @@
   <!-- واجهة فوتوغرافيّة ممتدّة. الواجهة السابقة كانت تدرّجاً لونيّاً
        وزخرفة هندسيّة بلا صورة، فكانت تبدو فارغة فعلاً على الشاشات
        المتوسّطة — وهو ما رآه العميل. -->
-  <div class="hero__shot"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="سمكة مسكوف تُشوى مفروشة على النار المكشوفة" fetchpriority="high" decoding="async"></picture></div>
+  <div class="hero__shot">
+    <!-- الفيديو: لا بايت منه يُنزَّل قبل أن تتحقّق الشروط.
+         `data-src` لا `src` عن قصد — فالعنصر موجود في الصفحة بلا
+         أي كلفة شبكة، ويتولّى app.js تحميله إن كان الاتصال يسمح
+         والمستخدم لم يطلب تقليل الحركة. وإن لم يُرفع الملف بعد،
+         يفشل التحميل بصمت وتبقى الصورة — فلا شيء ينكسر.
+         الملف المتوقَّع: media/video/hero.mp4 -->
+    <video class="hero__video" data-src="media/video/hero.mp4"
+           muted loop playsinline preload="none" aria-hidden="true"></video><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="سمكة مسكوف تُشوى مفروشة على النار المكشوفة" fetchpriority="high" decoding="async"></picture></div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
   <div class="hero__body">
