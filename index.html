@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=5">
-<link rel="stylesheet" href="assets/css/base.css?v=5">
-<link rel="stylesheet" href="assets/css/layout.css?v=5">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=5">
+<link rel="stylesheet" href="assets/css/tokens.css?v=6">
+<link rel="stylesheet" href="assets/css/base.css?v=6">
+<link rel="stylesheet" href="assets/css/layout.css?v=6">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=6">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -193,6 +193,25 @@
   <div class="hdr__pour" id="pour" aria-hidden="true"></div>
 </header>
 
+
+<!-- ============================================================
+     العمود — النهر
+     الفكرة: اسم المطعم «هوى بغداد»، والرحلة من دجلة إلى الخليج،
+     من بغداد إلى الدوحة. فالتمرير نفسه رحلة النهر: خطٌّ واحد
+     متّصل يُرسَم مع تمرير الزائر ولا ينقطع بين الفصول، وكل فصل
+     محطّة عليه. هذا ما يربط الأقسام بقصّة بدل أن تتجاور بلا رابط.
+     ============================================================ -->
+<div class="spine" aria-hidden="true">
+  <span class="spine__bed"></span>
+  <span class="spine__flow"></span>
+  <ol class="spine__stops"></ol>
+</div>
+
+<!-- قنديل: وهج دافئ يتبع المؤشّر على الفصول الداكنة.
+     «هوى» تعني الهواء أيضاً، والضوء الذي يتحرّك يُحيي الفصل
+     الساكن بلا أي عنصر مرئي مضاف. -->
+<div class="lantern" aria-hidden="true"></div>
+
 <main id="main">
 
 <section class="hero" id="top">
@@ -200,14 +219,31 @@
        وزخرفة هندسيّة بلا صورة، فكانت تبدو فارغة فعلاً على الشاشات
        المتوسّطة — وهو ما رآه العميل. -->
   <div class="hero__shot">
-    <!-- الفيديو: لا بايت منه يُنزَّل قبل أن تتحقّق الشروط.
-         `data-src` لا `src` عن قصد — فالعنصر موجود في الصفحة بلا
-         أي كلفة شبكة، ويتولّى app.js تحميله إن كان الاتصال يسمح
-         والمستخدم لم يطلب تقليل الحركة. وإن لم يُرفع الملف بعد،
-         يفشل التحميل بصمت وتبقى الصورة — فلا شيء ينكسر.
-         الملف المتوقَّع: media/video/hero.mp4 -->
+    <!-- الفيديو: لا بايت منه يُنزَّل قبل أن تتحقّق الشروط. -->
+    <!-- `data-start` و `data-end` يحدّدان **الجزء** المستخدَم من
+         المقطع بالثواني. لا ffmpeg في بيئة البناء فلا يمكن القصّ،
+         لكن التشغيل يُحصَر في هذا المدى ويُكرَّر منه — فالنتيجة
+         كالقصّ بلا قصّ. عدّل الرقمين وحدهما لتغيير الجزء. -->
     <video class="hero__video" data-src="media/video/hero.mp4"
-           muted loop playsinline preload="none" aria-hidden="true"></video><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="سمكة مسكوف تُشوى مفروشة على النار المكشوفة" fetchpriority="high" decoding="async"></picture></div>
+           data-start="0" data-end="0"
+           muted loop playsinline preload="none" aria-hidden="true"></video>
+    <!-- ⚠ الصورة السابقة (profile/masgouf-01) كانت سمكة مشويّة على لوح
+         خشب — وليست مسكوفاً. المسكوف يُفرش مفتوحاً **واقفاً حول**
+         الجمر ويُطبخ بالحرارة المنعكسة. هذه الصورة تُظهر السمكة على
+         لهب مكشوف، وهي الأقرب للطريقة الصحيحة بين المتاح. -->
+    <picture>
+      <source type="image/webp" media="(min-width:900px)"
+              srcset="assets/img/photo/maskouf-fish-2-960.webp">
+      <source type="image/webp" srcset="assets/img/photo/maskouf-fish-2-480.webp">
+      <img src="assets/img/photo/maskouf-fish-2-960.jpg"
+           alt="سمكة مسكوف على النار المكشوفة"
+           width="960" height="960" fetchpriority="high" decoding="async">
+    </picture>
+    <!-- جمر يصعد فوق الواجهة: حركة حقيقيّة تربط الصورة بالنار -->
+    <div class="hero__embers" aria-hidden="true">
+      <b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+    </div>
+  </div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
   <div class="hero__body">
@@ -230,40 +266,100 @@
   </div>
 </section>
 
-<section class="sec" id="story">
+<section class="sec" id="story" data-chapter="٠١" data-chapter-name="الاسم">
   <div class="wrap">
     <div class="sec__head">
-      <p class="eyebrow" data-reveal>٠١ — الاسم</p>
-      <h2 class="h2" data-reveal>كلمتان، وفي كلٍّ منهما معنيان</h2>
+      <p class="chapter" data-reveal>
+        <span class="chapter__link">كل رحلة تبدأ من ماء</span>
+        <span class="chapter__n">٠١</span>
+        <span class="chapter__name">الاسم</span>
+      </p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>«هوى»</i></span> <span class="w"><i>بابان:</i></span> <span class="w"><i>شوقٌ،</i></span> <span class="w"><i>وهواء</i></span></h2>
     </div>
     <div class="split">
       <div class="prose" data-reveal>
-        <p><strong>«هوى»</strong> في العربيّة بابٌ ذو وجهين: الحُبّ الذي
-        يشدّك إلى شيء لا تملكه، والهواء نفسه — النسمة التي تحمل الرائحة
-        قبل أن تراها. والاسم يقصد المعنيين: <em>شوقٌ إلى بغداد، وهواءٌ
-        منها</em>.</p>
-        <p>وهذا ما يحدث على المائدة البغداديّة فعلاً. لا يبدأ الطبق
-        بالنظر إليه، بل برائحة تصل قبله: دخان النار تحت السمك، وعجينٌ
-        يلتصق بجدار التنّور، ودهنٌ حُرّ يُسكب على البامية فيُعلن عن
-        نفسه من الغرفة المجاورة.</p>
-        <p class="lead">لا نقدّم «أكلاً عراقياً» في قطر. نحاول نقل
-        الهواء نفسه.</p>
+        <p><strong>الباب الأوّل:</strong> الحُبّ الذي يشدّك إلى شيء لا
+        تملكه. <strong>والباب الثاني:</strong> الهواء نفسه — النسمة
+        التي تحمل الرائحة قبل أن تراها.</p>
+        <p class="lead">والهواء هو ما سافر فعلاً.</p>
+        <p>بغداد بُنيت على <em>دجلة</em>. والدوحة بُنيت على
+        <em>الخليج</em>. ودجلة لا تنتهي عند بغداد — تمضي إلى البصرة،
+        وتلتقي الفرات في شطّ العرب، ثم <strong>تصبّ في هذا
+        الخليج</strong>. فالماء الذي مرّ ببغداد هو الماء الذي وصل
+        إلى هنا.</p>
       </div>
-      <figure class="frame tilt" data-reveal>
-        <picture><source type="image/webp" srcset="assets/img/profile/art-teaman-480.webp 480w" sizes="(min-width:900px) 42vw, 92vw"><img src="assets/img/profile/art-teaman-480.jpg" alt="عمل فنّي: رجل بغدادي يصبّ الچاي" loading="lazy" decoding="async"></picture>
-        <figcaption>من أعمال الهويّة البصريّة</figcaption>
-      </figure>
+      <aside class="pullquote" data-reveal>
+        <p>«هوى بغداد» ليس مطعماً غريباً في الدوحة.<br>
+        إنه <b>عودة شيء ذهب من هنا</b>.</p>
+      </aside>
     </div>
   </div>
 </section>
 
-<section class="band band--tall" id="place">
+<!-- ⚠ مكان صورة النهر التي سيرسلها المالك:
+     media/incoming/tigris.jpg ← ثم assets/img/photo/tigris-*.webp -->
+<section class="band band--tall" id="water" data-chapter="٠٢" data-chapter-name="الماء الواحد">
+  <div class="band__layer" data-parallax aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/img/profile/souk-alley-473.webp">
+      <img src="assets/img/profile/souk-alley-473.jpg" alt="" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="wrap band__inner">
+    <p class="chapter" data-reveal>
+      <span class="chapter__link">والماء لا يسير وحده</span>
+      <span class="chapter__n">٠٢</span>
+      <span class="chapter__name">الماء الواحد</span>
+    </p>
+    <h2 class="h2 h2--words" data-reveal><span class="w"><i>سفنُ</i></span> <span class="w"><i>الخشب</i></span> <span class="w"><i>كانت</i></span> <span class="w"><i>تصعد</i></span> <span class="w"><i>إلى</i></span> <span class="w"><i>البصرة</i></span></h2>
+    <p class="lead" data-reveal>من هذا الساحل خرجت سفن الخشب إلى شطّ
+    العرب: تحمل اللؤلؤ والسمك المجفّف، وتعود محمّلةً بالتمر،
+    والخشب، و<strong>البهار</strong>.</p>
+  </div>
+</section>
+
+<section class="sec" id="spice" data-chapter="٠٣" data-chapter-name="طريق البهار">
+  <div class="wrap">
+    <div class="sec__head sec__head--center">
+      <p class="chapter" data-reveal>
+        <span class="chapter__link">والبهار وصل قبلنا</span>
+        <span class="chapter__n">٠٣</span>
+        <span class="chapter__name">طريق البهار</span>
+      </p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>نومي</i></span> <span class="w"><i>بصرة</i></span></h2>
+      <p class="lead" data-reveal>الليمون المجفّف الذي خرج من البصرة في
+      تلك السفن. وهو اليوم في مطبخَين: في <strong>التشريب</strong>
+      البغدادي، وفي <strong>المجبوس</strong> القطري.</p>
+    </div>
+    <ul class="bridge">
+      <li class="bridge__row" data-reveal>
+        <span class="bridge__a">نومي بصرة</span><span class="bridge__link" aria-hidden="true"></span><span class="bridge__b">اللومي</span>
+        <p class="bridge__note">نفس الليمون المجفّف. اسمان، وطريق واحد.</p></li>
+      <li class="bridge__row" data-reveal style="--delay:90ms">
+        <span class="bridge__a">قوزي</span><span class="bridge__link" aria-hidden="true"></span><span class="bridge__b">مجبوس</span>
+        <p class="bridge__note">لحم على تمن مُبهَّر. المنطق واحد، والبهار يختلف قليلاً.</p></li>
+      <li class="bridge__row" data-reveal style="--delay:180ms">
+        <span class="bridge__a">خبز التنّور</span><span class="bridge__link" aria-hidden="true"></span><span class="bridge__b">خبز الرقاق</span>
+        <p class="bridge__note">عجينٌ يُلصق على حارٍّ ويُؤكل حالاً.</p></li>
+      <li class="bridge__row" data-reveal style="--delay:270ms">
+        <span class="bridge__a">قيمر وعسل</span><span class="bridge__link" aria-hidden="true"></span><span class="bridge__b">دهن وعسل</span>
+        <p class="bridge__note">الفطور الذي لا يحتاج أكثر من ثلاثة مكوّنات.</p></li>
+      <li class="bridge__row" data-reveal style="--delay:360ms">
+        <span class="bridge__a">چاي الاستكان</span><span class="bridge__link" aria-hidden="true"></span><span class="bridge__b">چاي الكرك</span>
+        <p class="bridge__note">يُوضع ولا يُطلب. الضيافة واحدة على الضفّتين.</p></li>
+    </ul>
+    <p class="closing" data-reveal>فالمطبخ العراقي لا يحتاج تعريفاً في قطر.
+    <strong>طريق البهار سبقنا إليها.</strong></p>
+  </div>
+</section>
+
+<section data-chapter="٠٢" data-chapter-name="الضفّة" class="band band--tall" id="place">
   <div class="band__layer" data-parallax aria-hidden="true">
     <picture><source type="image/webp" srcset="assets/img/profile/interior-tilewall-398.webp 398w" sizes="100vw"><img src="assets/img/profile/interior-tilewall-398.jpg" alt="" loading="lazy" decoding="async"></picture>
   </div>
   <div class="wrap band__inner">
-    <p class="eyebrow" data-reveal>٠٢ — الأجواء</p>
-    <h2 class="h2" data-reveal>القاشاني الأزرق، والخشب الدافئ، وضوءٌ منخفض</h2>
+    <p class="chapter" data-reveal><span class="chapter__link">وعلى الضفّة يُبنى البيت</span><span class="chapter__n">٠٢</span><span class="chapter__name">الضفّة</span></p>
+    <h2 class="h2 h2--words" data-reveal><span class="w"><i>القاشاني</i></span> <span class="w"><i>الأزرق،</i></span> <span class="w"><i>والخشب</i></span> <span class="w"><i>الدافئ،</i></span> <span class="w"><i>وضوءٌ</i></span> <span class="w"><i>منخفض</i></span></h2>
     <p class="lead" data-reveal>
       توازنٌ مقصود بين القديم والحديث: بلاط مزخرف، وأقمشة منسوجة،
       وإضاءة معاصرة. مواد حقيقيّة بحرفة حقيقيّة — لا «ثيمة».
@@ -290,7 +386,7 @@
   </div>
 </section>
 
-<section class="sec fire on-dark" id="masgouf" style="background:var(--navy-900)">
+<section data-chapter="٠٣" data-chapter-name="النار" class="sec fire on-dark" id="masgouf" style="background:var(--navy-900)">
   <div class="fire__haze" aria-hidden="true"></div>
   <div class="fire__embers" aria-hidden="true">
     <b style="inset-inline-start:12%"></b><b style="inset-inline-start:28%"></b>
@@ -299,8 +395,8 @@
   </div>
   <div class="wrap" style="position:relative;z-index:4">
     <div class="sec__head">
-      <p class="eyebrow" data-reveal>٠٣ — الطبق الذي لا يُفوَّض</p>
-      <h2 class="h2" data-reveal>المسكوف: ساعةٌ واحدة، وأربع خطوات لا تُختصر</h2>
+      <p class="chapter" data-reveal><span class="chapter__link">ومن الماء إلى النار</span><span class="chapter__n">٠٣</span><span class="chapter__name">النار</span></p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>المسكوف:</i></span> <span class="w"><i>ساعةٌ</i></span> <span class="w"><i>واحدة،</i></span> <span class="w"><i>وأربع</i></span> <span class="w"><i>خطوات</i></span> <span class="w"><i>لا</i></span> <span class="w"><i>تُختصر</i></span></h2>
       <p class="lead" data-reveal>
         ليس «سمكاً مشوياً» بل طريقة: تُفرش السمكة مفتوحةً مواجهةً
         للجمر، فتُطبخ بالحرارة المنعكسة لا بالتلامس. ولهذا لا تُسرَّع.
@@ -347,11 +443,11 @@
   </div>
 </section>
 
-<section class="sec" id="menu">
+<section data-chapter="٠٤" data-chapter-name="المائدة" class="sec" id="menu">
   <div class="wrap">
     <div class="sec__head sec__head--center">
-      <p class="eyebrow" data-reveal>٠٤ — المائدة</p>
-      <h2 class="h2" data-reveal>ما يُوضَع أمامك</h2>
+      <p class="chapter" data-reveal><span class="chapter__link">وما خرج من النار يُوضَع</span><span class="chapter__n">٠٤</span><span class="chapter__name">المائدة</span></p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>ما</i></span> <span class="w"><i>يُوضَع</i></span> <span class="w"><i>أمامك</i></span></h2>
       <p class="lead" data-reveal>
         قائمة قصيرة مقصودة. كل صنف له سبب وجود، ولا يوجد صنف
         «لإرضاء الجميع». وهي <em>مقترحة</em> في مرحلة التطوير.
@@ -518,11 +614,11 @@
   </div>
 </section>
 
-<section class="sec on-dark" id="tea" style="background:var(--navy-900)">
+<section data-chapter="٠٥" data-chapter-name="الاستكان" class="sec on-dark" id="tea" style="background:var(--navy-900)">
   <div class="wrap">
     <div class="sec__head">
-      <p class="eyebrow" data-reveal>٠٥ — الضيافة</p>
-      <h2 class="h2" data-reveal>الچاي لا يُحتسب</h2>
+      <p class="chapter" data-reveal><span class="chapter__link">وبعد المائدة، يُسكب</span><span class="chapter__n">٠٥</span><span class="chapter__name">الاستكان</span></p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>الچاي</i></span> <span class="w"><i>لا</i></span> <span class="w"><i>يُحتسب</i></span></h2>
       <p class="lead" data-reveal>
         في بغداد لا يُقال للضيف «هل تريد شاياً؟» — يُوضع أمامه.
         نحتفظ بهذه العادة كما هي: استكان بعد الأكل، ضيافةً لا بنداً
@@ -531,6 +627,12 @@
     </div>
     <!-- المشعل: الصورة مُعتَّمة ويكشفها المؤشّر كأنه ضوء يمرّ عليها.
          على اللمس يتبع الإصبع. -->
+    <!-- فيديو صبّ الچاي. يُشغَّل بدل الصورة لحظة رفع الملف،
+         وقبله تبقى الصورة — ولا شيء ينكسر.
+         المتوقَّع: media/video/tea-pour.mp4 -->
+    <video class="clip" data-src="media/video/tea-pour.mp4"
+           data-start="0" data-end="0"
+           muted loop playsinline preload="none" aria-hidden="true"></video>
     <figure class="torch" data-reveal>
       <picture><source type="image/webp" srcset="assets/img/profile/istikan-02-472.webp 472w" sizes="100vw"><img src="assets/img/profile/istikan-02-472.jpg" alt="استكان چاي على صحن بنقاط حمراء" loading="lazy" decoding="async"></picture>
       <figcaption>مرّر المؤشّر على الصورة</figcaption>
@@ -538,11 +640,11 @@
   </div>
 </section>
 
-<section class="sec" id="brand">
+<section data-chapter="٠٦" data-chapter-name="ما يُحمَل" class="sec" id="brand">
   <div class="wrap">
     <div class="sec__head">
-      <p class="eyebrow" data-reveal>٠٦ — الهويّة التطبيقيّة</p>
-      <h2 class="h2" data-reveal>التغليف واليونيفورم</h2>
+      <p class="chapter" data-reveal><span class="chapter__link">وما لا يُؤكل هنا، يُحمَل</span><span class="chapter__n">٠٦</span><span class="chapter__name">ما يُحمَل</span></p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>التغليف</i></span> <span class="w"><i>واليونيفورم</i></span></h2>
       <p class="lead" data-reveal>
         الهويّة لا تنتهي عند الشعار. هذه تطبيقاتها على ما يحمله
         الضيف ويلمسه.
@@ -577,11 +679,11 @@
   </div>
 </section>
 
-<section class="rail-stage" id="reference" data-rail>
+<section data-chapter="٠٧" data-chapter-name="المصبّ" class="rail-stage" id="reference" data-rail>
   <div class="rail-sticky">
     <div class="wrap" style="margin-block-end:var(--s-5)">
-      <p class="eyebrow" data-reveal>٠٧ — المرجع</p>
-      <h2 class="h2" data-reveal>من أين تأتي التفاصيل</h2>
+      <p class="chapter" data-reveal><span class="chapter__link">ويصل النهر إلى الخليج</span><span class="chapter__n">٠٧</span><span class="chapter__name">المصبّ</span></p>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>من</i></span> <span class="w"><i>أين</i></span> <span class="w"><i>تأتي</i></span> <span class="w"><i>التفاصيل</i></span></h2>
     </div>
     <div class="rail" data-rail-track>
       <article class="rail__card">
@@ -613,7 +715,7 @@
   <div class="wrap">
     <div class="sec__head">
       <p class="eyebrow" data-reveal>٠٧ — أين المشروع الآن</p>
-      <h2 class="h2" data-reveal>حبرٌ على ورق، ومعه خطّة</h2>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>حبرٌ</i></span> <span class="w"><i>على</i></span> <span class="w"><i>ورق،</i></span> <span class="w"><i>ومعه</i></span> <span class="w"><i>خطّة</i></span></h2>
       <p class="lead" data-reveal style="--delay:80ms">
         «هوى بغداد» مفهومٌ مكتمل لم يُنفَّذ بعد. هذه الصفحة تعرضه كما هو
         — بلا عنوان وهمي ولا صور لمكان غير موجود.
@@ -700,7 +802,7 @@
   <div class="wrap wrap--narrow">
     <div class="sec__head">
       <p class="eyebrow" data-reveal>٠٨ — أسئلة</p>
-      <h2 class="h2" data-reveal>ما يُسأل عنه عادةً</h2>
+      <h2 class="h2 h2--words" data-reveal><span class="w"><i>ما</i></span> <span class="w"><i>يُسأل</i></span> <span class="w"><i>عنه</i></span> <span class="w"><i>عادةً</i></span></h2>
     </div>
 
     <div class="faq">
@@ -801,6 +903,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=5" defer></script>
+<script src="assets/js/app.js?v=6" defer></script>
 </body>
 </html>

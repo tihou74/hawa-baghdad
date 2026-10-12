@@ -479,54 +479,220 @@
 })();
 
 /* ============================================================================
-   فيديو الواجهة — أربع حمايات قبل تحميل أي بايت
+   الفيديو — حمايات، وتشغيل جزء محدّد
    ----------------------------------------------------------------------------
-   `<video>` بـ`autoplay` وحده يُنزّل ميغابايتات على كل زائر، حتى من
-   كان على بيانات جوّال أو من طلب تقليل الحركة. فالشروط تُفحَص أوّلاً،
-   والصورة تبقى هي الأساس:
+   `<video autoplay>` وحده يُنزّل ميغابايتات على كل زائر، حتى من كان على
+   بيانات جوّال أو طلب تقليل الحركة. فالشروط تُفحَص أوّلاً:
 
-     ١) تقليل الحركة  : لا تحميل إطلاقاً.
-     ٢) توفير البيانات: `saveData` أو شبكة 2g — لا تحميل.
-     ٣) القرب من الشاشة: لا تحميل قبل أن يقترب القسم.
-     ٤) فشل التحميل   : يُهمَل بصمت وتبقى الصورة.
+     ١) تقليل الحركة   : لا تحميل إطلاقاً.
+     ٢) توفير البيانات : saveData أو شبكة 2g — لا تحميل.
+     ٣) القرب من الشاشة: لا تحميل قبل أن يقترب العنصر.
+     ٤) فشل التحميل    : يُهمَل بصمت ويبقى البديل (صورة).
+
+   واستخدام **جزء** من المقطع:
+   لا ffmpeg في بيئة البناء فلا يمكن قصّ الملف. والحلّ أن يُحصَر
+   التشغيل في مدى `data-start`..`data-end` ويُكرَّر منه — فالنتيجة
+   كالقصّ بلا قصّ، ويبقى الملف الأصلي كاملاً على القرص.
+   و`data-end="0"` تعني «إلى آخر المقطع».
    ========================================================================== */
 (function () {
   "use strict";
 
-  var v = document.querySelector(".hero__video[data-src]");
-  if (!v) return;
+  var vids = document.querySelectorAll("video[data-src]");
+  if (!vids.length) return;
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    vids.forEach(function (v) { v.remove(); });
+    return;
+  }
 
   var net = navigator.connection || {};
-  if (net.saveData || /(^|-)(2g|slow-2g)$/.test(net.effectiveType || "")) return;
+  if (net.saveData || /(^|-)(2g|slow-2g)$/.test(net.effectiveType || "")) {
+    vids.forEach(function (v) { v.remove(); });
+    return;
+  }
 
-  function load() {
+  function setup(v) {
+    var start = parseFloat(v.getAttribute("data-start")) || 0;
+    var end = parseFloat(v.getAttribute("data-end")) || 0;
+
     v.src = v.getAttribute("data-src");
     v.removeAttribute("data-src");
-    /* `canplay` لا `loadeddata`: الأوّل يعني أن التشغيل يمكن أن يبدأ
-       فعلاً بلا تلعثم، والثاني يتحقّق بإطار واحد. */
+
+    /* الحلقة اليدويّة تُغني عن `loop`: لا بدّ من العودة إلى
+       `start` لا إلى الصفر. */
+    if (start > 0 || end > 0) v.removeAttribute("loop");
+
+    v.addEventListener("loadedmetadata", function () {
+      if (start > 0 && start < (v.duration || Infinity)) {
+        try { v.currentTime = start; } catch (e) { /* يُتجاهل */ }
+      }
+    }, { once: true });
+
+    /* `timeupdate` يكفي: دقّته نحو ٢٥٠ms وهي كافية لحلقة خلفيّة،
+       وأرخص بكثير من requestAnimationFrame لكل إطار. */
+    if (start > 0 || end > 0) {
+      v.addEventListener("timeupdate", function () {
+        var stop = end > start ? end : (v.duration || 0);
+        if (stop && v.currentTime >= stop - 0.05) {
+          try { v.currentTime = start; } catch (e) { /* يُتجاهل */ }
+          v.play().catch(function () {});
+        }
+      });
+    }
+
     v.addEventListener("canplay", function () {
       v.play().then(function () {
         v.classList.add("is-ready");
       }).catch(function () {
-        /* المتصفّح رفض التشغيل التلقائي: تبقى الصورة. */
+        /* المتصفّح رفض التشغيل التلقائي: يبقى البديل. */
       });
     }, { once: true });
+
     v.addEventListener("error", function () {
-      /* الملف غير مرفوع بعد أو تعذّر فكّه: لا شيء ينكسر. */
+      /* الملف غير مرفوع بعد أو تعذّر فكّه. */
       v.remove();
     }, { once: true });
   }
 
-  if (!("IntersectionObserver" in window)) { load(); return; }
+  if (!("IntersectionObserver" in window)) {
+    vids.forEach(setup);
+    return;
+  }
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
       io.unobserve(e.target);
-      load();
+      setup(e.target);
     });
-  }, { rootMargin: "200px" });
-  io.observe(v);
+  }, { rootMargin: "250px" });
+  vids.forEach(function (v) { io.observe(v); });
+
+  /* إيقاف ما خرج عن الشاشة: فكّ عدّة مقاطع في وقت واحد يُسخّن
+     الهاتف بلا فائدة. */
+  var vis = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (v.hasAttribute("data-src")) return;
+      if (e.isIntersecting) { v.play().catch(function () {}); }
+      else { v.pause(); }
+    });
+  }, { threshold: 0.2 });
+  vids.forEach(function (v) { vis.observe(v); });
+})();
+
+/* ============================================================================
+   خطّ الرحلة — المحطّات والتقدّم
+   ----------------------------------------------------------------------------
+   المحطّات تُبنى من الأقسام التي تحمل `data-chapter`، فإضافة فصل أو
+   حذفه لا يحتاج تعديل هذا الملف. وموضع كل محطّة يُحسب من موضع قسمها
+   في الصفحة، فيبقى الخطّ مطابقاً للمحتوى أيّاً كان طوله.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var spine = document.querySelector(".spine");
+  if (!spine) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    spine.remove();
+    return;
+  }
+
+  var list = spine.querySelector(".spine__stops");
+  var flow = spine.querySelector(".spine__flow");
+  var secs = Array.prototype.slice.call(document.querySelectorAll("[data-chapter]"));
+  if (!list || !secs.length) { spine.remove(); return; }
+
+  var stops = secs.map(function (sec) {
+    var li = document.createElement("li");
+    li.className = "spine__stop";
+    li.innerHTML = '<i></i><b>' +
+      (sec.getAttribute("data-chapter-name") || "") + "</b>";
+    list.appendChild(li);
+    return { el: li, sec: sec };
+  });
+
+  var raf = null;
+
+  function place() {
+    var docH = document.documentElement.scrollHeight;
+    stops.forEach(function (s) {
+      var top = s.sec.getBoundingClientRect().top + window.scrollY;
+      s.el.style.insetBlockStart = (top / docH * 100).toFixed(3) + "%";
+    });
+  }
+
+  function frame() {
+    raf = null;
+    var y = window.scrollY || window.pageYOffset;
+    var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    var p = scrollable > 0 ? y / scrollable : 0;
+    if (flow) flow.style.setProperty("--flow", p.toFixed(4));
+
+    /* المحطّة الحاليّة: أقرب قسم تجاوز منتصف الشاشة */
+    var mid = y + window.innerHeight * 0.42;
+    var here = -1;
+    stops.forEach(function (s, i) {
+      var top = s.sec.getBoundingClientRect().top + y;
+      if (top <= mid) here = i;
+    });
+    stops.forEach(function (s, i) {
+      s.el.classList.toggle("is-passed", i <= here);
+      s.el.classList.toggle("is-here", i === here);
+    });
+  }
+
+  function kick() { if (!raf) raf = window.requestAnimationFrame(frame); }
+
+  place();
+  frame();
+  window.addEventListener("scroll", kick, { passive: true });
+  window.addEventListener("resize", function () { place(); kick(); }, { passive: true });
+  window.addEventListener("load", function () { place(); kick(); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { place(); kick(); });
+  }
+})();
+
+/* ============================================================================
+   القنديل — وهج يتبع المؤشّر على الفصول الداكنة
+   ========================================================================== */
+(function () {
+  "use strict";
+  var el = document.querySelector(".lantern");
+  if (!el) return;
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.remove();
+    return;
+  }
+  var raf = null, x = 0, y = 0;
+  function apply() {
+    raf = null;
+    el.style.setProperty("--lx", x + "px");
+    el.style.setProperty("--ly", y + "px");
+  }
+  window.addEventListener("pointermove", function (e) {
+    x = e.clientX; y = e.clientY;
+    /* يُضاء على الأرضيّات الداكنة فقط: على الفاتحة لا يُرى أثره
+       ويبدو كضباب. */
+    var over = document.elementFromPoint(x, y);
+    var dark = over && over.closest(".on-dark, .band, .hero, .signature");
+    el.classList.toggle("is-on", !!dark);
+    if (!raf) raf = window.requestAnimationFrame(apply);
+  }, { passive: true });
+  window.addEventListener("pointerleave", function () { el.classList.remove("is-on"); });
+})();
+
+/* ============================================================================
+   ترقيم كلمات العناوين — لتتابع الكشف
+   ========================================================================== */
+(function () {
+  "use strict";
+  document.querySelectorAll(".h2--words").forEach(function (h) {
+    h.querySelectorAll(".w").forEach(function (w, i) {
+      w.querySelector("i").style.setProperty("--i", i);
+    });
+  });
 })();
