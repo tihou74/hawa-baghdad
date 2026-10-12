@@ -536,9 +536,15 @@
     if (start > 0 || end > 0) v.removeAttribute("loop");
 
     v.addEventListener("loadedmetadata", function () {
-      if (start > 0 && start < (v.duration || Infinity)) {
-        try { v.currentTime = start; } catch (e) { /* يُتجاهل */ }
-      }
+      /* لا يُنقَل الموضع قبل بدء التشغيل.
+         ------------------------------------------------------------
+         كان `currentTime = start` يُضبط هنا، قبل أي تشغيل. وبعض
+         الملفّات يفشل فيها الانتقال فلا يُطلق `canplay` أبداً —
+         فلا يبدأ التشغيل، ولا يُضاف `has-video`، وتبقى الصورة
+         الثابتة. وهذا ما حدث مع `hero.mp4`: ظهرت الصورة بدل
+         النار على الهاتف وفي الصندوق معاً.
+         فالانتقال صار **بعد** أن يبدأ التشغيل فعلاً، وفشله لا
+         يمنع ظهور المقطع. */
 
       /* المصدر العموديّ لا يُفرَش على حاوية عريضة.
          ------------------------------------------------------------
@@ -599,16 +605,30 @@
       });
     }
 
-    v.addEventListener("canplay", function () {
+    var launched = false;
+    function launch() {
+      if (launched) return;
+      launched = true;
       v.play().then(function () {
         v.classList.add("is-ready");
         /* تُخفى الصورة الثابتة الآن فقط — بعد تأكّد التشغيل.
            إخفاؤها مبكّراً يترك مستطيلاً فارغاً إن فشل الفيديو. */
         if (v.parentElement) v.parentElement.classList.add("has-video");
+        /* الانتقال بعد التشغيل: فشله يقصّر المقطع ولا يُخفيه */
+        if (start > 0 && start < (v.duration || Infinity)) {
+          try { v.currentTime = start; } catch (e) { /* يُتجاهل */ }
+        }
       }).catch(function () {
-        /* المتصفّح رفض التشغيل التلقائي: يبقى البديل. */
+        /* رُفض التشغيل التلقائي: تبقى الصورة الثابتة. */
+        launched = false;
       });
-    }, { once: true });
+    }
+
+    /* ثلاث فرص لا واحدة: `loadeddata` أسرع من `canplay`، وبعض
+       الملفّات لا تُطلق `canplay` إطلاقاً. والمؤقّت حارسٌ أخير. */
+    v.addEventListener("loadeddata", launch, { once: true });
+    v.addEventListener("canplay", launch, { once: true });
+    setTimeout(launch, 3500);
 
     v.addEventListener("error", function () {
       /* الملف غير مرفوع بعد أو تعذّر فكّه: تعود الصورة الثابتة
