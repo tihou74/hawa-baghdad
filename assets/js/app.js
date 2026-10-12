@@ -516,6 +516,18 @@
     var start = parseFloat(v.getAttribute("data-start")) || 0;
     var end = parseFloat(v.getAttribute("data-end")) || 0;
 
+    /* `data-rate`: إبطاء المقطع القصير
+       ------------------------------------------------------------
+       مقطع ١٫٧ ثانية يُكرَّر كل ثانيتين، فيُقرأ تشنّجاً لا حركة.
+       والإبطاء يُضاعف مدّته المحسوسة بلا ملفّ جديد — وصبّ الصلصة
+       بطيئاً أفخم بصرياً من سرعته الأصليّة، فالمكسب مزدوج. */
+    var rate = parseFloat(v.getAttribute("data-rate"));
+    if (rate > 0) {
+      v.addEventListener("loadedmetadata", function () {
+        try { v.playbackRate = rate; } catch (e) { /* يُتجاهل */ }
+      }, { once: true });
+    }
+
     v.src = v.getAttribute("data-src");
     v.removeAttribute("data-src");
 
@@ -537,7 +549,41 @@
          والقياس هنا لأن الأبعاد لا تُعرف قبل وصول البيانات
          الوصفيّة. */
       if (v.videoWidth && v.videoHeight) {
-        v.classList.toggle("is-portrait", v.videoHeight > v.videoWidth);
+        var portrait = v.videoHeight > v.videoWidth;
+        v.classList.toggle("is-portrait", portrait);
+
+        /* الأطراف تُملأ بنفس المقطع مضبَّباً — لا بصورة أخرى.
+           ------------------------------------------------------------
+           المحاولة الأولى تركت الصورة الثابتة خلف الفيديو، فظهرت
+           ثلاث صور متجاورة بخطّين واضحين (سمكة | نار | سمكة).
+           فتُنسخ نسخة ثانية من **نفس** الملفّ تملأ العرض مكبَّرة
+           ومضبَّبة: المشهد واحد فلا يُدرَك خطّ القصّ.
+
+           وتُنشأ من هنا لا من HTML: لا تُعرف نسبة الملفّ قبل وصول
+           بياناته الوصفيّة، وإنشاؤها دائماً يعني فكّ مقطع إضافي
+           على كل زائر حتى لو كان المصدر أفقياً. */
+        var host = v.parentElement;
+        /* المشهد (`.reel`) لا يحتاج ملئاً ضبابياً: المقطع يملأ
+           الشاشة على الهاتف، ويصير عموداً على الشاشة العريضة. */
+        if (portrait && host && !host.classList.contains("reel")
+            && !host.querySelector(".vid-fill")) {
+          var wide = host.clientWidth > host.clientHeight;
+          if (wide) {
+            var bg = document.createElement("video");
+            bg.className = "vid-fill";
+            bg.muted = true;
+            bg.loop = true;
+            bg.playsInline = true;
+            bg.setAttribute("aria-hidden", "true");
+            bg.src = v.currentSrc || v.src;
+            host.insertBefore(bg, v);
+            bg.play().then(function () {
+              bg.classList.add("is-ready");
+            }).catch(function () {
+              bg.remove();          /* لا تبقى طبقة سوداء */
+            });
+          }
+        }
       }
     }, { once: true });
 
@@ -556,13 +602,23 @@
     v.addEventListener("canplay", function () {
       v.play().then(function () {
         v.classList.add("is-ready");
+        /* تُخفى الصورة الثابتة الآن فقط — بعد تأكّد التشغيل.
+           إخفاؤها مبكّراً يترك مستطيلاً فارغاً إن فشل الفيديو. */
+        if (v.parentElement) v.parentElement.classList.add("has-video");
       }).catch(function () {
         /* المتصفّح رفض التشغيل التلقائي: يبقى البديل. */
       });
     }, { once: true });
 
     v.addEventListener("error", function () {
-      /* الملف غير مرفوع بعد أو تعذّر فكّه. */
+      /* الملف غير مرفوع بعد أو تعذّر فكّه: تعود الصورة الثابتة
+         وتُزال طبقة الملء، فلا يبقى فراغ ولا ضباب بلا مقطع. */
+      var host = v.parentElement;
+      if (host) {
+        host.classList.remove("has-video");
+        var fill = host.querySelector(".vid-fill");
+        if (fill) fill.remove();
+      }
       v.remove();
     }, { once: true });
   }
