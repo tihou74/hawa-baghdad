@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=7">
-<link rel="stylesheet" href="assets/css/base.css?v=7">
-<link rel="stylesheet" href="assets/css/layout.css?v=7">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=7">
+<link rel="stylesheet" href="assets/css/tokens.css?v=8">
+<link rel="stylesheet" href="assets/css/base.css?v=8">
+<link rel="stylesheet" href="assets/css/layout.css?v=8">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=8">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -854,6 +854,20 @@
 </main>
 
 <!-- ============================================================
+     الميدالية — ختام الرحلة
+     العلامة مضغوطة في الورق بلا حبر: لا يُرى الشكل، يُرى أثره.
+     والشكل مولَّد متجهيّاً بـ tools/seal.py من كلمة الشعار نفسها،
+     فمصدر الحقيقة واحد: تعديل الشعار يُعاد توليده منه.
+     `aria-hidden` مقصود: هذه زخرفة، والعلامة مذكورة نصّاً في
+     الذيل وفي الواجهة — فتكرارها على قارئ الشاشة ضجيج.
+     ============================================================ -->
+<section class="medallion" aria-hidden="true">
+  <div class="medallion__press">
+    <span class="medallion__ink"></span>
+  </div>
+</section>
+
+<!-- ============================================================
      الذيل
      ============================================================ -->
 <footer class="ftr">
@@ -903,6 +917,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=7" defer></script>
+<script src="assets/js/app.js?v=8" defer></script>
 </body>
 </html>

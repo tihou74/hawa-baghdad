@@ -1712,4 +1712,77 @@ body { font-weight: 300; }
       transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
+/* ============================================================
+   ٢٨) الميدالية — نقش غائر في الورق، بلا حبر
+   ------------------------------------------------------------
+   الختم المائل بحبر داكن كلاشيه: يُقرأ «مطّاط على فاتورة».
+   فالعلامة هنا **مضغوطة في الورق نفسه** — لا حبر إطلاقاً، ولا
+   ميل. لا يُرى إلا أثر الضغط: حافّة مظلّلة من جهة الضوء وحافّة
+   مضيئة من مقابلها. وهذه لغة الطباعة الفاخرة (blind deboss)،
+   وهي ما يميّز بطاقة فندق عن بطاقة مطبعة سريعة.
+
+   وتدور دورة واحدة بطيئة جدّاً مع التمرير (‏٢٤ درجة على كامل
+   ظهورها) فتتغيّر زاوية الضوء عليها — فتُقرأ معدناً مطبوعاً في
+   الورق لا صورة ثابتة.
+
+   طبقتان ضروريّتان لا تجميليّتان
+   -------------------------------
+   `filter` يُطبَّق **قبل** `mask` في خطّ الرسم. فجمعهما على عنصر
+   واحد يولّد الظلّ من المستطيل الكامل ثم يقصّه القناع — فينهار
+   التأثير. فالقناع على `__ink` والمُرشّح على الحاوية، فيعمل على
+   الصورة المقنَّعة أصلاً.
+   ============================================================ */
+.medallion {
+  background: var(--cream-200);
+  padding-block: clamp(4.5rem, 14vh, 10rem);
+  display: grid;
+  justify-items: center;
+  overflow: clip;
+}
+.medallion__press {
+  inline-size: clamp(210px, 36vw, 400px);
+  aspect-ratio: 1;
+  /* الضوء من أعلى اليسار: الحافّة العلويّة غائرة والسفليّة مضيئة */
+  filter:
+    drop-shadow(-1.5px -1.5px 0 color-mix(in srgb, var(--navy-900) 44%, transparent))
+    drop-shadow(2px 2.5px 1.5px color-mix(in srgb, #fff 90%, transparent));
+}
+.medallion__ink {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+  /* نفس لون الورق: فلا يُرى الشكل، يُرى أثره وحده */
+  background:
+    linear-gradient(158deg,
+      color-mix(in srgb, var(--cream-200) 88%, #fff) 0%,
+      var(--cream-200) 46%,
+      color-mix(in srgb, var(--cream-200) 93%, var(--navy-900)) 100%);
+  -webkit-mask: url("../img/seal.svg") center / contain no-repeat;
+          mask: url("../img/seal.svg") center / contain no-repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .medallion__press {
+      animation: medallion-turn linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+@keyframes medallion-turn {
+  from { rotate: -12deg; }
+  to   { rotate: 12deg; }
+}
+
+/* الشاشات الضيّقة: الفرق في الإضاءة يضيع تحت ٢٠٠px، فيُرفع
+   التبايُن قليلاً بدل أن تختفي العلامة تماماً. */
+@media (max-width: 480px) {
+  .medallion__press {
+    filter:
+      drop-shadow(-1px -1px 0 color-mix(in srgb, var(--navy-900) 46%, transparent))
+      drop-shadow(1.5px 2px 1px color-mix(in srgb, #fff 92%, transparent));
+  }
+}
+
 .torch { position: relative; }
