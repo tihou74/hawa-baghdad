@@ -1673,4 +1673,37 @@ body { font-weight: 300; }
   z-index: 1;
 }
 .clip.is-ready { opacity: 1; }
+
+/* ------------------------------------------------------------
+   مصدر عموديّ: نافذة لا فرش
+   ------------------------------------------------------------
+   مقاطع الهاتف رأسيّة (‏480×848 مثلاً). وفرشها بـ`cover` على
+   حاوية عريضة يقصّ الشريط الأوسط ويُكبّره ثلاث مرّات، فتضيع
+   حدود المشهد ويظهر التكبير. فالعموديّ يُعرض **محصوراً بعرضه**
+   في وسط الحاوية، والصورة الثابتة تبقى خلفه هي الخلفيّة —
+   فيُقرأ كنافذة مقصودة في الجدار لا كفيديو فشل في التمدّد.
+
+   و`is-portrait` تُضاف من الجافاسكربت بعد قياس الملفّ. */
+.clip.is-portrait,
+.hero__video.is-portrait {
+  inset-block: 0;
+  inset-inline: 0;
+  margin-inline: auto;
+  inline-size: auto;
+  block-size: 100%;
+  /* لا يتجاوز عرضه الأصلي كثيراً: التكبير فوق ١٫٢× يُظهر الضباب */
+  max-inline-size: min(100%, 576px);
+  object-fit: cover;
+}
+
+/* حافّة النافذة: تدرّج يُلاشي الجانبين في الصورة الخلفيّة فلا
+   يظهر خطّ قصّ حادّ بين الفيديو وما تحته. */
+.clip.is-portrait,
+.hero__video.is-portrait {
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0, #000 7%, #000 93%, transparent 100%);
+          mask-image: linear-gradient(to right,
+      transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+
 .torch { position: relative; }

@@ -28,12 +28,17 @@ video — فحص ملفّات الفيديو واستخراج صورة الغل�
 """
 
 import base64
+import functools
+import http.server
 import os
 import re
+import shutil
+import socket
 import struct
 import subprocess
 import sys
 import tempfile
+import threading
 
 MAX_EDGE = 2000           # حدّ قراءة الصور
 WARN_MB = 8               # فوقه يُثقل الهاتف
@@ -108,7 +113,12 @@ def probe(path):
             tk = find(data, [b"tkhd"], b, e)
             if tk:
                 tb = tk[0]
-                off = 84 if data[tb] == 1 else 72
+                # إزاحة width/height من بداية محتوى tkhd:
+                #   نسخة 0: flags4 + ctime4 + mtime4 + id4 + res4 + dur4 = 24
+                #   نسخة 1: flags4 + ctime8 + mtime8 + id4 + res4 + dur8 = 36
+                #   ثم reserved8 + layer2 + alt2 + volume2 + res2 = 16
+                #   ثم matrix36  →  76 (نسخة 0) أو 88 (نسخة 1)
+                off = 88 if data[tb] == 1 else 76
                 if tb + off + 8 <= len(data):
                     w = struct.unpack(">I", data[tb + off:tb + off + 4])[0] >> 16
                     h = struct.unpack(">I", data[tb + off + 4:tb + off + 8])[0] >> 16
@@ -222,16 +232,21 @@ def cmd_poster(src, outdir, at=1.0):
     os.makedirs(outdir, exist_ok=True)
     stem = re.sub(r"[^a-z0-9]+", "-", os.path.splitext(
         os.path.basename(src))[0].lower()).strip("-")
+    if not stem:          # اسم عربي بالكامل لا يُبقي حرفاً لاتينياً
+        stem = "poster-%x" % (abs(hash(os.path.abspath(src))) % 0xffff)
 
     page = """<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
 <pre id="OUT">pending</pre>
 <script>
 var v = document.createElement('video');
-v.muted = true; v.preload = 'auto'; v.src = 'file://%s';
+v.muted = true; v.preload = 'auto'; v.src = 'v.mp4';
 function fail(m){ document.getElementById('OUT').textContent = 'ERR:'+m; }
 v.onerror = function(){ fail('load'); };
 v.onloadeddata = function(){
-  var t = Math.min(%s, (v.duration || 1) * 0.5);
+  // تُقصّ على المدّة نفسها لا على نصفها — القصّ على النصف كان
+  // يُرجع الإطار ذاته لكل طلب بعد المنتصف بلا أي تنبيه.
+  var d = v.duration || 1;
+  var t = Math.max(0, Math.min(%s, d - 0.05));
   v.currentTime = t;
 };
 v.onseeked = function(){
@@ -251,19 +266,44 @@ v.onseeked = function(){
     });
   } catch(e){ fail(String(e)); }
 };
-</script></body></html>""" % (os.path.abspath(src), at, min(MAX_EDGE, 1600))
+</script></body></html>""" % (at, min(MAX_EDGE, 1600))
 
-    tmp = tempfile.NamedTemporaryFile("w", suffix=".html", delete=False,
-                                      encoding="utf-8")
-    tmp.write(page)
-    tmp.close()
+    # يجب أن تُقدَّم الصفحة والفيديو عبر HTTP لا عبر file://
+    # ---------------------------------------------------------------
+    # على file:// يرفض Chrome تحميل الوسائط من مسار آخر (حتى مع
+    # --allow-file-access-from-files) فلا يُطلق onloadeddata ولا
+    # onerror، وتبقى الصفحة «pending» حتى تنتهي الميزانيّة الزمنيّة.
+    # فيُقدَّم الملفّان من أصل http واحد باسم ثابت `v.mp4` — وهذا
+    # يحلّ أيضاً أسماء الملفّات العربيّة وذات المسافات، فلا تحتاج
+    # ترميزاً في العنوان.
+    work = tempfile.mkdtemp(prefix="poster-")
+    try:
+        shutil.copy2(src, os.path.join(work, "v.mp4"))
+        with open(os.path.join(work, "index.html"), "w",
+                  encoding="utf-8") as fh:
+            fh.write(page)
 
-    res = subprocess.run(
-        [chrome, "--headless", "--no-sandbox", "--disable-gpu",
-         "--allow-file-access-from-files", "--autoplay-policy=no-user-gesture-required",
-         "--virtual-time-budget=30000", "--dump-dom", "file://" + tmp.name],
-        capture_output=True, text=True)
-    os.unlink(tmp.name)
+        with socket.socket() as probe_sock:          # منفذ حرّ
+            probe_sock.bind(("127.0.0.1", 0))
+            port = probe_sock.getsockname()[1]
+
+        handler = functools.partial(
+            http.server.SimpleHTTPRequestHandler, directory=work)
+        handler.log_message = lambda *a, **k: None   # بلا ضجيج
+        srv = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        try:
+            res = subprocess.run(
+                [chrome, "--headless", "--no-sandbox", "--disable-gpu",
+                 "--autoplay-policy=no-user-gesture-required",
+                 "--virtual-time-budget=30000", "--dump-dom",
+                 "http://127.0.0.1:%d/index.html" % port],
+                capture_output=True, text=True, timeout=120)
+        finally:
+            srv.shutdown()
+            srv.server_close()
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
 
     m = re.search(r'<pre id="OUT">(.*?)</pre>', res.stdout, re.S)
     if not m:
@@ -288,12 +328,140 @@ v.onseeked = function(){
     return 0
 
 
+# ----------------------------------------------------- ورقة المراجعة
+
+SHEET_JS = """
+var FILES = %s, COLS = %d, TW = %d, TH = %d, STAMPS = [0.12, 0.5, 0.88];
+var c = document.createElement('canvas');
+c.width = COLS * TW; c.height = STAMPS.length * TH;
+var x = c.getContext('2d');
+x.fillStyle = '#111'; x.fillRect(0, 0, c.width, c.height);
+var out = document.getElementById('OUT');
+
+function tile(v, col, row, name) {
+  var bx = col * TW, by = row * TH;
+  var k = Math.min(TW / v.videoWidth, TH / v.videoHeight);
+  var w = v.videoWidth * k, h = v.videoHeight * k;
+  x.drawImage(v, bx + (TW - w) / 2, by + (TH - h) / 2, w, h);
+  x.font = '11px monospace'; x.textBaseline = 'top';
+  x.fillStyle = 'rgba(0,0,0,.7)'; x.fillRect(bx, by, TW, 14);
+  x.fillStyle = '#fff'; x.fillText(name.slice(0, 30), bx + 3, by + 2);
+}
+
+/* تسلسلياً: فكّ عدّة مقاطع معاً في متصفّح بلا عتاد رسومي يفشل. */
+function one(i, done) {
+  if (i >= FILES.length) return done();
+  var v = document.createElement('video');
+  v.muted = true; v.preload = 'auto'; v.src = encodeURIComponent(FILES[i]);
+  var si = 0, dead = setTimeout(function () { next(); }, 12000);
+  function next() { clearTimeout(dead); v.removeAttribute('src'); one(i + 1, done); }
+  v.onerror = next;
+  v.onloadeddata = function () { seek(); };
+  function seek() {
+    if (si >= STAMPS.length) return next();
+    var t = Math.max(0, Math.min(STAMPS[si] * (v.duration || 1), (v.duration || 1) - 0.05));
+    v.currentTime = t;
+  }
+  v.onseeked = function () {
+    try { tile(v, i, si, FILES[i]); } catch (e) {}
+    si++; seek();
+  };
+}
+one(0, function () {
+  out.textContent = JSON.stringify({ w: c.width, h: c.height,
+                                     jpg: c.toDataURL('image/jpeg', 0.82) });
+});
+"""
+
+
+def cmd_sheet(folder, outpath):
+    """يبني صورة واحدة فيها ثلاث لحظات من كل مقطع — لمراجعة
+    المحتوى والحقوق (علامات مائيّة، شعارات جهات أخرى) بنظرة واحدة
+    بدل استخراج غلاف لكل ملف على حدة."""
+    chrome = None
+    for c in ("chrome", "chromium", "google-chrome"):
+        if subprocess.call(["which", c], stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL) == 0:
+            chrome = c
+            break
+    if not chrome:
+        print("لا متصفّح متاح.")
+        return 1
+
+    files = sorted(f for f in os.listdir(folder) if f.lower().endswith(".mp4"))
+    if not files:
+        print("لا ملفّات mp4 في %s" % folder)
+        return 1
+
+    # تُحسب أبعاد البلاطة لتبقى الورقة كلها تحت حدّ قراءة الصور
+    tw = max(120, min(320, (MAX_EDGE - 100) // len(files)))
+    th = int(tw * 1.78)
+    if 3 * th > MAX_EDGE - 40:
+        th = (MAX_EDGE - 40) // 3
+        tw = min(tw, int(th / 1.78))
+
+    work = tempfile.mkdtemp(prefix="sheet-")
+    try:
+        for f in files:
+            shutil.copy2(os.path.join(folder, f), os.path.join(work, f))
+        import json as J
+        with open(os.path.join(work, "index.html"), "w", encoding="utf-8") as fh:
+            fh.write('<!DOCTYPE html><meta charset="utf-8">'
+                     '<pre id="OUT">pending</pre><script>%s</script>'
+                     % (SHEET_JS % (J.dumps(files), len(files), tw, th)))
+
+        with socket.socket() as sk:
+            sk.bind(("127.0.0.1", 0))
+            port = sk.getsockname()[1]
+        handler = functools.partial(
+            http.server.SimpleHTTPRequestHandler, directory=work)
+        handler.log_message = lambda *a, **k: None
+        srv = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        try:
+            res = subprocess.run(
+                [chrome, "--headless", "--no-sandbox", "--disable-gpu",
+                 "--autoplay-policy=no-user-gesture-required",
+                 "--virtual-time-budget=%d" % (15000 * len(files)),
+                 "--dump-dom", "http://127.0.0.1:%d/index.html" % port],
+                capture_output=True, text=True, timeout=60 * len(files) + 120)
+        finally:
+            srv.shutdown()
+            srv.server_close()
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+    m = re.search(r'<pre id="OUT">(.*?)</pre>', res.stdout, re.S)
+    if not m or m.group(1).strip() in ("pending", ""):
+        print("فشل بناء الورقة.")
+        return 1
+    import html as H
+    import json as J
+    d = J.loads(H.unescape(m.group(1)).strip())
+    raw = base64.b64decode(d["jpg"].split(",", 1)[1])
+    os.makedirs(os.path.dirname(outpath) or ".", exist_ok=True)
+    open(outpath, "wb").write(raw)
+    print("  %s  %dx%d  %.0fKB  (%d مقطع × ٣ لحظات)"
+          % (outpath, d["w"], d["h"], len(raw) / 1024, len(files)))
+    if max(d["w"], d["h"]) > MAX_EDGE:
+        print("  ⚠ الورقة تجاوزت %dpx — غير آمنة للقراءة." % MAX_EDGE)
+        return 1
+    print("  ✅ ≤ %dpx — آمنة للقراءة." % MAX_EDGE)
+    print("  راجعها بحثاً عن: علامة مائيّة، شعار جهة أخرى، نصّ محروق،"
+          " وجوه أشخاص حقيقيّين.")
+    return 0
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
         return 1
     if sys.argv[1] == "probe":
         return cmd_probe(sys.argv[2:] or ["media/video"])
+    if sys.argv[1] == "sheet":
+        folder = sys.argv[2] if len(sys.argv) > 2 else "media/video"
+        out = sys.argv[3] if len(sys.argv) > 3 else "docs/evidence/sheet.jpg"
+        return cmd_sheet(folder, out)
     if sys.argv[1] == "poster":
         src = sys.argv[2]
         out = sys.argv[3] if len(sys.argv) > 3 else "assets/img/video"
