@@ -338,33 +338,86 @@ var x = c.getContext('2d');
 x.fillStyle = '#111'; x.fillRect(0, 0, c.width, c.height);
 var out = document.getElementById('OUT');
 
-function tile(v, col, row, name) {
+function tile(v, col, row, name, failed) {
   var bx = col * TW, by = row * TH;
   var k = Math.min(TW / v.videoWidth, TH / v.videoHeight);
   var w = v.videoWidth * k, h = v.videoHeight * k;
   x.drawImage(v, bx + (TW - w) / 2, by + (TH - h) / 2, w, h);
+  if (failed) {
+    /* تُوسَم صراحةً: البلاطة السوداء بلا وسم تُقرأ «المقطع أسود»
+       وهو حكم خاطئ على مادّة سليمة. */
+    x.fillStyle = 'rgba(190,40,40,.92)';
+    x.fillRect(bx, by + TH / 2 - 11, TW, 22);
+    x.fillStyle = '#fff'; x.font = 'bold 12px monospace';
+    x.textAlign = 'center';
+    x.fillText('DECODE FAILED', bx + TW / 2, by + TH / 2 - 7);
+    x.textAlign = 'start';
+  }
   x.font = '11px monospace'; x.textBaseline = 'top';
   x.fillStyle = 'rgba(0,0,0,.7)'; x.fillRect(bx, by, TW, 14);
   x.fillStyle = '#fff'; x.fillText(name.slice(0, 30), bx + 3, by + 2);
+}
+
+/* هل البلاطة سوداء فعلاً؟ تُقاس الإضاءة لا تُفترض. */
+function luma(v) {
+  var c = document.createElement('canvas');
+  c.width = 64; c.height = 64;
+  var x = c.getContext('2d');
+  try { x.drawImage(v, 0, 0, 64, 64); } catch (e) { return -1; }
+  var p = x.getImageData(0, 0, 64, 64).data, s = 0;
+  for (var i = 0; i < p.length; i += 4) s += p[i] + p[i + 1] + p[i + 2];
+  return s / (p.length / 4) / 3;
+}
+
+/* الرسم بعد **عرض** الإطار لا بعد `seeked`
+   ------------------------------------------------------------------
+   `seeked` يُطلق حين يستقرّ موضع التشغيل، لا حين يُعرض الإطار
+   الجديد. فالرسم عليه مباشرةً كان يُنتج بلاطات سوداء من مقاطع
+   سليمة تماماً — ويُقرأ ذلك خطأً كأن المقطع أسود.
+   `requestVideoFrameCallback` يُطلق عند عرض إطار فعلاً، ومعه
+   احتياط إطارَي رسم للمتصفّحات التي لا تدعمه. */
+function afterFrame(v, cb) {
+  /* سباق لا اعتماد على واحد: `requestVideoFrameCallback` لا يُطلق
+     في متصفّح بلا عتاد رسومي لفيديو متوقّف، فالاعتماد عليه وحده
+     يُعلّق السلسلة. ومعه إطارا رسم ثم مهلة قصيرة — فأيّهما سبق
+     يُسلّم، ولا يُسلّم مرّتين. */
+  var fired = false;
+  function go() { if (fired) return; fired = true; cb(); }
+  if (v.requestVideoFrameCallback) {
+    try { v.requestVideoFrameCallback(go); } catch (e) { /* يُتجاهل */ }
+  }
+  /* مؤقّت لا `requestAnimationFrame`: في المتصفّح بلا رأس لا شيء
+     يُركَّب على الشاشة فلا يُطلق rAF أصلاً، والاعتماد عليه كان
+     يُنتج ورقة فارغة تماماً. والمؤقّتات تتقدّم مع الميزانيّة
+     الزمنيّة الافتراضيّة. */
+  setTimeout(go, 140);
 }
 
 /* تسلسلياً: فكّ عدّة مقاطع معاً في متصفّح بلا عتاد رسومي يفشل. */
 function one(i, done) {
   if (i >= FILES.length) return done();
   var v = document.createElement('video');
-  v.muted = true; v.preload = 'auto'; v.src = encodeURIComponent(FILES[i]);
-  var si = 0, dead = setTimeout(function () { next(); }, 12000);
+  v.muted = true; v.preload = 'auto'; v.playsInline = true;
+  v.src = encodeURIComponent(FILES[i]);
+  var si = 0, tries = 0;
+  var dead = setTimeout(function () { next(); }, 20000);
   function next() { clearTimeout(dead); v.removeAttribute('src'); one(i + 1, done); }
   v.onerror = next;
   v.onloadeddata = function () { seek(); };
   function seek() {
     if (si >= STAMPS.length) return next();
-    var t = Math.max(0, Math.min(STAMPS[si] * (v.duration || 1), (v.duration || 1) - 0.05));
+    var d = v.duration || 1;
+    var t = Math.max(0, Math.min(STAMPS[si] * d + tries * 0.22, d - 0.05));
     v.currentTime = t;
   }
   v.onseeked = function () {
-    try { tile(v, i, si, FILES[i]); } catch (e) {}
-    si++; seek();
+    afterFrame(v, function () {
+      /* سوداء تماماً مع وجود محتوى = فشل فكّ، لا مشهد أسود.
+         فتُعاد المحاولة بإزاحة صغيرة قبل التسليم. */
+      if (luma(v) < 1.2 && tries < 3) { tries++; return seek(); }
+      try { tile(v, i, si, FILES[i], luma(v) < 1.2); } catch (e) {}
+      si++; tries = 0; seek();
+    });
   };
 }
 one(0, function () {
@@ -422,9 +475,9 @@ def cmd_sheet(folder, outpath):
             res = subprocess.run(
                 [chrome, "--headless", "--no-sandbox", "--disable-gpu",
                  "--autoplay-policy=no-user-gesture-required",
-                 "--virtual-time-budget=%d" % (15000 * len(files)),
+                 "--virtual-time-budget=%d" % (26000 * len(files)),
                  "--dump-dom", "http://127.0.0.1:%d/index.html" % port],
-                capture_output=True, text=True, timeout=60 * len(files) + 120)
+                capture_output=True, text=True, timeout=90 * len(files) + 180)
         finally:
             srv.shutdown()
             srv.server_close()
