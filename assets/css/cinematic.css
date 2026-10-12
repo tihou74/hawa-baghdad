@@ -1260,6 +1260,12 @@ body { font-weight: 300; }
 .hero__video {
   position: absolute;
   inset: 0;
+  /* لازم: `.hero__shot img` تحمل `will-change: clip-path` (فقرة ٢١)
+     وهذا يجعلها تُنشئ سياق تراكُب فتُرسم كأن `z-index:0` — وهي بعد
+     الفيديو في الـDOM، فكانت تغطّيه دائماً. أي أن مكان فيديو
+     الواجهة كان ميّتاً: لا يظهر مهما كان الملفّ سليماً. و`.clip`
+     كانت تنجو لأن عندها `z-index:1` أصلاً. */
+  z-index: 1;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
