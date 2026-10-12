@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=6">
-<link rel="stylesheet" href="assets/css/base.css?v=6">
-<link rel="stylesheet" href="assets/css/layout.css?v=6">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=6">
+<link rel="stylesheet" href="assets/css/tokens.css?v=11">
+<link rel="stylesheet" href="assets/css/base.css?v=11">
+<link rel="stylesheet" href="assets/css/layout.css?v=11">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=11">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -225,7 +225,7 @@
          لكن التشغيل يُحصَر في هذا المدى ويُكرَّر منه — فالنتيجة
          كالقصّ بلا قصّ. عدّل الرقمين وحدهما لتغيير الجزء. -->
     <video class="hero__video" data-src="media/video/hero.mp4"
-           data-start="0" data-end="0"
+           data-start="1" data-end="11"
            muted loop playsinline preload="none" aria-hidden="true"></video>
     <!-- ⚠ الصورة السابقة (profile/masgouf-01) كانت سمكة مشويّة على لوح
          خشب — وليست مسكوفاً. المسكوف يُفرش مفتوحاً **واقفاً حول**
@@ -300,6 +300,9 @@
      media/incoming/tigris.jpg ← ثم assets/img/photo/tigris-*.webp -->
 <section class="band band--tall" id="water" data-chapter="٠٢" data-chapter-name="الماء الواحد">
   <div class="band__layer" data-parallax aria-hidden="true">
+    <!-- فيديو النهر. يُشغَّل بدل الصورة لحظة رفع الملف.
+         المتوقَّع: media/video/water.mp4 -->
+    <video class="clip" data-src="media/video/water.mp4" data-start="2" data-end="13" muted loop playsinline preload="none" aria-hidden="true"></video>
     <picture>
       <source type="image/webp" srcset="assets/img/profile/souk-alley-473.webp">
       <img src="assets/img/profile/souk-alley-473.jpg" alt="" loading="lazy" decoding="async">
@@ -405,10 +408,21 @@
 
     <div class="scene">
       <div class="scene__media" data-scene-media>
-        <figure data-scene="1" class="is-active"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-02-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-02-474.jpg" alt="السمكة مفروشة ومسمَّرة حول الجمر" loading="lazy" decoding="async"></picture></figure>
+        <figure data-scene="1" class="is-active">
+            <!-- فيديو النار. المتوقَّع: media/video/masgouf.mp4 -->
+            <video class="clip" data-src="media/video/masgouf.mp4" data-start="0" data-end="11" muted loop playsinline preload="none" aria-hidden="true"></video><picture><source type="image/webp" srcset="assets/img/profile/masgouf-02-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-02-474.jpg" alt="السمكة مفروشة ومسمَّرة حول الجمر" loading="lazy" decoding="async"></picture></figure>
         <figure data-scene="2"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-03-480.webp 480w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-03-480.jpg" alt="الجمر تحت السمك" loading="lazy" decoding="async"></picture></figure>
         <figure data-scene="3"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="السمكة تنضج بالحرارة المنعكسة" loading="lazy" decoding="async"></picture></figure>
-        <figure data-scene="4"><picture><source type="image/webp" srcset="assets/img/profile/dish-quzi-pot-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/dish-quzi-pot-474.jpg" alt="الطبق على المائدة" loading="lazy" decoding="async"></picture></figure>
+        <figure data-scene="4">
+            <!-- صبّ الصلصة: لحظة التقديم، وهي آخر مشهد في التتابُع.
+                 الملفّ وصل أصلاً باسم tandoor.mp4 وهو صلصة لا تنّور،
+                 فأُعيدت تسميته sauce.mp4 ووُضع في مكانه الصحيح — فلا
+                 يَعِد فصل الخبز بما لا يُقدَّم.
+                 1.7 ثانية فقط، فالتكرار سريع ومرئي: يبقى حتى يصل
+                 مقطع أطول. -->
+            <video class="clip" data-src="media/video/sauce.mp4"
+                   data-start="0" data-end="0"
+                   muted loop playsinline preload="none" aria-hidden="true"></video><picture><source type="image/webp" srcset="assets/img/profile/dish-quzi-pot-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/dish-quzi-pot-474.jpg" alt="الطبق على المائدة" loading="lazy" decoding="async"></picture></figure>
       </div>
       <div class="scene__steps">
         <article class="scene__step" data-scene-step="1" data-reveal>
@@ -456,6 +470,8 @@
   </div>
 
     <figure class="signature" data-reveal>
+      <!-- فيديو التنّور. المتوقَّع: media/video/tandoor.mp4 -->
+      <video class="clip" data-src="media/video/tandoor.mp4" data-start="0" data-end="0" muted loop playsinline preload="none" aria-hidden="true"></video>
       <picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="المسكوف على النار المكشوفة" loading="lazy" decoding="async"></picture>
       <figcaption><span class="signature__k">طبق الدار</span>
         <span class="signature__t">المسكوف</span>
@@ -631,9 +647,18 @@
          وقبله تبقى الصورة — ولا شيء ينكسر.
          المتوقَّع: media/video/tea-pour.mp4 -->
     <video class="clip" data-src="media/video/tea-pour.mp4"
-           data-start="0" data-end="0"
+           data-start="0" data-end="11"
            muted loop playsinline preload="none" aria-hidden="true"></video>
     <figure class="torch" data-reveal>
+      <!-- الموضع الثاني في هذا الفصل: الاستكان نفسه متحرّكاً.
+           `tea.mp4` هو النسخة المتحرّكة من هذه الصورة بعينها —
+           الاستكان على الصحن بالنقاط الحمراء — فيحتلّ مكانها
+           تماماً فلا يهتزّ التخطيط، وتبقى الصورة بديلاً إن تعذّر
+           التشغيل. والصبّة في خلفيّة القسم، فالموضعان مختلفان:
+           الصبّ خلفيّةً، والاستكان لحظةً فوتوغرافيّة. -->
+      <video class="clip" data-src="media/video/tea.mp4"
+             data-start="0" data-end="11"
+             muted loop playsinline preload="none" aria-hidden="true"></video>
       <picture><source type="image/webp" srcset="assets/img/profile/istikan-02-472.webp 472w" sizes="100vw"><img src="assets/img/profile/istikan-02-472.jpg" alt="استكان چاي على صحن بنقاط حمراء" loading="lazy" decoding="async"></picture>
       <figcaption>مرّر المؤشّر على الصورة</figcaption>
     </figure>
@@ -652,6 +677,8 @@
     </div>
     <div class="mosaic mosaic--pack">
       <figure class="mo mo--wide tilt" data-reveal>
+        <!-- فيديو المكان. المتوقَّع: media/video/place.mp4 -->
+        <video class="clip" data-src="media/video/place.mp4" data-start="0" data-end="0" muted loop playsinline preload="none" aria-hidden="true"></video>
         <picture><source type="image/webp" srcset="assets/img/profile/pack-bag-wave-480.webp 480w, assets/img/profile/pack-bag-wave-960.webp 960w, assets/img/profile/pack-bag-wave-1440.webp 1440w" sizes="(min-width:900px) 56vw, 92vw"><img src="assets/img/profile/pack-bag-wave-1440.jpg" alt="كيس ورقي بالشعار وشريط متماوج" loading="lazy" decoding="async"></picture>
         <figcaption>الكيس الورقي</figcaption>
       </figure>
@@ -854,6 +881,20 @@
 </main>
 
 <!-- ============================================================
+     الميدالية — ختام الرحلة
+     العلامة مضغوطة في الورق بلا حبر: لا يُرى الشكل، يُرى أثره.
+     والشكل مولَّد متجهيّاً بـ tools/seal.py من كلمة الشعار نفسها،
+     فمصدر الحقيقة واحد: تعديل الشعار يُعاد توليده منه.
+     `aria-hidden` مقصود: هذه زخرفة، والعلامة مذكورة نصّاً في
+     الذيل وفي الواجهة — فتكرارها على قارئ الشاشة ضجيج.
+     ============================================================ -->
+<section class="medallion" aria-hidden="true">
+  <div class="medallion__press">
+    <span class="medallion__ink"></span>
+  </div>
+</section>
+
+<!-- ============================================================
      الذيل
      ============================================================ -->
 <footer class="ftr">
@@ -903,6 +944,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=6" defer></script>
+<script src="assets/js/app.js?v=11" defer></script>
 </body>
 </html>

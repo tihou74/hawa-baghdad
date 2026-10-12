@@ -1260,6 +1260,12 @@ body { font-weight: 300; }
 .hero__video {
   position: absolute;
   inset: 0;
+  /* لازم: `.hero__shot img` تحمل `will-change: clip-path` (فقرة ٢١)
+     وهذا يجعلها تُنشئ سياق تراكُب فتُرسم كأن `z-index:0` — وهي بعد
+     الفيديو في الـDOM، فكانت تغطّيه دائماً. أي أن مكان فيديو
+     الواجهة كان ميّتاً: لا يظهر مهما كان الملفّ سليماً. و`.clip`
+     كانت تنجو لأن عندها `z-index:1` أصلاً. */
+  z-index: 1;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
@@ -1673,4 +1679,136 @@ body { font-weight: 300; }
   z-index: 1;
 }
 .clip.is-ready { opacity: 1; }
+
+/* ------------------------------------------------------------
+   مصدر عموديّ: نافذة لا فرش
+   ------------------------------------------------------------
+   مقاطع الهاتف رأسيّة (‏480×848 مثلاً). وفرشها بـ`cover` على
+   حاوية عريضة يقصّ الشريط الأوسط ويُكبّره ثلاث مرّات، فتضيع
+   حدود المشهد ويظهر التكبير. فالعموديّ يُعرض **محصوراً بعرضه**
+   في وسط الحاوية، والصورة الثابتة تبقى خلفه هي الخلفيّة —
+   فيُقرأ كنافذة مقصودة في الجدار لا كفيديو فشل في التمدّد.
+
+   و`is-portrait` تُضاف من الجافاسكربت بعد قياس الملفّ. */
+.clip.is-portrait,
+.hero__video.is-portrait {
+  inset-block: 0;
+  inset-inline: 0;
+  margin-inline: auto;
+  inline-size: auto;
+  block-size: 100%;
+  /* لا يتجاوز عرضه الأصلي كثيراً: التكبير فوق ١٫٢× يُظهر الضباب */
+  max-inline-size: min(100%, 576px);
+  object-fit: cover;
+}
+
+/* حافّة النافذة: تدرّج يُلاشي الجانبين في الصورة الخلفيّة فلا
+   يظهر خطّ قصّ حادّ بين الفيديو وما تحته. */
+.clip.is-portrait,
+.hero__video.is-portrait {
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0, #000 7%, #000 93%, transparent 100%);
+          mask-image: linear-gradient(to right,
+      transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+
+/* ============================================================
+   ٢٨) الميدالية — نقش غائر في الورق، بلا حبر
+   ------------------------------------------------------------
+   الختم المائل بحبر داكن كلاشيه: يُقرأ «مطّاط على فاتورة».
+   فالعلامة هنا **مضغوطة في الورق نفسه** — لا حبر إطلاقاً، ولا
+   ميل. لا يُرى إلا أثر الضغط: حافّة مظلّلة من جهة الضوء وحافّة
+   مضيئة من مقابلها. وهذه لغة الطباعة الفاخرة (blind deboss)،
+   وهي ما يميّز بطاقة فندق عن بطاقة مطبعة سريعة.
+
+   وتدور دورة واحدة بطيئة جدّاً مع التمرير (‏٢٤ درجة على كامل
+   ظهورها) فتتغيّر زاوية الضوء عليها — فتُقرأ معدناً مطبوعاً في
+   الورق لا صورة ثابتة.
+
+   طبقتان ضروريّتان لا تجميليّتان
+   -------------------------------
+   `filter` يُطبَّق **قبل** `mask` في خطّ الرسم. فجمعهما على عنصر
+   واحد يولّد الظلّ من المستطيل الكامل ثم يقصّه القناع — فينهار
+   التأثير. فالقناع على `__ink` والمُرشّح على الحاوية، فيعمل على
+   الصورة المقنَّعة أصلاً.
+   ============================================================ */
+.medallion {
+  background: var(--cream-200);
+  padding-block: clamp(4.5rem, 14vh, 10rem);
+  display: grid;
+  justify-items: center;
+  overflow: clip;
+}
+.medallion__press {
+  inline-size: clamp(210px, 36vw, 400px);
+  aspect-ratio: 1;
+  /* الضوء من أعلى اليسار: الحافّة العلويّة غائرة والسفليّة مضيئة */
+  filter:
+    drop-shadow(-1.5px -1.5px 0 color-mix(in srgb, var(--navy-900) 44%, transparent))
+    drop-shadow(2px 2.5px 1.5px color-mix(in srgb, #fff 90%, transparent));
+}
+.medallion__ink {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+  /* نفس لون الورق: فلا يُرى الشكل، يُرى أثره وحده */
+  background:
+    linear-gradient(158deg,
+      color-mix(in srgb, var(--cream-200) 88%, #fff) 0%,
+      var(--cream-200) 46%,
+      color-mix(in srgb, var(--cream-200) 93%, var(--navy-900)) 100%);
+  -webkit-mask: url("../img/seal.svg") center / contain no-repeat;
+          mask: url("../img/seal.svg") center / contain no-repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .medallion__press {
+      animation: medallion-turn linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+@keyframes medallion-turn {
+  from { rotate: -12deg; }
+  to   { rotate: 12deg; }
+}
+
+/* الشاشات الضيّقة: الفرق في الإضاءة يضيع تحت ٢٠٠px، فيُرفع
+   التبايُن قليلاً بدل أن تختفي العلامة تماماً. */
+@media (max-width: 480px) {
+  .medallion__press {
+    filter:
+      drop-shadow(-1px -1px 0 color-mix(in srgb, var(--navy-900) 46%, transparent))
+      drop-shadow(1.5px 2px 1px color-mix(in srgb, #fff 92%, transparent));
+  }
+}
+
 .torch { position: relative; }
+
+/* ============================================================
+   ٢٨) الفيديو داخل الحاويات المختلفة
+   الفيديو يحتلّ مكان الصورة تماماً في كل سياق، فلا يهتزّ التخطيط
+   عند ظهوره ولا يتجاوز حدود حاويته.
+   ============================================================ */
+.band__layer, .scene__media figure, .signature, .mo { position: relative; }
+
+.band__layer .clip,
+.scene__media figure .clip,
+.signature .clip,
+.mo .clip {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* داخل «اللحظة الفوتوغرافيّة» يجب أن يبقى النصّ فوق الفيديو */
+.signature figcaption { z-index: 3; }
+.mo figcaption { z-index: 3; }
+
+/* الفيديو في طبقة العمق يتبع نفس تحريك العمق */
+.band__layer .clip { will-change: transform; }
