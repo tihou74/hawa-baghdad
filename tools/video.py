@@ -399,9 +399,19 @@ function one(i, done) {
   var v = document.createElement('video');
   v.muted = true; v.preload = 'auto'; v.playsInline = true;
   v.src = encodeURIComponent(FILES[i]);
-  var si = 0, tries = 0;
+  var si = 0, tries = 0, closed = false;
   var dead = setTimeout(function () { next(); }, 20000);
-  function next() { clearTimeout(dead); v.removeAttribute('src'); one(i + 1, done); }
+  /* يُقفل مرّة واحدة: `removeAttribute('src')` يُطلق حدث `error`،
+     وكان ذلك يُنفّذ `next` ثانيةً فتُقفز الملفّات — فلا يُعالَج إلا
+     الأول وتبقى بقيّة الأعمدة فارغة بلا أي تفسير. */
+  function next() {
+    if (closed) return;
+    closed = true;
+    clearTimeout(dead);
+    v.onerror = null; v.onseeked = null;
+    try { v.removeAttribute('src'); } catch (e) { /* يُتجاهل */ }
+    one(i + 1, done);
+  }
   v.onerror = next;
   v.onloadeddata = function () { seek(); };
   function seek() {
