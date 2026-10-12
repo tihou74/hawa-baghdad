@@ -551,7 +551,10 @@
            بياناته الوصفيّة، وإنشاؤها دائماً يعني فكّ مقطع إضافي
            على كل زائر حتى لو كان المصدر أفقياً. */
         var host = v.parentElement;
-        if (portrait && host && !host.querySelector(".vid-fill")) {
+        /* المشهد (`.reel`) لا يحتاج ملئاً ضبابياً: المقطع يملأ
+           الشاشة على الهاتف، ويصير عموداً على الشاشة العريضة. */
+        if (portrait && host && !host.classList.contains("reel")
+            && !host.querySelector(".vid-fill")) {
           var wide = host.clientWidth > host.clientHeight;
           if (wide) {
             var bg = document.createElement("video");

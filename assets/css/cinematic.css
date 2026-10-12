@@ -1863,3 +1863,227 @@ body { font-weight: 300; }
 
 /* الفيديو في طبقة العمق يتبع نفس تحريك العمق */
 .band__layer .clip { will-change: transform; }
+
+/* ============================================================
+   ٢٩) الواجهة التحريريّة — المقطع عموداً لا رقعةً
+   ------------------------------------------------------------
+   محاولتان فشلتا قبل هذه، وسبب فشلهما واحد: كان المقطع
+   **الرأسي** يُقحَم في حاوية **عريضة**.
+
+     ١) نافذة حادّة فوق الصورة الثابتة → ثلاث صور متجاورة
+        بخطّي قصّ (سمكة | نار | سمكة). رقعة لا تصميم.
+     ٢) ملء الأطراف بنفس المقطع مضبَّباً → اختفى الخطّ، لكن
+        بقي نصفُ الواجهة ضباباً. حلٌّ تقني لا قرار تصميمي.
+
+   والصحيح ألّا تُحارَب نسبة المقطع: **يُصمَّم حولها.** فالمقطع
+   عمودٌ معماريّ كامل الارتفاع، بحدّ حادّ مقصود، والنصّ بجانبه
+   على أرضيّة كحليّة صلبة. فيُقرأ تخطيطاً تحريرياً — كصفحة مجلّة
+   نصفها صورة ونصفها نصّ — لا فيديو فشل في التمدّد.
+
+   وهذا يحلّ الحدّة أيضاً: العمود ٥٦٪ من ١٢٨٠ = ٧١٧px، والمصدر
+   ٤٧٨ — فالتكبير ١٫٥× لا ٢٫٧× كما في الفرش الكامل.
+
+   القسمة فيزيائيّة بقصد (`right`/`left` لا `inset-inline`):
+   القسمة **بصريّة** — النصّ في يمين الواجهة في النسخة العربيّة
+   والعمود يقابله يساراً. والمنطقي ينعكس مع اتجاه الصفحة فيضع
+   العمود فوق النصّ. ونسخة `en/` تُعكس عندها.
+   ============================================================ */
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  .hero__shot {
+    inset: 0 44% 0 0;             /* العمود: ٥٦٪ يساراً بصرياً */
+  }
+
+  /* حدّ حادّ واحد بين العمود والأرضيّة: الحدّ المقصود يُقرأ
+     تصميماً، وغيابه يُقرأ صورةً انتهت فجأة. */
+  .hero__shot::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    inline-size: 1px;
+    background: color-mix(in srgb, var(--cream-100) 20%, transparent);
+  }
+
+  /* العمود رأسيّ والمصدر رأسيّ: فيملؤه بلا ضباب ولا تلاشٍ */
+  .clip.is-portrait,
+  .hero__video.is-portrait {
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: none;
+    margin-inline: 0;
+    object-fit: cover;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .hero__video.is-portrait ~ .vid-fill,
+  .hero__shot .vid-fill { display: none; }
+
+  /* الحجاب يُرفع عن وسط العمود
+     ------------------------------------------------------------
+     الحجاب كان يغطّي الواجهة كلها ليُقرأ النصّ فوق الصورة. لكن
+     النصّ الآن على أرضيّة كحليّة صلبة فلا يحتاجه إطلاقاً — وبقاؤه
+     كان يُطفئ النار ويجعلها حليبيّة باهتة، وهي أقوى ما في
+     الواجهة.
+
+     فيُحصر في العمود، وعموديّاً فقط: شريط أعلى ليُقرأ شريط
+     التصفّح، وشريط أسفل ليتّصل بما تحته. والوسط — حيث اللهب —
+     يبقى مكشوفاً بكامل تشبّعه. */
+  .hero__scrim {
+    inset: 0 44% 0 0;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--navy-900) 62%, transparent) 0%,
+      transparent 26%,
+      transparent 68%,
+      color-mix(in srgb, var(--navy-900) 55%, transparent) 100%);
+  }
+
+  /* الجمر يبقى في العمود وحده — صعوده فوق الأرضيّة الصلبة
+     يُقرأ غباراً بلا مصدر. */
+  .hero__embers { inset: 0 44% 0 0; }
+}
+
+/* ============================================================
+   ٣٠) المشهد — فصل فيديو بملء الشاشة
+   ------------------------------------------------------------
+   ثلاث محاولات فشلت قبل هذا، وكلها حاولت إقحام مقطع **رأسي**
+   في مكان صُمِّم لصورة عريضة:
+
+     ١) نافذة حادّة فوق صورة أخرى → ثلاث صور متجاورة بخطّي قصّ.
+     ٢) ملء الأطراف بنفس المقطع مضبَّباً → نصف الواجهة ضباب.
+     ٣) داخل البطاقات الموروثة → بطاقة صغيرة تطفو وسط فراغ،
+        وفيديو تنّور تحت عنوان «المسكوف»، وفيديو صالة تحت
+        عنوان «الكيس الورقي».
+
+   والدليل على الصحيح جاء من العميل نفسه: الشاشة الوحيدة التي
+   قبلها كانت المقطع **يملأ الشاشة كاملاً**.
+
+   فالمشهد وحدة مستقلّة: ارتفاع الشاشة كاملاً، من حدّ إلى حدّ،
+   بنسبة المصدر ٩:١٦ فلا قصّ ولا فراغ. ونصّه **له** لا موروث من
+   بطاقة أخرى — فلا يقع عنوان على محتوى يخالفه.
+   ============================================================ */
+.reel {
+  position: relative;
+  display: grid;
+  align-content: end;
+  overflow: clip;
+  isolation: isolate;
+  background: var(--navy-900);
+  color: var(--cream-100);
+  min-block-size: 100svh;
+}
+
+.reel__clip,
+.reel__still {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+.reel__clip {
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-silk);
+}
+.reel__clip.is-ready { opacity: 1; }
+/* الصورة تبقى حتى يُثبت الفيديو تشغيله، فلا يُرى مستطيل أسود */
+.reel.has-video .reel__still {
+  opacity: 0;
+  transition: opacity 1000ms var(--ease-silk);
+}
+
+/* حجاب النصّ: تدرّج مضمون أسفل المشهد
+   ------------------------------------------------------------
+   النصّ الأبيض فوق لهب أبيض لا يُقرأ — وقد حدث فعلاً في بطاقة
+   المسكوف. فالقراءة لا تُترك للحظّ: تدرّج داكن يبدأ من حيث
+   يبدأ النصّ، فيُقرأ أيّاً كان ما تحته. */
+.reel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--navy-900) 58%, transparent) 0%,
+    color-mix(in srgb, var(--navy-900) 8%, transparent) 22%,
+    transparent 34%,
+    color-mix(in srgb, var(--navy-900) 46%, transparent) 56%,
+    color-mix(in srgb, var(--navy-900) 82%, transparent) 76%,
+    color-mix(in srgb, var(--navy-900) 96%, transparent) 100%);
+}
+
+.reel__text {
+  position: relative;
+  z-index: 2;
+  padding: var(--s-7) var(--s-6) clamp(var(--s-8), 12vh, var(--s-10));
+  display: grid;
+  gap: var(--s-3);
+  max-inline-size: 34ch;
+}
+.reel__k {
+  font-size: var(--fs--1, 0.78rem);
+  letter-spacing: 0.34em;
+  color: color-mix(in srgb, var(--clay, #D65C45) 88%, var(--cream-100));
+}
+.reel__t {
+  font-family: var(--ff-display, inherit);
+  font-size: clamp(2.1rem, 9vw, 4.2rem);
+  line-height: 1.04;
+  margin: 0;
+}
+.reel__d {
+  color: color-mix(in srgb, var(--cream-100) 80%, transparent);
+  margin: 0;
+  max-inline-size: 30ch;
+}
+
+/* الشاشة العريضة: المقطع عمودٌ والنصّ بجانبه على أرضيّة صلبة.
+   الفرش الكامل لمصدر رأسي على ١٦:٩ يقصّ ٦٥٪ من الإطار. */
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  .reel {
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    align-items: center;
+  }
+  .reel__clip,
+  .reel__still {
+    inset: 0 50% 0 0;              /* عمود يساراً بصرياً */
+  }
+  .reel::after {
+    inset: 0 50% 0 0;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--navy-900) 42%, transparent) 0%,
+      transparent 24%, transparent 74%,
+      color-mix(in srgb, var(--navy-900) 46%, transparent) 100%);
+  }
+  /* النصّ في النصف الأيمن بصرياً — فيزيائياً بقصد.
+     `grid-column: 2` في RTL يعني العمود **الأيسر** بصرياً، فكان
+     النصّ يقع فوق الصورة ويبقى نصف الشاشة فارغاً. والعمود
+     مضبوط فيزيائياً (`inset: 0 50% 0 0`) فيجب أن يقابله النصّ
+     بالمنطق نفسه لا بالمنطقي الذي ينعكس. */
+  .reel__text {
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    inline-size: 50%;
+    align-content: center;
+    padding-inline: clamp(var(--s-7), 6vw, var(--s-10));
+    padding-block: var(--s-8);
+    max-inline-size: none;
+  }
+  .reel__d { max-inline-size: 34ch; }
+  /* حدّ حادّ مقصود بين العمود والأرضيّة */
+  .reel__edge {
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    inline-size: 1px;
+    z-index: 2;
+    background: color-mix(in srgb, var(--cream-100) 18%, transparent);
+  }
+}
+@media not all and (min-width: 900px) {
+  .reel__edge { display: none; }
+}
