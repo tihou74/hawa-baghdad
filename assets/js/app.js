@@ -516,6 +516,18 @@
     var start = parseFloat(v.getAttribute("data-start")) || 0;
     var end = parseFloat(v.getAttribute("data-end")) || 0;
 
+    /* `data-rate`: إبطاء المقطع القصير
+       ------------------------------------------------------------
+       مقطع ١٫٧ ثانية يُكرَّر كل ثانيتين، فيُقرأ تشنّجاً لا حركة.
+       والإبطاء يُضاعف مدّته المحسوسة بلا ملفّ جديد — وصبّ الصلصة
+       بطيئاً أفخم بصرياً من سرعته الأصليّة، فالمكسب مزدوج. */
+    var rate = parseFloat(v.getAttribute("data-rate"));
+    if (rate > 0) {
+      v.addEventListener("loadedmetadata", function () {
+        try { v.playbackRate = rate; } catch (e) { /* يُتجاهل */ }
+      }, { once: true });
+    }
+
     v.src = v.getAttribute("data-src");
     v.removeAttribute("data-src");
 

@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=15">
-<link rel="stylesheet" href="assets/css/base.css?v=15">
-<link rel="stylesheet" href="assets/css/layout.css?v=15">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=15">
+<link rel="stylesheet" href="assets/css/tokens.css?v=17">
+<link rel="stylesheet" href="assets/css/base.css?v=17">
+<link rel="stylesheet" href="assets/css/layout.css?v=17">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=17">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -415,6 +415,24 @@
 </section>
 
 <!-- ============================================================
+     مشهد: الطبق
+     المقطع ١٫٧ ثانية فقط، فـ`data-rate` يُبطئه إلى نحو ثلاث
+     ثوانٍ محسوسة — فلا يُقرأ تكراره تشنّجاً، والصبّ البطيء أفخم.
+     ============================================================ -->
+<section class="reel" id="reel-sauce" aria-label="الطبق">
+  <img class="reel__still" src="assets/img/video/sauce-poster.jpg" alt="" loading="lazy" decoding="async">
+  <video class="reel__clip" data-src="media/video/sauce.mp4"
+         data-start="0" data-end="0" data-rate="0.55"
+         muted loop playsinline preload="none" aria-hidden="true"></video>
+  <span class="reel__edge" aria-hidden="true"></span>
+  <div class="reel__text" data-reveal>
+    <span class="reel__k">المائدة</span>
+    <h2 class="reel__t">الطبق</h2>
+    <p class="reel__d">الصلصة البيضاء تُسكب على الدولمة والأرزّ في آخر لحظة — قبل أن تصل الطاولة، لا بعدها.</p>
+  </div>
+</section>
+
+<!-- ============================================================
      مشهد: المسكوف
      وحدة مستقلّة بنصّها، فلا يقع عنوان على محتوى يخالفه — وهذا
      ما حدث حين وُضع فيديو التنّور في بطاقة «المسكوف».
@@ -691,8 +709,26 @@
   <span class="reel__edge" aria-hidden="true"></span>
   <div class="reel__text" data-reveal>
     <span class="reel__k">الضيافة</span>
+    <h2 class="reel__t">صبّ الچاي</h2>
+    <p class="reel__d">يُسكب من القوري عالياً حتى تعلوه رغوة — هكذا يُعرف الچاي العراقي.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     مشهد: الاستكان — يلي الصبّة مباشرةً
+     المقطعان جزءٌ واحد: الصبّ ثم الاستكان المملوء. فيُقرآن
+     لحظةً متّصلة لا مشهدين متباعدين.
+     ============================================================ -->
+<section class="reel" id="reel-tea" aria-label="الاستكان">
+  <img class="reel__still" src="assets/img/profile/istikan-01-480.jpg" alt="" loading="lazy" decoding="async">
+  <video class="reel__clip" data-src="media/video/tea.mp4"
+         data-start="0" data-end="11"
+         muted loop playsinline preload="none" aria-hidden="true"></video>
+  <span class="reel__edge" aria-hidden="true"></span>
+  <div class="reel__text" data-reveal>
+    <span class="reel__k">الضيافة</span>
     <h2 class="reel__t">الاستكان</h2>
-    <p class="reel__d">الچاي لا يُحتسب في الفاتورة ولا في الوقت. يُسكب من القوري عالياً، ويُشرب على مهله.</p>
+    <p class="reel__d">زجاجٌ رقيق على صحنٍ بنقاطٍ حمراء. لا يُحتسب في الفاتورة ولا في الوقت.</p>
   </div>
 </section>
 
@@ -993,6 +1029,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=15" defer></script>
+<script src="assets/js/app.js?v=17" defer></script>
 </body>
 </html>
