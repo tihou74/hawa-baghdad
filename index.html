@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=17">
-<link rel="stylesheet" href="assets/css/base.css?v=17">
-<link rel="stylesheet" href="assets/css/layout.css?v=17">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=17">
+<link rel="stylesheet" href="assets/css/tokens.css?v=19">
+<link rel="stylesheet" href="assets/css/base.css?v=19">
+<link rel="stylesheet" href="assets/css/layout.css?v=19">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=19">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -224,12 +224,10 @@
          الجمر ويُطبخ بالحرارة المنعكسة. هذه الصورة تُظهر السمكة على
          لهب مكشوف، وهي الأقرب للطريقة الصحيحة بين المتاح. -->
     <picture>
-      <source type="image/webp" media="(min-width:900px)"
-              srcset="assets/img/photo/maskouf-fish-2-960.webp">
-      <source type="image/webp" srcset="assets/img/photo/maskouf-fish-2-480.webp">
-      <img src="assets/img/photo/maskouf-fish-2-960.jpg"
-           alt="سمكة مسكوف على النار المكشوفة"
-           width="960" height="960" fetchpriority="high" decoding="async">
+      <source type="image/webp" srcset="assets/img/photo/hero-fire.webp">
+      <img src="assets/img/photo/hero-fire.jpg"
+           alt="لهب التنّور على جدار الطين"
+           width="478" height="850" fetchpriority="high" decoding="async">
     </picture>
     <!-- جمر يصعد فوق الواجهة: حركة حقيقيّة تربط الصورة بالنار -->
     <div class="hero__embers" aria-hidden="true">
@@ -414,42 +412,6 @@
   </div>
 </section>
 
-<!-- ============================================================
-     مشهد: الطبق
-     المقطع ١٫٧ ثانية فقط، فـ`data-rate` يُبطئه إلى نحو ثلاث
-     ثوانٍ محسوسة — فلا يُقرأ تكراره تشنّجاً، والصبّ البطيء أفخم.
-     ============================================================ -->
-<section class="reel" id="reel-sauce" aria-label="الطبق">
-  <img class="reel__still" src="assets/img/video/sauce-poster.jpg" alt="" loading="lazy" decoding="async">
-  <video class="reel__clip" data-src="media/video/sauce.mp4"
-         data-start="0" data-end="0" data-rate="0.55"
-         muted loop playsinline preload="none" aria-hidden="true"></video>
-  <span class="reel__edge" aria-hidden="true"></span>
-  <div class="reel__text" data-reveal>
-    <span class="reel__k">المائدة</span>
-    <h2 class="reel__t">الطبق</h2>
-    <p class="reel__d">الصلصة البيضاء تُسكب على الدولمة والأرزّ في آخر لحظة — قبل أن تصل الطاولة، لا بعدها.</p>
-  </div>
-</section>
-
-<!-- ============================================================
-     مشهد: المسكوف
-     وحدة مستقلّة بنصّها، فلا يقع عنوان على محتوى يخالفه — وهذا
-     ما حدث حين وُضع فيديو التنّور في بطاقة «المسكوف».
-     ============================================================ -->
-<section class="reel" id="reel-masgouf" aria-label="المسكوف">
-  <img class="reel__still" src="assets/img/video/masgouf-poster.jpg" alt="" loading="lazy" decoding="async">
-  <video class="reel__clip" data-src="media/video/masgouf.mp4"
-         data-start="0" data-end="11"
-         muted loop playsinline preload="none" aria-hidden="true"></video>
-  <span class="reel__edge" aria-hidden="true"></span>
-  <div class="reel__text" data-reveal>
-    <span class="reel__k">النار</span>
-    <h2 class="reel__t">المسكوف</h2>
-    <p class="reel__d">سمكة تُفرش واقفةً حول الجمر، وتنضج بالحرارة المنعكسة لا باللهب. خمسون دقيقة لا تُقصَّر.</p>
-  </div>
-</section>
-
 <section data-chapter="٠٣" data-chapter-name="النار" class="sec fire on-dark" id="masgouf" style="background:var(--navy-900)">
   <div class="fire__haze" aria-hidden="true"></div>
   <div class="fire__embers" aria-hidden="true">
@@ -467,43 +429,26 @@
       </p>
     </div>
 
-    <div class="scene">
-      <div class="scene__media" data-scene-media>
-        <figure data-scene="1" class="is-active"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-02-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-02-474.jpg" alt="السمكة مفروشة ومسمَّرة حول الجمر" loading="lazy" decoding="async"></picture></figure>
-        <figure data-scene="2"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-03-480.webp 480w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-03-480.jpg" alt="الجمر تحت السمك" loading="lazy" decoding="async"></picture></figure>
-        <figure data-scene="3"><picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="السمكة تنضج بالحرارة المنعكسة" loading="lazy" decoding="async"></picture></figure>
-        <figure data-scene="4"><picture><source type="image/webp" srcset="assets/img/profile/dish-quzi-pot-474.webp 474w" sizes="(min-width:980px) 46vw, 92vw"><img src="assets/img/profile/dish-quzi-pot-474.jpg" alt="الطبق على المائدة" loading="lazy" decoding="async"></picture></figure>
-      </div>
-      <div class="scene__steps">
-        <article class="scene__step" data-scene-step="1" data-reveal>
-          <span class="n">خطوة ٠١</span><h3>السمكة أوّلاً</h3>
-          <p>سمكة نهريّة عريضة الجسم، دهنها موزّع في اللحم لا متكتّل —
-          وهو ما يُذيبه الجمر ببطء فيَسقي اللحم من داخله. تُفتح من
-          الظهر وتُترك بقشرتها: القشرة هي الصحن الذي يُطبخ فيه. ثم
-          تُدهَن بخليط <strong>الكركم والثوم والكمّون</strong>.</p>
-        </article>
-        <article class="scene__step" data-scene-step="2" data-reveal>
-          <span class="n">خطوة ٠٢</span><h3>جمرٌ لا لهب</h3>
-          <p>يُترك الحطب حتى يسكن لهبه ويصير جمراً أحمر. الشيّ على
-          اللهب يُحرق السطح قبل أن ينضج الداخل، وهذا أشيع خطأ في
-          المسكوف.</p>
-        </article>
-        <article class="scene__step" data-scene-step="3" data-reveal>
-          <span class="n">خطوة ٠٣</span><h3>الوقوف حول النار</h3>
-          <p>تُسمَّر السمكة على أوتاد وتُنصب <em>واقفةً حول</em> الجمر
-          لا فوقه — بينها وبين النار نحو شبر، فتطبخ بالحرارة المنعكسة
-          وحدها. تُدار مرّة واحدة. والمدّة بين ٤٥ و٦٠ دقيقة، ولا
-          تُقصَّر مهما كان الطلب.</p>
-        </article>
-        <article class="scene__step" data-scene-step="4" data-reveal>
-          <span class="n">خطوة ٠٤</span><h3>تُفرَش ولا تُقطَّع</h3>
-          <p>تنزل على صينيّة واسعة كما هي، ويُحيط بها
-          <strong>صلصة الطحينة</strong> و<strong>التمن المُبخَّر</strong>
-          والبصل والطماطم المشويّة والليمون. لا تُقسَّم حصصاً في
-          المطبخ. <strong>المائدة تُوضع، والأيدي تقتسم.</strong></p>
-        </article>
-      </div>
-    </div>
+    
+  </div>
+</section>
+
+<!-- ============================================================
+     مشهد: المسكوف
+     المقطع لقطة ماكرو في أصله (تحقّقت من ٣٠٪ و٥٥٪ و٨٠٪ فكلها
+     قريبة)، فلا يُقصّ منه شيء: `--fit: contain` تُظهر الإطار
+     كاملاً بلا تكبير ولا قطع.
+     ============================================================ -->
+<section class="reel reel--contain" id="reel-masgouf" aria-label="المسكوف">
+  <img class="reel__still" src="assets/img/profile/masgouf-02-474.jpg" alt="" loading="lazy" decoding="async">
+  <video class="reel__clip" data-src="media/video/masgouf.mp4"
+         data-start="0" data-end="11"
+         muted loop playsinline preload="none" aria-hidden="true"></video>
+  <span class="reel__edge" aria-hidden="true"></span>
+  <div class="reel__text" data-reveal>
+    <span class="reel__k">النار</span>
+    <h2 class="reel__t">المسكوف</h2>
+    <p class="reel__d">ليمونٌ يُعصر على السمكة قبل أن تُفرش حول الجمر. خمسون دقيقة لا تُقصَّر.</p>
   </div>
 </section>
 
@@ -537,15 +482,7 @@
     </div>
   </div>
 
-    <figure class="signature" data-reveal>
-      <picture><source type="image/webp" srcset="assets/img/profile/masgouf-01-480.webp 480w" sizes="100vw"><img src="assets/img/profile/masgouf-01-480.jpg" alt="المسكوف على النار المكشوفة" loading="lazy" decoding="async"></picture>
-      <figcaption><span class="signature__k">طبق الدار</span>
-        <span class="signature__t">المسكوف</span>
-        <span class="signature__d">خمسون دقيقة حول الجمر. لا تُقصَّر.</span>
-      </figcaption>
-    </figure>
-
-  <div class="wrap wrap--narrow">
+<div class="wrap wrap--narrow">
     <p class="spices" data-reveal>
       <strong>بصمة البهار</strong>
       سمّاق · دبس رمّان · زعفران · كركم · بهار حلو · قرفة · هيل ·
@@ -697,20 +634,20 @@
 </section>
 
 <!-- ============================================================
-     مشهد: الاستكان
-     وحدة مستقلّة بنصّها، فلا يقع عنوان على محتوى يخالفه — وهذا
-     ما حدث حين وُضع فيديو التنّور في بطاقة «المسكوف».
+     مشهد: الطبق
+     المقطع ١٫٧ ثانية فقط، فـ`data-rate` يُبطئه إلى نحو ثلاث
+     ثوانٍ محسوسة — فلا يُقرأ تكراره تشنّجاً، والصبّ البطيء أفخم.
      ============================================================ -->
-<section class="reel" id="reel-tea-pour" aria-label="الاستكان">
-  <img class="reel__still" src="assets/img/profile/istikan-02-472.jpg" alt="" loading="lazy" decoding="async">
-  <video class="reel__clip" data-src="media/video/tea-pour.mp4"
-         data-start="0" data-end="11"
+<section class="reel" id="reel-sauce" aria-label="الطبق">
+  <img class="reel__still" src="assets/img/video/sauce-poster.jpg" alt="" loading="lazy" decoding="async">
+  <video class="reel__clip" data-src="media/video/sauce.mp4"
+         data-start="0" data-end="0" data-rate="0.55"
          muted loop playsinline preload="none" aria-hidden="true"></video>
   <span class="reel__edge" aria-hidden="true"></span>
   <div class="reel__text" data-reveal>
-    <span class="reel__k">الضيافة</span>
-    <h2 class="reel__t">صبّ الچاي</h2>
-    <p class="reel__d">يُسكب من القوري عالياً حتى تعلوه رغوة — هكذا يُعرف الچاي العراقي.</p>
+    <span class="reel__k">المائدة</span>
+    <h2 class="reel__t">الطبق</h2>
+    <p class="reel__d">الصلصة تُسكب في آخر لحظة — قبل أن يصل الطبق إلى الطاولة، لا بعدها.</p>
   </div>
 </section>
 
@@ -745,11 +682,7 @@
     </div>
     <!-- المشعل: الصورة مُعتَّمة ويكشفها المؤشّر كأنه ضوء يمرّ عليها.
          على اللمس يتبع الإصبع. -->
-    <figure class="torch" data-reveal>
-      <picture><source type="image/webp" srcset="assets/img/profile/istikan-02-472.webp 472w" sizes="100vw"><img src="assets/img/profile/istikan-02-472.jpg" alt="استكان چاي على صحن بنقاط حمراء" loading="lazy" decoding="async"></picture>
-      <figcaption>مرّر المؤشّر على الصورة</figcaption>
-    </figure>
-  </div>
+</div>
 </section>
 
 <section data-chapter="٠٦" data-chapter-name="ما يُحمَل" class="sec" id="brand">
@@ -1029,6 +962,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=17" defer></script>
+<script src="assets/js/app.js?v=19" defer></script>
 </body>
 </html>

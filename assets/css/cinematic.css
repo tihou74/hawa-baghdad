@@ -2087,3 +2087,17 @@ body { font-weight: 300; }
 @media not all and (min-width: 900px) {
   .reel__edge { display: none; }
 }
+
+/* ------------------------------------------------------------
+   لا تمرير أفقي
+   ------------------------------------------------------------
+   قياس على ٤٣٠px أظهر `scrollWidth=548` مقابل `clientWidth=485`
+   — فيضٌ أزاح المحتوى كلّه وظهر شريط جانبي على هاتف العميل.
+   و`overflow-x: clip` لا تُنشئ حاوية تمرير، فلا تكسر
+   `position: sticky` كما يفعل `hidden`. */
+html { overflow-x: clip; }
+
+/* مصدرٌ لا يُقصّ منه شيء
+   بعض المقاطع لقطة ماكرو في أصلها، فالقصّ يخفي موضوعها. */
+.reel--contain .reel__clip,
+.reel--contain .reel__still { object-fit: contain; }
