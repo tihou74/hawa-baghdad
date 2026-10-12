@@ -24,10 +24,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=19">
-<link rel="stylesheet" href="assets/css/base.css?v=19">
-<link rel="stylesheet" href="assets/css/layout.css?v=19">
-<link rel="stylesheet" href="assets/css/cinematic.css?v=19">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20">
+<link rel="stylesheet" href="assets/css/base.css?v=20">
+<link rel="stylesheet" href="assets/css/layout.css?v=20">
+<link rel="stylesheet" href="assets/css/cinematic.css?v=20">
 
 <!-- بيانات مُهيكلة: النوع Organization لا Restaurant عن قصد.
      المطعم لم يُفتح بعد، ووسم Restaurant يدعو جوجل إلى بناء بطاقة نشاط
@@ -219,15 +219,20 @@
        وزخرفة هندسيّة بلا صورة، فكانت تبدو فارغة فعلاً على الشاشات
        المتوسّطة — وهو ما رآه العميل. -->
   <div class="hero__shot">
-    <!-- ⚠ الصورة السابقة (profile/masgouf-01) كانت سمكة مشويّة على لوح
-         خشب — وليست مسكوفاً. المسكوف يُفرش مفتوحاً **واقفاً حول**
-         الجمر ويُطبخ بالحرارة المنعكسة. هذه الصورة تُظهر السمكة على
-         لهب مكشوف، وهي الأقرب للطريقة الصحيحة بين المتاح. -->
+    <!-- فيديو الواجهة — نار.
+         أُعيد: سكربت تنظيف سابق أزال كل عناصر الفيديو من الصفحة
+         ولم يُعِد هذا، فلم يكن في الواجهة فيديو **إطلاقاً** — ولهذا
+         ظهرت الصورة الثابتة دائماً وظُنَّ أن الملفّ لا يعمل.
+         ولا `data-start`: أوّل إطار في الملفّ ١١٥ بايت (شبه فارغ)
+         والانتقال قبل التشغيل كان يمنع بدءه. -->
+    <video class="hero__video" data-src="media/video/hero.mp4"
+           data-start="0" data-end="12"
+           muted loop playsinline preload="none" aria-hidden="true"></video>
     <picture>
-      <source type="image/webp" srcset="assets/img/photo/hero-fire.webp">
-      <img src="assets/img/photo/hero-fire.jpg"
-           alt="لهب التنّور على جدار الطين"
-           width="478" height="850" fetchpriority="high" decoding="async">
+      <source type="image/webp" srcset="assets/img/photo/grill-480.webp">
+      <img src="assets/img/photo/grill-480.jpg"
+           alt="جمرٌ ودخان على المشواة"
+           width="480" height="853" fetchpriority="high" decoding="async">
     </picture>
     <!-- جمر يصعد فوق الواجهة: حركة حقيقيّة تربط الصورة بالنار -->
     <div class="hero__embers" aria-hidden="true">
@@ -962,6 +967,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=19" defer></script>
+<script src="assets/js/app.js?v=20" defer></script>
 </body>
 </html>
